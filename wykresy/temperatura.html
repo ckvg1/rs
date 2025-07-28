@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/temperatura.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
 
-    <script src="plotly.min.js" charset="utf-8"></script>
+    <script src="js/plotly.min.js" charset="utf-8"></script>
   </head>
   <body>
     <div class="container">
@@ -90,7 +90,6 @@
 
             const layout = Object.assign({}, defaultLayout, layoutOverrides);
             if (dane[`Temp. ${pietro}_1`].length == 0) {
-              alert("Nie znaleziono danych z tego okresu");
             }
             Plotly.newPlot("myPlot", seriesData, layout, {
               scrollZoom: true,
