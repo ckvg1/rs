@@ -6,12 +6,8 @@
     <link rel="icon" type="image/x-icon" href="icon.png" />
     <link rel="stylesheet" href="css/temperatura.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
-    
-    <script
-      src="plotly.min.js"
-      charset="utf-8"
-    ></script>
-    
+
+    <script src="plotly.min.js" charset="utf-8"></script>
   </head>
   <body>
     <div class="container">
@@ -38,7 +34,7 @@
       "use strict";
 
       let currentMode = "markers"; // tryb wykresu: markers / lines
-
+      const pietro = 3;
       const zakresDat = document.getElementById("zakresDat");
       const filtrujBtn = document.getElementById("filtrujBtn");
 
@@ -53,33 +49,6 @@
         return `${day}-${month}-${year} ${hours}:${minutes}`;
       }
 
-      // Wykres schodkowy – modyfikacja danych
-      function zrobWykresSchodkowy(data) {
-        const originalX = data.x;
-        const originalY = data.y;
-
-        const newX = [originalX[0]];
-        const newY = [originalY[0]];
-
-        for (let i = 1; i < originalX.length; i++) {
-          const prevX = originalX[i - 1];
-          const currX = originalX[i];
-          const prevY = originalY[i - 1];
-          const currY = originalY[i];
-
-          // dodaj poziomą linię do aktualnego X z poprzednią wartością
-          newX.push(currX);
-          newY.push(prevY);
-
-          // dopiero potem dodaj nową wartość Y
-          newX.push(currX);
-          newY.push(currY);
-        }
-
-        data.x = newX;
-        data.y = newY;
-      }
-
       // Pobieranie danych i rysowanie wykresu
       function fetchAndPlot(url, layoutOverrides = {}) {
         fetch(url)
@@ -90,10 +59,11 @@
             return response.json();
           })
           .then((dane) => {
+            console.log("Dane do wykresu:", dane);
             const seriesData = [
               {
                 x: dane.Data,
-                y: dane["Temp. 1"],
+                y: dane[`Temp. ${pietro}_1`],
                 mode: currentMode,
                 name: "Czujnik 1",
                 line: { shape: "vh" },
@@ -119,7 +89,7 @@
             };
 
             const layout = Object.assign({}, defaultLayout, layoutOverrides);
-            if (dane["Temp. 1"].length == 0) {
+            if (dane[`Temp. ${pietro}_1`].length == 0) {
               alert("Nie znaleziono danych z tego okresu");
             }
             Plotly.newPlot("myPlot", seriesData, layout, {
@@ -155,12 +125,12 @@
           console.log(data1, data2);
           const url = `odczytaj_dane.php?data_od=${toLocalISOString(
             new Date(data1)
-          )}&data_do=${toLocalISOString(new Date(data2))}`;
+          )}&data_do=${toLocalISOString(new Date(data2))}&pietro=${pietro}`;
           console.log(url);
           fetchAndPlot(url);
         } else if (!dateInput1 && !dateInput2) {
           zakresDat.innerHTML = "Używam danych z: Ostatnie 7 dni";
-          fetchAndPlot("odczytaj_dane.php");
+          fetchAndPlot(`odczytaj_dane.php?pietro=${pietro}`);
         } else {
           alert("Wybierz obie daty pomiaru!");
         }
@@ -178,7 +148,7 @@
       });
 
       // Załaduj wykres domyślny
-      fetchAndPlot("odczytaj_dane.php");
+      fetchAndPlot(`odczytaj_dane.php?pietro=${pietro}`);
     </script>
   </body>
 </html>
