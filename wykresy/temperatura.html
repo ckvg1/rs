@@ -90,6 +90,7 @@
 
             const layout = Object.assign({}, defaultLayout, layoutOverrides);
             if (dane[`Temp. ${pietro}_1`].length == 0) {
+              alert("test");
             }
             Plotly.newPlot("myPlot", seriesData, layout, {
               scrollZoom: true,
