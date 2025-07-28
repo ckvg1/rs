@@ -20,7 +20,7 @@
   <body>
     <!-- <header><img src="../logo.svg" /></header> !-->
     <h1 id="dataInfoText">Data wykonania pomiaru (od-do):</h1>
-    <h4 id="zakresDat">Używam danych z: Ostatnie 7 dni</h4>
+    <h4 id="zakresDat">Używam danych z: Ostatnie 24 godziny</h4>
     <div id="formularz">
       <input
         type="datetime-local"
@@ -34,10 +34,10 @@
         placeholder="Wybierz datę pomiaru"
       />
       <select onchange="ustaw_pietro()" id="pietroSelect">
-          <option value="1">Piętro 1</option>
-          <option value="2">Piętro 2</option>
-          <option value="3" selected>Piętro 3</option>
-        </select>
+        <option value="1">Piętro 1</option>
+        <option value="2">Piętro 2</option>
+        <option value="3" selected>Piętro 3</option>
+      </select>
       <button onclick="filtruj()">Filtruj</button>
     </div>
     <!-- Heatmap and Plotly Divs 
@@ -86,28 +86,24 @@
         "l3_7_1",
         "l3_7_2",
       ];
-      
-     
 
       const zakresDat = document.getElementById("zakresDat");
 
       document.addEventListener("DOMContentLoaded", function () {
-        generujWykres("odczytaj_swiatla.php?wszystko=true");
-        generujHeatmape("odczytaj_swiatla.php");
+        generujWykres("odczytaj_swiatla.php?wszystko=true&pietro=3");
+        generujHeatmape("odczytaj_swiatla.php?pietro=3");
       });
 
       function filtruj() {
-        
-      // jesli wyvbrane pietro nie jest 3, to zamieniamy l3 na l[pietro]
-      // to jest potrzebne do dynamicznej zmiany piętra w wykresach
-      // sprawdzamy czy pietro nie jest 3, bo domyślnie jest 3
-      if(pietro!=3){
-        for(let i = 0; i < czujniki.length; i++) {
-          czujniki[i] = czujniki[i].replace("l3", "l" + pietro);
+        // jesli wyvbrane pietro nie jest 3, to zamieniamy l3 na l[pietro]
+        // to jest potrzebne do dynamicznej zmiany piętra w wykresach
+        // sprawdzamy czy pietro nie jest 3, bo domyślnie jest 3
+        if (pietro != 3) {
+          for (let i = 0; i < czujniki.length; i++) {
+            czujniki[i] = czujniki[i].replace("l3", "l" + pietro);
+          }
         }
-      }
-      console.log("Czujniki: ", czujniki);
-
+        console.log("Czujniki: ", czujniki);
 
         const data1 = document.getElementById("data1").value
           ? new Date(document.getElementById("data1").value).toISOString()
@@ -138,7 +134,7 @@
             )}&do=${toLocalISOString(new Date(data2))}&pietro=${pietro}`
           );
         } else {
-          zakresDat.innerHTML = `Używam danych z: Ostatnie 7 dni`;
+          zakresDat.innerHTML = `Używam danych z: Ostatnie 24 godziny`;
           generujHeatmape(`odczytaj_swiatla.php?pietro=${pietro}`);
           generujWykres(`odczytaj_swiatla.php?wszystko=true&pietro=${pietro}`);
           generujWykresKolowy(`odczytaj_swiatla.php?pietro=${pietro}`);
