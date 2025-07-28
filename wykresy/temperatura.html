@@ -31,6 +31,10 @@
         <button id="markersBtn">Wykres kropkowy</button>
         <button id="linesBtn">Wykres liniowy</button>
       </div>
+      <!-- domyslnie ukryty, pokazuje sie jak nie bedzie danych -->
+      <div id="alertBox" class="oaerror danger" style="display: none;">
+          <strong>Error</strong>- You need to remember your username/password. Please try again.
+      </div>
 
       <div id="myPlot" style="width: 100%"></div>
     </div>
@@ -102,9 +106,15 @@
             };
 
             const layout = Object.assign({}, defaultLayout, layoutOverrides);
+
+            let alertBox = document.getElementById("alertBox");
             if (dane[`Temp. ${pietro}_1`].length == 0) {
-              alert("test");
+              alertBox.style.display = "block";
+              alertBox.innerHTML = "<strong>Uwaga</strong> - Brak danych do wyświetlenia wykresu. Proszę podać daty pomiaru.";
+            }else{
+              alertBox.style.display = "none";
             }
+
             Plotly.newPlot("myPlot", seriesData, layout, {
               scrollZoom: true,
               locale: "pl",
