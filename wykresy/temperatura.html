@@ -78,7 +78,7 @@
             console.log("Dane do wykresu:", dane);
             const seriesData = [];
 
-            for (let i = 0; i <= 7; i++) {
+            for (let i = 1; i <= 8; i++) {
               //lecimy do 7 bo tyle czujnikow
 
               const key = `Temp. ${pietro}_${i}`;
@@ -88,6 +88,15 @@
                   y: dane[key],
                   mode: currentMode,
                   name: `Pomieszczenie ${i}`,
+                  line: { shape: "vh" },
+                });
+              }
+              if (i == 8) {
+                seriesData.push({
+                  x: dane.Data,
+                  y: dane["Temp. zewn"],
+                  mode: currentMode,
+                  name: `Temp. zewn`,
                   line: { shape: "vh" },
                 });
               }
