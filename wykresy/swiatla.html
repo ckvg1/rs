@@ -6,10 +6,7 @@
     <title>Światła</title>
     <script src="heatmap.js"></script>
     <!-- -->
-    <script
-      src="plotly.min.js"
-      charset="utf-8"
-    ></script>
+    <script src="plotly.min.js" charset="utf-8"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly-locale-pl.js"
       integrity="sha512-3baNgNYy1uWPPrve2FfTBjVB3HqR9HnB9NIjHC2M1IrNamMLL8EnSKQnAYa3hzIqMtBsdFw78da670eeoaWkxA=="
@@ -102,17 +99,19 @@
           generujHeatmape(
             `odczytaj_swiatla.php?od=${toLocalISOString(
               new Date(data1)
-            )}&do=${toLocalISOString(new Date(data2))}`
+            )}&do=${toLocalISOString(new Date(data2))}&pietro=${pietro}`
           );
           generujWykres(
             `odczytaj_swiatla.php?od=${toLocalISOString(
               new Date(data1)
-            )}&do=${toLocalISOString(new Date(data2))}&wszystko=true`
+            )}&do=${toLocalISOString(
+              new Date(data2)
+            )}&wszystko=true&pietro=${pietro}`
           );
           generujWykresKolowy(
             `odczytaj_swiatla.php?od=${toLocalISOString(
               new Date(data1)
-            )}&do=${toLocalISOString(new Date(data2))}`
+            )}&do=${toLocalISOString(new Date(data2))}&pietro=${pietro}`
           );
         } else {
           zakresDat.innerHTML = `Używam danych z: Ostatnie 7 dni`;
@@ -214,7 +213,7 @@
         fetch(endpoint)
           .then((res) => res.json())
           .then((dane) => {
-            console.log(dane);
+            console.log("dane do heatmapy: ", dane);
             let points = [];
             let cords = [
               [240, 220],
@@ -240,7 +239,7 @@
             }
             heatmapInstance.setData({
               min: 0,
-              max: 100,
+              max: max == 0 ? 100 : max,
               data: points,
             });
           });
