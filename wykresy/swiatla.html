@@ -20,7 +20,7 @@
   <body>
     <!-- <header><img src="../logo.svg" /></header> !-->
     <h1 id="dataInfoText">Data wykonania pomiaru (od-do):</h1>
-    <h4 id="zakresDat">Używam danych z: Ostatnie 24 godziny</h4>
+    <h4 id="zakresDat">Używam danych z: Ostatnie 7 dni</h4>
     <div id="formularz">
       <input
         type="datetime-local"
@@ -34,10 +34,10 @@
         placeholder="Wybierz datę pomiaru"
       />
       <select onchange="ustaw_pietro()" id="pietroSelect">
-        <option value="1">Piętro 1</option>
-        <option value="2">Piętro 2</option>
-        <option value="3" selected>Piętro 3</option>
-      </select>
+          <option value="1">Piętro 1</option>
+          <option value="2">Piętro 2</option>
+          <option value="3" selected>Piętro 3</option>
+        </select>
       <button onclick="filtruj()">Filtruj</button>
     </div>
     <!-- Heatmap and Plotly Divs 
@@ -227,7 +227,7 @@
           plotDiv.style.width = "80%";
           plotDiv.style.height = "400px";
           plotDiv.style.marginBottom = "20px";
-          plotDiv.style.textAlign = "center";
+          
           container.appendChild(plotDiv);
 
           const trace = {
