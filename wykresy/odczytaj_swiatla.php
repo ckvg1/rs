@@ -65,7 +65,7 @@ if(isset($_GET["pietro"])) {
     $pietro = $_GET["pietro"];
 }
 $result = mysqli_query($conn, $sql);
-echo $result;
+
 while ($row=mysqli_fetch_assoc($result)) {
     $l1_1_1[] = $row['l1_1_1']; 
     $l1_1_2[] = $row['l1_1_2'];
@@ -120,7 +120,7 @@ if(!isset($_GET['wszystko']) || $wyswietl_wszystkie_dane != 'true') {
 
     $response = [];
 
-    if($pietro = 1) {
+    if($pietro == 1) {
         $response = [
         'l1_1_1'=>policzProcentDlaParyCzujnikow($l1_1_1, $l1_1_2),
         'l1_1_2'=>policzProcentDlaParyCzujnikow($l1_1_1, $l1_1_2),
@@ -138,7 +138,7 @@ if(!isset($_GET['wszystko']) || $wyswietl_wszystkie_dane != 'true') {
         'l1_7_2'=>policzProcentDlaParyCzujnikow($l1_7_1, $l1_7_2)
         ];
     }
-    if ( $pietro = 2) {
+    if ( $pietro == 2) {
         $response = [
         'l2_1_1'=>policzProcentDlaParyCzujnikow($l2_1_1, $l2_1_2),
         'l2_1_2'=>policzProcentDlaParyCzujnikow($l2_1_1, $l2_1_2),
@@ -156,7 +156,7 @@ if(!isset($_GET['wszystko']) || $wyswietl_wszystkie_dane != 'true') {
         'l2_7_2'=>policzProcentDlaParyCzujnikow($l2_7_1, $l2_7_2)
         ];
     }
-    if ( $pietro = 3) {
+    if ( $pietro == 3) {
         $response = [
         'l3_1_1'=>policzProcentDlaParyCzujnikow($l3_1_1, $l3_1_2),
         'l3_1_2'=>policzProcentDlaParyCzujnikow($l3_1_1, $l3_1_2),
