@@ -1,11 +1,17 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Ubuntu', sans-serif;
     margin: 0;
     padding: 0;
     background: #f4f7f9;
     color: #333;
+    height: 100%;
 }
-
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    
+}
 header {
     background-color: #ffffff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
@@ -40,10 +46,11 @@ header {
 .tab-button.active {
     color: #007BFF;
     border-color: #007BFF;
+    height: 100%;
 }
 
 main {
-    padding: 2rem;
+    padding: 0px;
 }
 
 .tab-content {
@@ -52,4 +59,33 @@ main {
 
 .tab-content.active {
     display: block;
+    padding: 0px;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    padding: 0px;
+    height: calc(100vh - 80px); /* Upewnij się że 80px = wysokość headera */
+}
+
+.tab-content {
+    display: none;
+    height: 100%;
+}
+
+.tab-content.active {
+    display: block;
+    height: 100%;
+    padding: 0;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
