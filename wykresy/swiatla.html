@@ -43,7 +43,6 @@
     <!-- Heatmap and Plotly Divs 
   myDiv is for the heatmap, myDiv2 is for additional content if needed (for mobile screen resolutions), and myPlot is for the Plotly graphs. 
  -->
-    <div id="myDiv" class="heatmap"></div>
     <div id="myDiv2"></div>
     <div id="myPlot"></div>
 
@@ -293,6 +292,7 @@
               const plotDiv = document.createElement("div");
               plotDiv.id = "plotSensor" + (i + 1);
               plotDiv.style.width = "80%";
+              plotDiv.style.margin = "auto";
               plotDiv.style.height = "400px";
               plotDiv.style.marginBottom = "20px";
               container.appendChild(plotDiv);

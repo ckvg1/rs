@@ -26,13 +26,8 @@ button {
   cursor: pointer;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
-#myDiv {
-  width: 1118px;
-  height: 745px;
-  background-image: url("../swiatla-bg.png");
-}
 #myDiv2 {
-  display: none;
+  display: block;
 }
 #myPlot {
   width: 100%;
@@ -64,13 +59,6 @@ select:focus {
 }
 
 @media (max-width: 1100px) {
-  #myDiv {
-    display: none;
-  }
-  #myDiv2 {
-    display: block;
-    scale: 0.8;
-  }
   header img {
     width: 400px;
   }
@@ -82,5 +70,11 @@ select:focus {
   }
   #dataInfoText {
     font-size: 18px;
+  }
+}
+
+@media (max-width: 520px){
+  #myDiv2{
+    scale: 0.8;
   }
 }
