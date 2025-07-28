@@ -65,6 +65,7 @@ if(isset($_GET["pietro"])) {
     $pietro = $_GET["pietro"];
 }
 $result = mysqli_query($conn, $sql);
+echo $result;
 while ($row=mysqli_fetch_assoc($result)) {
     $l1_1_1[] = $row['l1_1_1']; 
     $l1_1_2[] = $row['l1_1_2'];

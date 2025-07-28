@@ -33,6 +33,11 @@
         id="data2"
         placeholder="Wybierz datę pomiaru"
       />
+      <select onchange="ustaw_pietro()" id="pietroSelect">
+          <option value="1">Piętro 1</option>
+          <option value="2">Piętro 2</option>
+          <option value="3" selected>Piętro 3</option>
+        </select>
       <button onclick="filtruj()">Filtruj</button>
     </div>
     <!-- Heatmap and Plotly Divs 
@@ -45,6 +50,12 @@
     <script>
       "use strict";
       let pietro = 3;
+
+      function ustaw_pietro() {
+        pietro = document.getElementById("pietroSelect").value;
+        console.log("Ustawiono piętro: ", pietro);
+      }
+
       let heatmapInstance = h337.create({
         container: document.querySelector(".heatmap"),
         radius: 80,
@@ -59,7 +70,6 @@
           1: "#08306b",
         },
       });
-
       let czujniki = [
         "l3_1_1",
         "l3_1_2",
@@ -76,6 +86,8 @@
         "l3_7_1",
         "l3_7_2",
       ];
+      
+     
 
       const zakresDat = document.getElementById("zakresDat");
 
@@ -85,6 +97,18 @@
       });
 
       function filtruj() {
+        
+      // jesli wyvbrane pietro nie jest 3, to zamieniamy l3 na l[pietro]
+      // to jest potrzebne do dynamicznej zmiany piętra w wykresach
+      // sprawdzamy czy pietro nie jest 3, bo domyślnie jest 3
+      if(pietro!=3){
+        for(let i = 0; i < czujniki.length; i++) {
+          czujniki[i] = czujniki[i].replace("l3", "l" + pietro);
+        }
+      }
+      console.log("Czujniki: ", czujniki);
+
+
         const data1 = document.getElementById("data1").value
           ? new Date(document.getElementById("data1").value).toISOString()
           : null;
@@ -145,7 +169,7 @@
         fetch(endpoint)
           .then((res) => res.json())
           .then((dane) => {
-            console.log(dane);
+            console.log("Wykres kolowy (dane)", dane);
             console.log(Object.values(dane));
             console.log(
               "SprawdzCzySaDane: ",
@@ -158,17 +182,14 @@
               return;
             }
             document.getElementById("myDiv2").innerHTML = "";
+            let values = [];
+            for (let i = 1; i <= 7; i++) {
+              values.push(dane[`l${pietro}_${i}_1`]);
+            }
+            console.log("Values dla wykresu kolowego: ", values);
             var data = [
               {
-                values: [
-                  dane["l3_1_1"],
-                  dane["l3_2_1"],
-                  dane["l3_3_1"],
-                  dane["l3_4_1"],
-                  dane["l3_5_1"],
-                  dane["l3_6_1"],
-                  dane["l3_7_1"],
-                ],
+                values,
                 labels: [
                   "Room 1",
                   "Room 2",
@@ -213,7 +234,7 @@
         fetch(endpoint)
           .then((res) => res.json())
           .then((dane) => {
-            console.log("dane do heatmapy: ", dane);
+            console.log("dane: ", dane);
             let points = [];
             let cords = [
               [240, 220],
