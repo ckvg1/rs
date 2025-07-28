@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Światła</title>
+    <script src="heatmap.js"></script>
+    <!-- -->
+    <script
+      src="https://cdn.plot.ly/plotly-3.0.1.min.js"
+      charset="utf-8"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/1.33.1/plotly-locale-pl.js"
+      integrity="sha512-3baNgNYy1uWPPrve2FfTBjVB3HqR9HnB9NIjHC2M1IrNamMLL8EnSKQnAYa3hzIqMtBsdFw78da670eeoaWkxA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="icon" type="image/x-icon" href="icon.png" />
+    <style>
+      body {
+        font-family: "Courier New", Courier, monospace;
+        background-color: #d3e2ec;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+      }
+      form {
+        padding: 5px;
+      }
+      input {
+        margin: 10px;
+        padding: 10px;
+      }
+      button {
+        background-color: #2a80f9;
+        color: white;
+        padding: 12px 24px;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+      }
+      #myDiv {
+        width: 1118px;
+        height: 745px;
+        background-image: url("swiatla-bg.png");
+      }
+      #myDiv2 {
+        display: none;
+      }
+      #myPlot {
+        width: 100%;
+        height: 400px;
+        text-align: center;
+      }
+
+      @media (max-width: 1100px) {
+        #myDiv {
+          display: none;
+        }
+        #myDiv2 {
+          display: block;
+          scale: 0.8;
+        }
+        header img {
+          width: 400px;
+        }
+
+        #formularz {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        #dataInfoText {
+          font-size: 18px;
+        }
+      }
+      @media (max-width: 410px) {
+        header img {
+          width: 300px;
+        }
+        #dataInfoText {
+          font-size: 16px;
+        }
+      }
+      @media (max-width: 305px) {
+        header img {
+          width: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header><img src="logo.svg" /></header>
+    <h1 id="dataInfoText">Data wykonania pomiaru (od-do):</h1>
+    <h4 id="zakresDat">Używam danych z: Ostatnie 7 dni</h4>
+    <div id="formularz">
+      <input
+        type="datetime-local"
+        id="data1"
+        placeholder="Wybierz datę pomiaru"
+      />
+      -
+      <input
+        type="datetime-local"
+        id="data2"
+        placeholder="Wybierz datę pomiaru"
+      />
+      <button onclick="filtruj()">Filtruj</button>
+    </div>
+    <!-- Heatmap and Plotly Divs 
+  myDiv is for the heatmap, myDiv2 is for additional content if needed (for mobile screen resolutions), and myPlot is for the Plotly graphs. 
+ -->
+    <div id="myDiv" class="heatmap"></div>
+    <div id="myDiv2"></div>
+    <div id="myPlot"></div>
+
+    <script>
+      "use strict";
+
+      let heatmapInstance = h337.create({
+        container: document.querySelector(".heatmap"),
+        radius: 80,
+        blur: 0.9,
+        maxOpacity: 0.7,
+        minOpacity: 0,
+        gradient: {
+          0: "#f7fbff",
+          0.25: "#c6dbef",
+          0.5: "#6baed6",
+          0.75: "#2171b5",
+          1: "#08306b",
+        },
+      });
+
+      let czujniki = [
+        "1_1",
+        "1_2",
+        "2_1",
+        "2_2",
+        "3_1",
+        "3_2",
+        "4_1",
+        "4_2",
+        "5_1",
+        "5_2",
+        "6_1",
+        "6_2",
+        "7_1",
+        "7_2",
+      ];
+
+      const zakresDat = document.getElementById("zakresDat");
+
+      document.addEventListener("DOMContentLoaded", function () {
+        generujWykres("odczytaj_swiatla.php?wszystko=true");
+        generujHeatmape("odczytaj_swiatla.php");
+      });
+
+      function filtruj() {
+        const data1 = document.getElementById("data1").value
+          ? new Date(document.getElementById("data1").value).toISOString()
+          : null;
+        const data2 = document.getElementById("data2").value
+          ? new Date(document.getElementById("data2").value).toISOString()
+          : null;
+
+        if (data1 && data2) {
+          zakresDat.innerHTML = `Używam danych z: ${formatDate(
+            data1
+          )} - ${formatDate(data2)}`;
+          generujHeatmape(
+            `odczytaj_swiatla.php?od=${toLocalISOString(
+              new Date(data1)
+            )}&do=${toLocalISOString(new Date(data2))}`
+          );
+          generujWykres(
+            `odczytaj_swiatla.php?od=${toLocalISOString(
+              new Date(data1)
+            )}&do=${toLocalISOString(new Date(data2))}&wszystko=true`
+          );
+          generujWykresKolowy(
+            `odczytaj_swiatla.php?od=${toLocalISOString(
+              new Date(data1)
+            )}&do=${toLocalISOString(new Date(data2))}`
+          );
+        } else {
+          zakresDat.innerHTML = `Używam danych z: Ostatnie 7 dni`;
+          generujHeatmape("odczytaj_swiatla.php");
+          generujWykres("odczytaj_swiatla.php?wszystko=true");
+          generujWykresKolowy("odczytaj_swiatla.php");
+        }
+      }
+
+      function formatDate(dateString) {
+        if (!dateString) return "Brak daty";
+        let date = new Date(dateString);
+        return `${String(date.getDate()).padStart(2, "0")}-${String(
+          date.getMonth() + 1
+        ).padStart(2, "0")}-${date.getFullYear()} ${String(
+          date.getHours()
+        ).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+      }
+
+      function sprawdzCzySaDane(dane) {
+        //dane.length - 1 to avoid the last element which is "data" in the JSON response
+        for (let i = 0; i < dane.length - 1; i++) {
+          if (dane[i] !== 0) {
+            return true;
+          }
+        }
+        return false;
+      }
+
+      function generujWykresKolowy(endpoint) {
+        fetch(endpoint)
+          .then((res) => res.json())
+          .then((dane) => {
+            console.log(dane);
+            console.log(Object.values(dane));
+            console.log(
+              "SprawdzCzySaDane: ",
+              sprawdzCzySaDane(Object.values(dane))
+            );
+
+            if (!sprawdzCzySaDane(Object.values(dane))) {
+              document.getElementById("myDiv2").innerHTML =
+                "<h3>Brak danych do wyświetlenia wykresu, lub wszystkie światła były wyłączone.</h3>";
+              return;
+            }
+            document.getElementById("myDiv2").innerHTML = "";
+            var data = [
+              {
+                values: [
+                  dane["1_1"],
+                  dane["2_1"],
+                  dane["3_1"],
+                  dane["4_1"],
+                  dane["5_1"],
+                  dane["6_1"],
+                  dane["7_1"],
+                ],
+                labels: [
+                  "Room 1",
+                  "Room 2",
+                  "Room 3",
+                  "Room 4",
+                  "Room 5",
+                  "Room 6",
+                  "Room 7",
+                ],
+                type: "pie",
+                name: "Wykres kołowy - Światła",
+              },
+            ];
+            var layout = {
+              title: "Wykres kołowy - Światła",
+              height: 400,
+              width: 500,
+              name: "Wykres kołowy - Światła",
+            };
+            Plotly.newPlot("myDiv2", data, layout, { responsive: true });
+            /* 
+          Przyklado wykresu kolowego z dokumentacji Plotly
+
+          var data = [{
+          values: [19, 26, 55],
+          labels: ['Residential', 'Non-Residential', 'Utility'],
+            type: 'pie'
+          }];
+
+          var layout = {
+             height: 400,
+            width: 500
+          };
+
+          Plotly.newPlot('myDiv', data, layout);
+
+          
+          */
+          });
+      }
+      function generujHeatmape(endpoint) {
+        fetch(endpoint)
+          .then((res) => res.json())
+          .then((dane) => {
+            console.log(dane);
+            let points = [];
+            let cords = [
+              [240, 220],
+              [640, 230],
+              [845, 245],
+              [240, 550],
+              [450, 525],
+              [645, 520],
+              [840, 520],
+            ];
+            let j = 0,
+              max = 0;
+            for (let i = 0; i < Object.keys(dane).length - 1; i += 2) {
+              let point = {
+                x: cords[j][0],
+                y: cords[j][1],
+                value: dane[czujniki[i]],
+                radius: 80,
+              };
+              points.push(point);
+              if (max < dane[czujniki[i]]) max = dane[czujniki[i]];
+              if (i % 2 === 0 && j < 6) j++;
+            }
+            heatmapInstance.setData({
+              min: 0,
+              max: 100,
+              data: points,
+            });
+          });
+      }
+
+      function toLocalISOString(date = new Date()) {
+        const pad = (num) => String(num).padStart(2, "0");
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(
+          date.getDate()
+        )}T${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(
+          date.getSeconds()
+        )}`;
+      }
+
+      function generujWykres(endpoint) {
+        fetch(endpoint)
+          .then((res) => res.json())
+          .then((dane) => {
+            const container = document.getElementById("myPlot");
+            container.innerHTML = "";
+            const sensorNames = [
+              "Sensor 1_1",
+              "Sensor 1_2",
+              "Sensor 2_1",
+              "Sensor 2_2",
+              "Sensor 3_1",
+              "Sensor 3_2",
+              "Sensor 4_1",
+              "Sensor 4_2",
+              "Sensor 5_1",
+              "Sensor 5_2",
+              "Sensor 6_1",
+              "Sensor 6_2",
+              "Sensor 7_1",
+              "Sensor 7_2",
+            ];
+            const sensorColors = [
+              "Black",
+              "Black",
+              "Green",
+              "Green",
+              "Orange",
+              "Orange",
+              "Yellow",
+              "Yellow",
+              "Pink",
+              "Pink",
+              "Blue",
+              "Blue",
+              "Red",
+              "Red",
+            ];
+            for (let i = 0; i < 14; i++) {
+              const sensorKey = czujniki[i];
+              const plotDiv = document.createElement("div");
+              plotDiv.id = "plotSensor" + (i + 1);
+              plotDiv.style.width = "80%";
+              plotDiv.style.height = "400px";
+              plotDiv.style.marginBottom = "20px";
+              plotDiv.style.textAlign = "center";
+              plotDiv.style.display = "inline-block";
+              container.appendChild(plotDiv);
+
+              const trace = {
+                x: dane["data"],
+                y: dane[sensorKey],
+                mode: "lines",
+                name: sensorNames[i],
+                line: { shape: "hv", color: sensorColors[i] },
+                fill: "tonexty",
+              };
+              const layout = {
+                title: {
+                  text: sensorNames[i],
+                  font: { size: 24, color: "#333" },
+                },
+                xaxis: { title: "Oś X" },
+                yaxis: { title: "Oś Y" },
+              };
+              Plotly.newPlot(plotDiv.id, [trace], layout, { responsive: true });
+            }
+          });
+      }
+    </script>
+  </body>
+</html>
