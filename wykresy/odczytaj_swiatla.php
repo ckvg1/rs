@@ -1,24 +1,56 @@
 <?php
 $conn = mysqli_connect("localhost","root","","plc_database");
 $sql = "SELECT * FROM `light` WHERE data > now() - INTERVAL 7 day ";
-$l1_1 = []; 
-$l1_2 = [];
-$l2_1 = [];
-$l2_2 = [];
-$l3_1 = [];
-$l3_2 = [];
-$l4_1 = [];
-$l4_2 = [];
-$l5_1 = [];
-$l5_2 = [];
-$l6_1 = [];
-$l6_2 = [];
-$l7_1 = [];
-$l7_2 = [];
+
+$l1_1_1 = []; 
+$l1_1_2 = [];
+$l1_2_1 = [];
+$l1_2_2 = [];
+$l1_3_1 = [];
+$l1_3_2 = [];
+$l1_4_1 = [];
+$l1_4_2 = [];
+$l1_5_1 = [];
+$l1_5_2 = [];
+$l1_6_1 = [];
+$l1_6_2 = [];
+$l1_7_1 = [];
+$l1_7_2 = [];
+
+$l2_1_1 = []; 
+$l2_1_2 = [];
+$l2_2_1 = [];
+$l2_2_2 = [];
+$l2_3_1 = [];
+$l2_3_2 = [];
+$l2_4_1 = [];
+$l2_4_2 = [];
+$l2_5_1 = [];
+$l2_5_2 = [];
+$l2_6_1 = [];
+$l2_6_2 = [];
+$l2_7_1 = [];
+$l2_7_2 = [];
+
+$l3_1_1 = []; 
+$l3_1_2 = [];
+$l3_2_1 = [];
+$l3_2_2 = [];
+$l3_3_1 = [];
+$l3_3_2 = [];
+$l3_4_1 = [];
+$l3_4_2 = [];
+$l3_5_1 = [];
+$l3_5_2 = [];
+$l3_6_1 = [];
+$l3_6_2 = [];
+$l3_7_1 = [];
+$l3_7_2 = [];
 $data = [];
 if(isset($_GET["od"])) {
     $data_od = $_GET["od"];
 }
+
 if(isset($_GET["do"])) {
     $data_do = $_GET["do"];
 }
@@ -29,22 +61,55 @@ if (isset($data_do) && isset($data_od)) {
 if(isset($_GET["wszystko"])) {
     $wyswietl_wszystkie_dane = $_GET["wszystko"];
 }
+if(isset($_GET["pietro"])) {
+    $pietro = $_GET["pietro"];
+}
 $result = mysqli_query($conn, $sql);
 while ($row=mysqli_fetch_assoc($result)) {
-    $l1_1[] = $row['1_1']; 
-    $l1_2[] = $row['1_2'];
-    $l2_1[] = $row['2_1'];
-    $l2_2[] = $row['2_2'];
-    $l3_1[] = $row['3_1'];
-    $l3_2[] = $row['3_2'];
-    $l4_1[] = $row['4_1'];
-    $l4_2[] = $row['4_2'];
-    $l5_1[] = $row['5_1'];
-    $l5_2[] = $row['5_2'];
-    $l6_1[] = $row['6_1'];
-    $l6_2[] = $row['6_2'];
-    $l7_1[] = $row['7_1'];
-    $l7_2[] = $row['7_2'];
+    $l1_1_1[] = $row['l1_1_1']; 
+    $l1_1_2[] = $row['l1_1_2'];
+    $l1_2_1[] = $row['l1_2_1'];
+    $l1_2_2[] = $row['l1_2_2'];
+    $l1_3_1[] = $row['l1_3_1'];
+    $l1_3_2[] = $row['l1_3_2'];
+    $l1_4_1[] = $row['l1_4_1'];
+    $l1_4_2[] = $row['l1_4_2'];
+    $l1_5_1[] = $row['l1_5_1'];
+    $l1_5_2[] = $row['l1_5_2'];
+    $l1_6_1[] = $row['l1_6_1'];
+    $l1_6_2[] = $row['l1_6_2'];
+    $l1_7_1[] = $row['l1_7_1'];
+    $l1_7_2[] = $row['l1_7_2'];
+
+    $l2_1_1[] = $row['l2_1_1']; 
+    $l2_1_2[] = $row['l2_1_2'];
+    $l2_2_1[] = $row['l2_2_1'];
+    $l2_2_2[] = $row['l2_2_2'];
+    $l2_3_1[] = $row['l2_3_1'];
+    $l2_3_2[] = $row['l2_3_2'];
+    $l2_4_1[] = $row['l2_4_1'];
+    $l2_4_2[] = $row['l2_4_2'];
+    $l2_5_1[] = $row['l2_5_1'];
+    $l2_5_2[] = $row['l2_5_2'];
+    $l2_6_1[] = $row['l2_6_1'];
+    $l2_6_2[] = $row['l2_6_2'];
+    $l2_7_1[] = $row['l2_7_1'];
+    $l2_7_2[] = $row['l2_7_2'];
+
+    $l3_1_1[] = $row['l3_1_1']; 
+    $l3_1_2[] = $row['l3_1_2'];
+    $l3_2_1[] = $row['l3_2_1'];
+    $l3_2_2[] = $row['l3_2_2'];
+    $l3_3_1[] = $row['l3_3_1'];
+    $l3_3_2[] = $row['l3_3_2'];
+    $l3_4_1[] = $row['l3_4_1'];
+    $l3_4_2[] = $row['l3_4_2'];
+    $l3_5_1[] = $row['l3_5_1'];
+    $l3_5_2[] = $row['l3_5_2'];
+    $l3_6_1[] = $row['l3_6_1'];
+    $l3_6_2[] = $row['l3_6_2'];
+    $l3_7_1[] = $row['l3_7_1'];
+    $l3_7_2[] = $row['l3_7_2'];
     $data[] = $row['data'];
 }
 if(!isset($_GET['wszystko']) || $wyswietl_wszystkie_dane != 'true') {
@@ -52,40 +117,110 @@ if(!isset($_GET['wszystko']) || $wyswietl_wszystkie_dane != 'true') {
     // Wysyła dane procentowe dla pary czujników
     // Dla czujnika 1_1 zwróci to samo co dla czujnika 1_2
 echo json_encode([
-    '1_1'=>policzProcentDlaParyCzujnikow($l1_1, $l1_2),
-    '1_2'=>policzProcentDlaParyCzujnikow($l1_1, $l1_2),
-    '2_1'=>policzProcentDlaParyCzujnikow($l2_1, $l2_2),
-    '2_2'=>policzProcentDlaParyCzujnikow($l2_1, $l2_2),
-    '3_1'=>policzProcentDlaParyCzujnikow($l3_1, $l3_2),
-    '3_2'=>policzProcentDlaParyCzujnikow($l3_1, $l3_2),
-    '4_1'=>policzProcentDlaParyCzujnikow($l4_1, $l4_2),
-    '4_2'=>policzProcentDlaParyCzujnikow($l4_1, $l4_2),
-    '5_1'=>policzProcentDlaParyCzujnikow($l5_1, $l5_2),
-    '5_2'=>policzProcentDlaParyCzujnikow($l5_1, $l5_2),
-    '6_1'=>policzProcentDlaParyCzujnikow($l6_1, $l6_2),   
-    '6_2'=>policzProcentDlaParyCzujnikow($l6_1, $l6_2),
-    '7_1'=>policzProcentDlaParyCzujnikow($l7_1, $l7_2),
-    '7_2'=>policzProcentDlaParyCzujnikow($l7_1, $l7_2),
+    'l1_1_1'=>policzProcentDlaParyCzujnikow($l1_1_1, $l1_1_2),
+    'l1_1_2'=>policzProcentDlaParyCzujnikow($l1_1_1, $l1_1_2),
+    'l1_2_1'=>policzProcentDlaParyCzujnikow($l1_2_1, $l1_2_2),
+    'l1_2_2'=>policzProcentDlaParyCzujnikow($l1_2_1, $l1_2_2),
+    'l1_3_1'=>policzProcentDlaParyCzujnikow($l1_3_1, $l1_3_2),
+    'l1_3_2'=>policzProcentDlaParyCzujnikow($l1_3_1, $l1_3_2),
+    'l1_4_1'=>policzProcentDlaParyCzujnikow($l1_4_1, $l1_4_2),
+    'l1_4_2'=>policzProcentDlaParyCzujnikow($l1_4_1, $l1_4_2),
+    'l1_5_1'=>policzProcentDlaParyCzujnikow($l1_5_1, $l1_5_2),
+    'l1_5_2'=>policzProcentDlaParyCzujnikow($l1_5_1, $l1_5_2),
+    'l1_6_1'=>policzProcentDlaParyCzujnikow($l1_6_1, $l1_6_2),   
+    'l1_6_2'=>policzProcentDlaParyCzujnikow($l1_6_1, $l1_6_2),
+    'l1_7_1'=>policzProcentDlaParyCzujnikow($l1_7_1, $l1_7_2),
+    'l1_7_2'=>policzProcentDlaParyCzujnikow($l1_7_1, $l1_7_2),
+
+    'l2_1_1'=>policzProcentDlaParyCzujnikow($l2_1_1, $l2_1_2),
+    'l2_1_2'=>policzProcentDlaParyCzujnikow($l2_1_1, $l2_1_2),
+    'l2_2_1'=>policzProcentDlaParyCzujnikow($l2_2_1, $l2_2_2),
+    'l2_2_2'=>policzProcentDlaParyCzujnikow($l2_2_1, $l2_2_2),
+    'l2_3_1'=>policzProcentDlaParyCzujnikow($l2_3_1, $l2_3_2),
+    'l2_3_2'=>policzProcentDlaParyCzujnikow($l2_3_1, $l2_3_2),
+    'l2_4_1'=>policzProcentDlaParyCzujnikow($l2_4_1, $l2_4_2),
+    'l2_4_2'=>policzProcentDlaParyCzujnikow($l2_4_1, $l2_4_2),
+    'l2_5_1'=>policzProcentDlaParyCzujnikow($l2_5_1, $l2_5_2),
+    'l2_5_2'=>policzProcentDlaParyCzujnikow($l2_5_1, $l2_5_2),
+    'l2_6_1'=>policzProcentDlaParyCzujnikow($l2_6_1, $l2_6_2),   
+    'l2_6_2'=>policzProcentDlaParyCzujnikow($l2_6_1, $l2_6_2),
+    'l2_7_1'=>policzProcentDlaParyCzujnikow($l2_7_1, $l2_7_2),
+    'l2_7_2'=>policzProcentDlaParyCzujnikow($l2_7_1, $l2_7_2),
+
+    'l3_1_1'=>policzProcentDlaParyCzujnikow($l3_1_1, $l3_1_2),
+    'l3_1_2'=>policzProcentDlaParyCzujnikow($l3_1_1, $l3_1_2),
+    'l3_2_1'=>policzProcentDlaParyCzujnikow($l3_2_1, $l3_2_2),
+    'l3_2_2'=>policzProcentDlaParyCzujnikow($l3_2_1, $l3_2_2),
+    'l3_3_1'=>policzProcentDlaParyCzujnikow($l3_3_1, $l3_3_2),
+    'l3_3_2'=>policzProcentDlaParyCzujnikow($l3_3_1, $l3_3_2),
+    'l3_4_1'=>policzProcentDlaParyCzujnikow($l3_4_1, $l3_4_2),
+    'l3_4_2'=>policzProcentDlaParyCzujnikow($l3_4_1, $l3_4_2),
+    'l3_5_1'=>policzProcentDlaParyCzujnikow($l3_5_1, $l3_5_2),
+    'l3_5_2'=>policzProcentDlaParyCzujnikow($l3_5_1, $l3_5_2),
+    'l3_6_1'=>policzProcentDlaParyCzujnikow($l3_6_1, $l3_6_2),   
+    'l3_6_2'=>policzProcentDlaParyCzujnikow($l3_6_1, $l3_6_2),
+    'l3_7_1'=>policzProcentDlaParyCzujnikow($l3_7_1, $l3_7_2),
+    'l3_7_2'=>policzProcentDlaParyCzujnikow($l3_7_1, $l3_7_2),
     'data'=>$data
 ]);
 } else {
-    echo json_encode([
-        '1_1'=>$l1_1,
-        '1_2'=>$l1_2,
-        '2_1'=>$l2_1,
-        '2_2'=>$l2_2,
-        '3_1'=>$l3_1, 
-        '3_2'=>$l3_2,
-        '4_1'=>$l4_1, 
-        '4_2'=>$l4_2,
-        '5_1'=>$l5_1, 
-        '5_2'=>$l5_2,
-        '6_1'=>$l6_1,   
-        '6_2'=>$l6_2,
-        '7_1'=>$l7_1, 
-        '7_2'=>$l7_2,
-        'data'=>$data
-    ]);
+    $response = [];
+
+    if ($pietro == '1') {
+        $response = [
+            'l1_1_1' => $l1_1_1,
+            'l1_1_2' => $l1_1_2,
+            'l1_2_1' => $l1_2_1,
+            'l1_2_2' => $l1_2_2,
+            'l1_3_1' => $l1_3_1,
+            'l1_3_2' => $l1_3_2,
+            'l1_4_1' => $l1_4_1,
+            'l1_4_2' => $l1_4_2,
+            'l1_5_1' => $l1_5_1,
+            'l1_5_2' => $l1_5_2,
+            'l1_6_1' => $l1_6_1,
+            'l1_6_2' => $l1_6_2,
+            'l1_7_1' => $l1_7_1,
+            'l1_7_2' => $l1_7_2
+        ];
+    } elseif ($pietro == 2) {
+        $response = [
+            'l2_1_1' => $l2_1_1,
+            'l2_1_2' => $l2_1_2,
+            'l2_2_1' => $l2_2_1,
+            'l2_2_2' => $l2_2_2,
+            'l2_3_1' => $l2_3_1,
+            'l2_3_2' => $l2_3_2,
+            'l2_4_1' => $l2_4_1,
+            'l2_4_2' => $l2_4_2,
+            'l2_5_1' => $l2_5_1,
+            'l2_5_2' => $l2_5_2,
+            'l2_6_1' => $l2_6_1,
+            'l2_6_2' => $l2_6_2,
+            'l2_7_1' => $l2_7_1,
+            'l2_7_2' => $l2_7_2
+        ];
+    } elseif ($pietro == 3) {
+        $response = [
+            'l3_1_1' => $l3_1_1,
+            'l3_1_2' => $l3_1_2,
+            'l3_2_1' => $l3_2_1,
+            'l3_2_2' => $l3_2_2,
+            'l3_3_1' => $l3_3_1,
+            'l3_3_2' => $l3_3_2,
+            'l3_4_1' => $l3_4_1,
+            'l3_4_2' => $l3_4_2,
+            'l3_5_1' => $l3_5_1,
+            'l3_5_2' => $l3_5_2,
+            'l3_6_1' => $l3_6_1,
+            'l3_6_2' => $l3_6_2,
+            'l3_7_1' => $l3_7_1,
+            'l3_7_2' => $l3_7_2
+        ];
+    }
+
+    $response['data'] = $data;
+    echo json_encode($response);
 }
 
 mysqli_close($conn);

@@ -47,7 +47,7 @@
 
     <script>
       "use strict";
-
+      let pietro = 3;
       let heatmapInstance = h337.create({
         container: document.querySelector(".heatmap"),
         radius: 80,
@@ -64,20 +64,20 @@
       });
 
       let czujniki = [
-        "1_1",
-        "1_2",
-        "2_1",
-        "2_2",
-        "3_1",
-        "3_2",
-        "4_1",
-        "4_2",
-        "5_1",
-        "5_2",
-        "6_1",
-        "6_2",
-        "7_1",
-        "7_2",
+        "l3_1_1",
+        "l3_1_2",
+        "l3_2_1",
+        "l3_2_2",
+        "l3_3_1",
+        "l3_3_2",
+        "l3_4_1",
+        "l3_4_2",
+        "l3_5_1",
+        "l3_5_2",
+        "l3_6_1",
+        "l3_6_2",
+        "l3_7_1",
+        "l3_7_2",
       ];
 
       const zakresDat = document.getElementById("zakresDat");
@@ -116,9 +116,9 @@
           );
         } else {
           zakresDat.innerHTML = `Używam danych z: Ostatnie 7 dni`;
-          generujHeatmape("odczytaj_swiatla.php");
-          generujWykres("odczytaj_swiatla.php?wszystko=true");
-          generujWykresKolowy("odczytaj_swiatla.php");
+          generujHeatmape(`odczytaj_swiatla.php?pietro=${pietro}`);
+          generujWykres(`odczytaj_swiatla.php?wszystko=true&pietro=${pietro}`);
+          generujWykresKolowy(`odczytaj_swiatla.php?pietro=${pietro}`);
         }
       }
 
@@ -162,13 +162,13 @@
             var data = [
               {
                 values: [
-                  dane["1_1"],
-                  dane["2_1"],
-                  dane["3_1"],
-                  dane["4_1"],
-                  dane["5_1"],
-                  dane["6_1"],
-                  dane["7_1"],
+                  dane["l3_1_1"],
+                  dane["l3_2_1"],
+                  dane["l3_3_1"],
+                  dane["l3_4_1"],
+                  dane["l3_5_1"],
+                  dane["l3_6_1"],
+                  dane["l3_7_1"],
                 ],
                 labels: [
                   "Room 1",
