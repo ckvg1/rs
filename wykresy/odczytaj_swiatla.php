@@ -1,6 +1,6 @@
 <?php
 $conn = mysqli_connect("localhost","root","","plc_database");
-$sql = "SELECT * FROM `light` WHERE data > now() - INTERVAL 7 day ";
+$sql = "SELECT * FROM `light` WHERE data > now() - INTERVAL 1 day ";
 
 $l1_1_1 = []; 
 $l1_1_2 = [];
@@ -180,7 +180,7 @@ if(!isset($_GET['wszystko']) || $wyswietl_wszystkie_dane != 'true') {
 } else {
     $response = [];
 
-    if ($pietro == '1') {
+    if ($pietro == 1) {
         $response = [
             'l1_1_1' => $l1_1_1,
             'l1_1_2' => $l1_1_2,

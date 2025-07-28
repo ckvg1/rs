@@ -16,7 +16,7 @@
       </header> -->
 
       <h1>Data wykonania pomiaru (od-do):</h1>
-      <h4 id="zakresDat">Używam danych z: Ostatnie 7 dni</h4>
+      <h4 id="zakresDat">Używam danych z: Ostatnie 24 godziny</h4>
 
       <div class="form-group" id="formularz">
         <input type="datetime-local" id="data1" />
@@ -49,9 +49,8 @@
         const select = document.getElementById("pietroSelect");
         pietro = select.value;
         console.log("Wybrane piętro:", pietro);
-        
       }
-      
+
       const zakresDat = document.getElementById("zakresDat");
       const filtrujBtn = document.getElementById("filtrujBtn");
 
@@ -77,15 +76,22 @@
           })
           .then((dane) => {
             console.log("Dane do wykresu:", dane);
-            const seriesData = [
-              {
-                x: dane.Data,
-                y: dane[`Temp. ${pietro}_1`],
-                mode: currentMode,
-                name: "Czujnik 1",
-                line: { shape: "vh" },
-              },
-            ];
+            const seriesData = [];
+
+            for (let i = 0; i <= 7; i++) {
+              //lecimy do 7 bo tyle czujnikow
+
+              const key = `Temp. ${pietro}_${i}`;
+              if (dane[key]) {
+                seriesData.push({
+                  x: dane.Data,
+                  y: dane[key],
+                  mode: currentMode,
+                  name: `Pomieszczenie ${i}`,
+                  line: { shape: "vh" },
+                });
+              }
+            }
 
             // Przekształć na wykres schodkowy jeśli tryb to "lines"
             if (currentMode === "lines") {
@@ -152,7 +158,7 @@
           console.log(url);
           fetchAndPlot(url);
         } else if (!dateInput1 && !dateInput2) {
-          zakresDat.innerHTML = "Używam danych z: Ostatnie 7 dni";
+          zakresDat.innerHTML = "Używam danych z: Ostatnie 24 godziny";
           fetchAndPlot(`odczytaj_dane.php?pietro=${pietro}`);
         } else {
           alert("Wybierz obie daty pomiaru!");
