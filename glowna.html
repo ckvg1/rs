@@ -9,13 +9,20 @@
 <body>
     <header>
         <img src="logo.svg" alt="Logo" class="logo">
+        <div class="hamburger" onclick="hamburger(this)">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div>
         <nav class="tabs">
-            <button class="tab-button active" data-tab="podsumowanie">Podsumowanie</button>
-            <button class="tab-button" data-tab="swiatla">Światło</button>
-            <button class="tab-button" data-tab="temperatura">Temperatura</button>
-            <button class="tab-button" data-tab="pietro1">Piętro 1</button>
-            <button class="tab-button" data-tab="pietro2">Piętro 2</button>
-            <button class="tab-button" data-tab="pietro3">Piętro 3</button>
+            <ul class="tabs-list">
+                <li><button class="tab-button active" data-tab="podsumowanie">Podsumowanie</button></li>
+                <li><button class="tab-button" data-tab="swiatla">Światło</button></li>
+                <li><button class="tab-button" data-tab="temperatura">Temperatura</button></li>
+                <li><button class="tab-button" data-tab="pietro1">Piętro 1</button></li>
+                <li><button class="tab-button" data-tab="pietro2">Piętro 2</button></li>
+                <li><button class="tab-button" data-tab="pietro3">Piętro 3</button></li>
+            </ul>
         </nav>
     </header>
 

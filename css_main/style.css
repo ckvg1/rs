@@ -27,9 +27,14 @@ header {
 }
 
 .tabs {
-    display: flex;
     gap: 1rem;
+    padding: 10px 0 0 10px;
+}
+
+.tabs-list{
+    display: flex;
     flex-wrap: wrap;
+    list-style: none;
 }
 
 .tab-button {
@@ -88,4 +93,53 @@ iframe {
     width: 100%;
     height: 100%;
     border: none;
+}
+
+@media only screen and (max-width: 760px) {
+    .tabs-list{
+        list-style: none;
+        display: block;
+        padding: 10px 0 0 10px;
+        position: absolute;
+        width: 200px;
+        top: 70px;
+        right: -300px;
+        border: #007BFF 1px solid;
+        background-color: #007bffde;
+    }
+    .tab-button {
+        border-bottom: 2px solid transparent;
+        transition: border-color 0.3s, color 0.3s;
+    }
+    
+    .tab-button:hover,
+    .tab-button.active {
+        color: #ffffff;
+        border-color: #ffffff;
+    }
+    .tabs-list li{
+        padding-top: 10px;
+    }
+    .hamburger{
+        position: absolute;
+        display: block;
+        cursor: pointer;
+        top: 25px;
+        right: 10px;
+    }
+    .bar1, .bar2, .bar3 {
+      width: 35px;
+      height: 5px;
+      background-color: #333;
+      margin: 6px 0;
+      transition: 0.4s;
+    }
+    .change .bar1 {
+      transform: translate(0, 11px) rotate(-45deg);
+    }
+    .change .bar2 {opacity: 0;}
+
+    .change .bar3 {
+      transform: translate(0, -11px) rotate(45deg);
+    }
 }

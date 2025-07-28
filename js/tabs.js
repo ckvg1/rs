@@ -15,3 +15,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+function hamburger(x) {
+    x.classList.toggle("change");
+    tabsList = document.querySelector('.tabs-list')
+    if(tabsList.style.right == "0px"){
+        tabsList.style.right = "-250px"
+    }
+    else{
+        tabsList.style.right = "0px"
+    }
+}
