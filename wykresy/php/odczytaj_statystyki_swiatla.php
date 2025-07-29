@@ -17,7 +17,10 @@
                         l1_4_1, l1_4_2, l1_5_1, l1_5_2, 
                         l1_6_1, l1_6_2, l1_7_1, l1_7_2,
                         data
+                        data
                         FROM light  
+                        WHERE data > NOW() - INTERVAL 7 DAY 
+                        ORDER BY data DESC";
                         WHERE data > NOW() - INTERVAL 7 DAY 
                         ORDER BY data DESC";
             break;

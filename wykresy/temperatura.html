@@ -89,7 +89,7 @@
                   y: dane[key],
                   mode: currentMode,
                   name: `Pomieszczenie ${i}`,
-                  line: { shape: "vh" },
+                  line: { shape: "spline" }, //vh - schodkowe
                 });
               }
               if (i == 8) {
@@ -98,7 +98,7 @@
                   y: dane["Temp. zewn"],
                   mode: currentMode,
                   name: `Temp. zewn`,
-                  line: { shape: "vh" },
+                  line: { shape: "spline" }, //vh
                 });
               }
             }
