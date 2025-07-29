@@ -19,6 +19,8 @@
                         FROM temperatura 
                         WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
                         ORDER BY czas_dodania DESC";
+            
+
             break;
         case 2:
             $sql_temp = "SELECT t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7, 
@@ -26,6 +28,7 @@
                         FROM temperatura 
                         WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
                         ORDER BY czas_dodania DESC";
+            
             break;
         case 3:
             $sql_temp = "SELECT t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7, 
@@ -33,6 +36,7 @@
                         FROM temperatura 
                         WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
                         ORDER BY czas_dodania DESC";
+            
             break;
         default:
             die("Nieprawidłowe piętro");
@@ -80,13 +84,18 @@
         }
         $temp_zewn[] = round($row['zewnetrzna'],1);
     }
+    
+    
+    
+    
 
-    // Grupowanie pomieszczeń w piętra
+    // Grupowanie pomieszczeń w piętra (pomiesczczenia[][] dla temperatury, swiatla[][] dla światła)
     $pomieszczenia = [
         [$t1_1, $t1_2, $t1_3, $t1_4, $t1_5, $t1_6, $t1_7],
         [$t2_1, $t2_2, $t2_3, $t2_4, $t2_5, $t2_6, $t2_7],
         [$t3_1, $t3_2, $t3_3, $t3_4, $t3_5, $t3_6, $t3_7]
     ];
+   
 
     // Funkcje
     function znajdzNajmniejszaTemperature($tablica) {
@@ -137,7 +146,7 @@
         }
         return $licznik > 0 ? round($suma / $licznik, 2) : null;
     }
-
+    
     // Obliczenia
     $najnizsza = znajdzNajmniejszaTemperature($pomieszczenia[$pietro-1]);
     $najwyzsza = znajdzNajwyzszaTemperature($pomieszczenia[$pietro-1]);
@@ -152,6 +161,7 @@
         'najnizszaTemperaturaCzujnik' => $najnizsza['czujnik'],
         'najwyzszaTemperaturaCzujnik' => $najwyzsza['czujnik'],
         'sredniaZewnetrzna' => $sredniaTempZewn
+        
     ];
 
     echo json_encode($response);

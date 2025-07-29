@@ -1,0 +1,1 @@
+PHP odczytaj_statystyki_X sluza do wyswietlania danych na stronie glownej (zakladka statystyki). Do wyswietlania wykresow sa inne PHP
