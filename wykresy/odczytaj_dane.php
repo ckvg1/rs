@@ -34,31 +34,31 @@ $result = mysqli_query($conn, $sql);
 
 while ($row = mysqli_fetch_assoc($result)) {
     $czas[] = $row['czas_dodania'];
-    $t1_1[] = round($row['t1_1']);
-    $t1_2[] = round($row['t1_2']);
-    $t1_3[] = round($row['t1_3']);
-    $t1_4[] = round($row['t1_4']);
-    $t1_5[] = round($row['t1_5']);
-    $t1_6[] = round($row['t1_6']);
-    $t1_7[] = round($row['t1_7']);
+    $t1_1[] = round($row['t1_1'],1);
+    $t1_2[] = round($row['t1_2'],1);
+    $t1_3[] = round($row['t1_3'],1);
+    $t1_4[] = round($row['t1_4'],1);
+    $t1_5[] = round($row['t1_5'],1);
+    $t1_6[] = round($row['t1_6'],1);
+    $t1_7[] = round($row['t1_7'],1);
 
-    $t2_1[] = round($row['t2_1']);
-    $t2_2[] = round($row['t2_2']);
-    $t2_3[] = round($row['t2_3']);
-    $t2_4[] = round($row['t2_4']);
-    $t2_5[] = round($row['t2_5']);
-    $t2_6[] = round($row['t2_6']);
-    $t2_7[] = round($row['t2_7']);
+    $t2_1[] = round($row['t2_1'],1);
+    $t2_2[] = round($row['t2_2'],1);
+    $t2_3[] = round($row['t2_3'],1);
+    $t2_4[] = round($row['t2_4'],1);
+    $t2_5[] = round($row['t2_5'],1);
+    $t2_6[] = round($row['t2_6'],1);
+    $t2_7[] = round($row['t2_7'],1);
 
-    $t3_1[] = round($row['t3_1']);
-    $t3_2[] = round($row['t3_2']);
-    $t3_3[] = round($row['t3_3']);
-    $t3_4[] = round($row['t3_4']);
-    $t3_5[] = round($row['t3_5']);
-    $t3_6[] = round($row['t3_6']);
-    $t3_7[] = round($row['t3_7']);
+    $t3_1[] = round($row['t3_1'],1);
+    $t3_2[] = round($row['t3_2'],1);
+    $t3_3[] = round($row['t3_3'],1);
+    $t3_4[] = round($row['t3_4'],1);
+    $t3_5[] = round($row['t3_5'],1);
+    $t3_6[] = round($row['t3_6'],1);
+    $t3_7[] = round($row['t3_7'],1);
 
-    $temp_zewn[] = round($row['zewnetrzna']);
+    $temp_zewn[] = round($row['zewnetrzna'],1);
 }
 
 $response = [];

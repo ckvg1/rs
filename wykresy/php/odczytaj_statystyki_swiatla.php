@@ -16,28 +16,28 @@
             $sql= "SELECT l1_1_1, l1_1_2, l1_2_1, l1_2_2, l1_3_1, l1_3_2, 
                         l1_4_1, l1_4_2, l1_5_1, l1_5_2, 
                         l1_6_1, l1_6_2, l1_7_1, l1_7_2,
-                        czas_dodania
+                        data
                         FROM light  
-                        WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
-                        ORDER BY czas_dodania DESC";
+                        WHERE data > NOW() - INTERVAL 7 DAY 
+                        ORDER BY data DESC";
             break;
         case 2:
             $sql = "SELECT l2_1_1, l2_1_2, l2_2_1, l2_2_2, l2_3_1, l2_3_2, 
                         l2_4_1, l2_4_2, l2_5_1, l2_5_2, 
                         l2_6_1, l2_6_2, l2_7_1, l2_7_2,
-                        czas_dodania
+                        data
                         FROM light  
-                        WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
-                        ORDER BY czas_dodania DESC";
+                        WHERE data > NOW() - INTERVAL 7 DAY 
+                        ORDER BY data DESC";
             break;
         case 3:
             $sql = "SELECT l3_1_1, l3_1_2, l3_2_1, l3_2_2, l3_3_1, l3_3_2, 
                         l3_4_1, l3_4_2, l3_5_1, l3_5_2, 
                         l3_6_1, l3_6_2, l3_7_1, l3_7_2,
-                        czas_dodania
+                        data
                         FROM light  
-                        WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
-                        ORDER BY czas_dodania DESC";
+                        WHERE data > NOW() - INTERVAL 7 DAY 
+                        ORDER BY data DESC";
             break;
         default:
             die("Nieprawidłowe piętro");
@@ -91,7 +91,7 @@
      $data = [];
      $result = mysqli_query($conn, $sql);
      while($row = mysqli_fetch_assoc($result)) {
-         $czas[] = $row['czas_dodania'];
+         $czas[] = $row['data'];
          switch($pietro){
              case 1:
                  $l1_1_1[] = round($row['l1_1_1']);
@@ -162,9 +162,7 @@
                 }
             }
             return [
-                    'l1' => array_keys($licznik[0], max($licznik[0])),
-                    'l2' => array_keys($licznik[1], max($licznik[1])),
-                    'l3' => array_keys($licznik[2], max($licznik[2]))
+                    $licznik[$pietro-1][0],
             ];
 
         }
