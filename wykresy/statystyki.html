@@ -66,10 +66,10 @@
                 fetch('odczytaj_statystyki.php?pietro=' + pietroTemperaturaValue)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById("najnizszaTemperatura").innerHTML = ("Najnizsza temperatura: " + data.najmniejszaTemperatura + "  Czujnik: " + data.najnizszaTemperaturaCzujnik);
-                        document.getElementById("sredniaTemperatura").innerHTML = ("Srednia temperatura w budynku: " + data.sredniaTemperatura );
-                        document.getElementById("najwyzszaTemperatura").innerHTML = ("Najwyzsza temperatura: " + data.najwyzszaTemperatura   + "  Czujnik: " + data.najwyzszaTemperaturaCzujnik);
-                        document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML = ("Srednia temperatura zewnetrzna: " + data.sredniaZewnetrzna);
+                        document.getElementById("najnizszaTemperatura").innerHTML = ("MIN TEMP IN: " + data.najmniejszaTemperatura + "  Czujnik: " + data.najnizszaTemperaturaCzujnik);
+                        document.getElementById("sredniaTemperatura").innerHTML = ("AVG TEMP IN: " + data.sredniaTemperatura );
+                        document.getElementById("najwyzszaTemperatura").innerHTML = ("MAX TEMP IN: " + data.najwyzszaTemperatura   + "  Czujnik: " + data.najwyzszaTemperaturaCzujnik);
+                        document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML = ("AVG TEMP OUT: " + data.sredniaZewnetrzna);
                     }).catch(error => console.error('Błąd:', error));
             });
                 
