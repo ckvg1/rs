@@ -150,7 +150,7 @@
           .then((dane) => {
             if (!sprawdzCzySaDane(Object.values(dane))) {
               document.getElementById("myDiv2").innerHTML =
-                "<h3>Brak danych do wyświetlenia wykresu";
+                "<h3>Brak danych do wyświetlenia wykresu</h3>";
               return;
             }
 
@@ -163,25 +163,49 @@
 
             const data = [
               {
-                values,
+                values: values,
                 labels: [
-                  "Room 1",
-                  "Room 2",
-                  "Room 3",
-                  "Room 4",
-                  "Room 5",
-                  "Room 6",
-                  "Room 7",
+                  "Biuro 1",
+                  "Biuro 2",
+                  "Biuro 3",
+                  "Biuro 4",
+                  "Biuro 5",
+                  "Biuro 6",
+                  "Biuro 7",
                 ],
                 type: "pie",
-                name: "Wykres kołowy - Światła",
+                hole: 0.3, // efekt donut
+                name: "Procent udziału we włączonym świetle",
+                textinfo: "label+percent",
+
+                textposition: "inside",
+                marker: {
+                  line: {
+                    color: "#ffffff",
+                    width: 2,
+                  },
+                },
+                hoverinfo: "label+percent",
               },
             ];
 
             const layout = {
-              title: "Wykres kołowy - Światła",
-              height: 400,
-              width: 500,
+              paper_bgcolor: "rgb(211, 226, 236,)", // tło całego wykresu
+              plot_bgcolor: "rgb(211, 226, 236,)", // tło obszaru wykresu
+
+              title: {
+                text: "Procent udziału we włączonym świetle",
+                font: {
+                  size: 18,
+                },
+              },
+              height: 450,
+              width: 550,
+              margin: { t: 30, b: 30, l: 30, r: 30 },
+              uniformtext: {
+                minsize: 12,
+                mode: "hide",
+              },
             };
 
             Plotly.newPlot("myDiv2", data, layout, { responsive: true });
@@ -312,6 +336,8 @@
               };
 
               const layout = {
+                paper_bgcolor: "rgb(252 252 252)", // tło całego wykresu rgb(211 226 236)
+                plot_bgcolor: "rgb(252 252 252)", // tło obszaru wykresu
                 title: {
                   text: sensorNames[i],
                   font: { size: 24, color: "#333" },

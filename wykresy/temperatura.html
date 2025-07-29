@@ -32,8 +32,9 @@
         <button id="linesBtn">Wykres liniowy</button>
       </div>
       <!-- domyslnie ukryty, pokazuje sie jak nie bedzie danych -->
-      <div id="alertBox" class="oaerror danger" style="display: none;">
-          <strong>Error</strong>- You need to remember your username/password. Please try again.
+      <div id="alertBox" class="oaerror danger" style="display: none">
+        <strong>Error</strong>- You need to remember your username/password.
+        Please try again.
       </div>
 
       <div id="myPlot" style="width: 100%"></div>
@@ -108,6 +109,8 @@
             }
 
             const defaultLayout = {
+              bgcolor: "rgb(211, 226, 236)", // tło całego wykresu
+              bgcolor: "rgb(211, 226, 236)", // tło obszaru wykresu
               height: 650,
               title: "Temperatura",
               xaxis: {
@@ -125,8 +128,9 @@
             let alertBox = document.getElementById("alertBox");
             if (dane[`Temp. ${pietro}_1`].length == 0) {
               alertBox.style.display = "block";
-              alertBox.innerHTML = "<strong>Uwaga</strong> - Brak danych do wyświetlenia wykresu. Proszę podać daty pomiaru.";
-            }else{
+              alertBox.innerHTML =
+                "<strong>Uwaga</strong> - Brak danych do wyświetlenia wykresu. Proszę podać daty pomiaru.";
+            } else {
               alertBox.style.display = "none";
             }
 
