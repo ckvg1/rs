@@ -12,39 +12,37 @@
     $pietro = isset($_GET["pietro"]) ? intval($_GET["pietro"]) : 1;
 
      switch($pietro){
-        case 1:
-            $sql= "SELECT l1_1_1, l1_1_2, l1_2_1, l1_2_2, l1_3_1, l1_3_2, 
-                        l1_4_1, l1_4_2, l1_5_1, l1_5_2, 
-                        l1_6_1, l1_6_2, l1_7_1, l1_7_2,
-                        data
-                        data
-                        FROM light  
-                        WHERE data > NOW() - INTERVAL 7 DAY 
-                        ORDER BY data DESC";
-                        WHERE data > NOW() - INTERVAL 7 DAY 
-                        ORDER BY data DESC";
-            break;
-        case 2:
-            $sql = "SELECT l2_1_1, l2_1_2, l2_2_1, l2_2_2, l2_3_1, l2_3_2, 
-                        l2_4_1, l2_4_2, l2_5_1, l2_5_2, 
-                        l2_6_1, l2_6_2, l2_7_1, l2_7_2,
-                        data
-                        FROM light  
-                        WHERE data > NOW() - INTERVAL 7 DAY 
-                        ORDER BY data DESC";
-            break;
-        case 3:
-            $sql = "SELECT l3_1_1, l3_1_2, l3_2_1, l3_2_2, l3_3_1, l3_3_2, 
-                        l3_4_1, l3_4_2, l3_5_1, l3_5_2, 
-                        l3_6_1, l3_6_2, l3_7_1, l3_7_2,
-                        data
-                        FROM light  
-                        WHERE data > NOW() - INTERVAL 7 DAY 
-                        ORDER BY data DESC";
-            break;
-        default:
-            die("Nieprawidłowe piętro");
-     }
+    case 1:
+        $sql = "SELECT l1_1_1, l1_1_2, l1_2_1, l1_2_2, l1_3_1, l1_3_2, 
+                      l1_4_1, l1_4_2, l1_5_1, l1_5_2, 
+                      l1_6_1, l1_6_2, l1_7_1, l1_7_2,
+                      data
+                      FROM light  
+                      WHERE data > NOW() - INTERVAL 7 DAY 
+                      ORDER BY data DESC";
+        break;
+    case 2:
+        $sql = "SELECT l2_1_1, l2_1_2, l2_2_1, l2_2_2, l2_3_1, l2_3_2, 
+                      l2_4_1, l2_4_2, l2_5_1, l2_5_2, 
+                      l2_6_1, l2_6_2, l2_7_1, l2_7_2,
+                      data
+                      FROM light  
+                      WHERE data > NOW() - INTERVAL 7 DAY 
+                      ORDER BY data DESC";
+        break;
+    case 3:
+        $sql = "SELECT l3_1_1, l3_1_2, l3_2_1, l3_2_2, l3_3_1, l3_3_2, 
+                      l3_4_1, l3_4_2, l3_5_1, l3_5_2, 
+                      l3_6_1, l3_6_2, l3_7_1, l3_7_2,
+                      data
+                      FROM light  
+                      WHERE data > NOW() - INTERVAL 7 DAY 
+                      ORDER BY data DESC";
+        break;
+    default:
+        die("Nieprawidłowe piętro");
+}
+
      // Inicjalizacja tablic
      $l1_1_1 = [];
      $l1_1_2 = [];
