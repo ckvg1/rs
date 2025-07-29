@@ -53,8 +53,13 @@ section div{
 .stats_div{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
+    width: 50%;
+    
+}
+.stats_div p{
+    text-align: left;;
 }
 .icons_div img{
     width: 40px;
