@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // dezaktwyuje wszystkie zakldadki i usuwa klase
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
-
+            
             // aktywuje zakladke kliknieta i dodaje klase active
             button.classList.add('active');
             const tabId = button.getAttribute('data-tab');

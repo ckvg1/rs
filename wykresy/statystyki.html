@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Statystyki</title>
+        <link rel="icon" type="image/x-icon" href="wykresy/icon.png">
+        <link rel="stylesheet" href="./css/statystyki.css">
+        <link rel="stylesheet" href="../css_main/czcionka.css">
+        
+    </head>
+    <body>
+        <div class="flex_div">
+            <section id="statystykiTemperatura">
+                <h1> Temperatura (7dni) </h1>
+                <div>
+                    <select>
+                        <option selected value="1">Piętro 1</option>
+                        <option value="2">Piętro 2</option>
+                        <option value="3">Piętro 3</option>
+                    </select>
+                </div>
+                <p id="najnizszaTemperatura" ></p> 
+                <p id="sredniaTemperatura"></p>
+                <p id="najwyzszaTemperatura" ></p>
+                <p id="sredniaTemperaturaZewnetrzna" ></p>
+                
+            </section>
+            <section>
+                To jest sekcja 2
+            </section>
+            <section>
+                To jest sekcja 3
+            </section> 
+        </div>
+        <div class="flex_div" >
+            <section>
+                To jest sekcja 4
+            </section>
+            <section>
+                To jest sekcja  5
+            </section>
+            <section>
+                To jest sekcja 6
+            </section>
+       </div>
+        <script>
+            
+            let pietroTemperatura = document.querySelector("#statystykiTemperatura select");
+            let pietroTemperaturaValue = 3; // Domyślne piętro
+
+            addEventListener("DOMContentLoaded", function() {
+                // Pobierz dane dla domyślnego piętra
+                fetch('odczytaj_statystyki.php?pietro=' + pietroTemperaturaValue)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("najnizszaTemperatura").innerHTML = ("MIN TEMP IN: " + data.najmniejszaTemperatura) + "  Czujnik: " + data.najnizszaTemperaturaCzujnik;
+                        document.getElementById("sredniaTemperatura").innerHTML = ("AVG TEMP IN: " + data.sredniaTemperatura);
+                        document.getElementById("najwyzszaTemperatura").innerHTML = ("MAX TEMP IN: " + data.najwyzszaTemperatura + "  Czujnik: " + data.najwyzszaTemperaturaCzujnik);
+                        document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML = ("AVG TEMP OUT: " + data.sredniaZewnetrzna);
+                    }).catch(error => console.error('Błąd:', error));
+            });
+
+            pietroTemperatura.addEventListener("change", function() {
+                pietroTemperaturaValue = pietroTemperatura.value;
+                console.log("Wybrane piętro (temperatura): " + pietroTemperaturaValue);
+                fetch('odczytaj_statystyki.php?pietro=' + pietroTemperaturaValue)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("najnizszaTemperatura").innerHTML = ("Najnizsza temperatura: " + data.najmniejszaTemperatura + "  Czujnik: " + data.najnizszaTemperaturaCzujnik);
+                        document.getElementById("sredniaTemperatura").innerHTML = ("Srednia temperatura w budynku: " + data.sredniaTemperatura );
+                        document.getElementById("najwyzszaTemperatura").innerHTML = ("Najwyzsza temperatura: " + data.najwyzszaTemperatura   + "  Czujnik: " + data.najwyzszaTemperaturaCzujnik);
+                        document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML = ("Srednia temperatura zewnetrzna: " + data.sredniaZewnetrzna);
+                    }).catch(error => console.error('Błąd:', error));
+            });
+                
+        </script>
+    </body>
+</html>
