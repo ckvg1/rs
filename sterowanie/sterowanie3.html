@@ -39,7 +39,7 @@
       font-family: 'Ubuntu';
     "
   >
-    <h1>Sterowanie urządzeniami</h1>
+    <h1 style="font-size: 18pt">Sterowanie urządzeniami - 3 piętro</h1>
 
     <div
       style="display: flex; flex-direction: row; gap: 15px; align-items: center"
@@ -215,6 +215,8 @@
       addEventListener("DOMContentLoaded", () => {
         // start interwałów
         pobierzDaneSwiatlo();
+        pobierzDaneTemp();
+        //pobierzDaneTemp();
         swiatloInterval = setInterval(pobierzDaneSwiatlo, 100);
         tempInterval = setInterval(pobierzDaneTemp, 5000);
       });
@@ -227,8 +229,6 @@
           // możesz też anulować fetch z AbortController, jeśli chcesz
         }
       });
-
-      //pobierzDaneTemp();
 
       function pobierzDaneSwiatlo() {
         axios
