@@ -245,7 +245,10 @@ function policzProcentDlaParyCzujnikow($czujnik1, $czujnik2) {
     // Iterujemy przez każdy odczyt
     for ($i = 0; $i < $iloscOdczytow; $i++) {
         // Jeśli któregokolwiek z czujników jest włączony (1), uznajemy, że światło było włączone
-        if ($czujnik1[$i] == 1 || $czujnik2[$i] == 1) {
+        if ($czujnik1[$i] == 1 ) {
+            $aktywnych++;
+        }
+        if($czujnik2[$i] == 1 ) {
             $aktywnych++;
         }
     }
