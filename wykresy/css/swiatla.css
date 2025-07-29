@@ -1,4 +1,3 @@
-
 body {
   font-family: "Ubuntu", Courier, monospace;
   background-color: #d3e2ec;
@@ -26,8 +25,16 @@ button {
   cursor: pointer;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
+#myDiv {
+  margin: auto;
+}
 #myDiv2 {
   display: block;
+}
+#myDiv2 h3 {
+  color: crimson;
+  font-size: 20px;
+  margin: 20px 0;
 }
 #myPlot {
   width: 100%;
@@ -59,6 +66,9 @@ select:focus {
 }
 
 @media (max-width: 1100px) {
+  #myDiv {
+    display: none;
+  }
   header img {
     width: 400px;
   }
@@ -73,8 +83,8 @@ select:focus {
   }
 }
 
-@media (max-width: 520px){
-  #myDiv2{
+@media (max-width: 520px) {
+  #myDiv2 {
     scale: 0.8;
   }
 }
