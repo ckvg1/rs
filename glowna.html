@@ -1,56 +1,84 @@
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Hub</title>
-    <link rel="icon" type="image/x-icon" href="wykresy/icon.png" />
-    <link rel="stylesheet" href="./css_main/style.css">
-    <link rel="stylesheet" href="./css_main/czcionka.css">
-</head>
-<body>
+    <link rel="icon" type="image/x-icon" href="wykresy/img/icon.png" />
+    <link rel="stylesheet" href="./css_main/style.css" />
+    <link rel="stylesheet" href="./css_main/czcionka.css" />
+  </head>
+  <body>
     <header>
-        <img src="logo.svg" alt="Logo" class="logo">
-        <div class="hamburger" onclick="hamburger(this)">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-        </div>
-        <nav class="tabs">
-            <ul class="tabs-list">
-                <li><button class="tab-button active" data-tab="podsumowanie" d>Podsumowanie</button></li>
-                <li><button class="tab-button" data-tab="swiatla" data-src="wykresy/swiatla.html">Światło</button></li>
-                <li><button class="tab-button" data-tab="temperatura" data-src="wykresy/temperatura.html">Temperatura</button></li>
-                <li><button class="tab-button" data-tab="pietro1">Piętro 1</button></li>
-                <li><button class="tab-button" data-tab="pietro2">Piętro 2</button></li>
-                <li><button class="tab-button" data-tab="pietro3" data-src="sterowanie/sterowanie3.html">Piętro 3</button></li>
-            </ul>
-        </nav>
+      <img src="logo.svg" alt="Logo" class="logo" />
+      <div class="hamburger" onclick="hamburger(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+      <nav class="tabs">
+        <ul class="tabs-list">
+          <li>
+            <button class="tab-button active" data-tab="podsumowanie" d>
+              Podsumowanie
+            </button>
+          </li>
+          <li>
+            <button
+              class="tab-button"
+              data-tab="swiatla"
+              data-src="wykresy/swiatla.html"
+            >
+              Światło
+            </button>
+          </li>
+          <li>
+            <button
+              class="tab-button"
+              data-tab="temperatura"
+              data-src="wykresy/temperatura.html"
+            >
+              Temperatura
+            </button>
+          </li>
+          <li>
+            <button class="tab-button" data-tab="pietro1">Piętro 1</button>
+          </li>
+          <li>
+            <button class="tab-button" data-tab="pietro2">Piętro 2</button>
+          </li>
+          <li>
+            <button
+              class="tab-button"
+              data-tab="pietro3"
+              data-src="sterowanie/sterowanie3.html"
+            >
+              Piętro 3
+            </button>
+          </li>
+        </ul>
+      </nav>
     </header>
 
     <main>
-        <section id="podsumowanie" class="tab-content active">
-            <h1>glowna zakladka</h1>
-        </section>
-        <section id="swiatla" class="tab-content">  
-                  
-        </section>
-        <section id="temperatura" class="tab-content">
-            
-        </section>
-        <section id="pietro1" class="tab-content">
-            <h1>strona 2 </h1>
-            <p> zakladka</p>
-        </section>
-        <section id="pietro2" class="tab-content">
-            <h1>strona 3</h1>
-            <p>zakladka</p>
-        </section>
-        <section id="pietro3" class="tab-content">
-            <h1>strona 3</h1>
-            <p>zakladka</p>
-        </section>
+      <section id="podsumowanie" class="tab-content active">
+        <h1>glowna zakladka</h1>
+      </section>
+      <section id="swiatla" class="tab-content"></section>
+      <section id="temperatura" class="tab-content"></section>
+      <section id="pietro1" class="tab-content">
+        <h1>strona 2</h1>
+        <p>zakladka</p>
+      </section>
+      <section id="pietro2" class="tab-content">
+        <h1>strona 3</h1>
+        <p>zakladka</p>
+      </section>
+      <section id="pietro3" class="tab-content">
+        <h1>strona 3</h1>
+        <p>zakladka</p>
+      </section>
     </main>
 
     <script src="./js/tabs.js"></script>
-</body>
+  </body>
 </html>
