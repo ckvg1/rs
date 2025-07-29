@@ -43,3 +43,25 @@ section div{
 .avg{
     color:rgb(112, 112, 28);
 }
+.icons_div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+.stats_div{
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: center;
+    width: 50%;
+    
+}
+.stats_div p{
+    text-align: left;;
+}
+.icons_div img{
+    width: 40px;
+    height: 40px;
+}

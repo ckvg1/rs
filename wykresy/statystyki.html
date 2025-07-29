@@ -19,10 +19,22 @@
                         <option value="3">Piętro 3</option>
                     </select>
                 </div>
-                <p id="najnizszaTemperatura" ></p> 
+                <div style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+                    
+                <div class="icons_div">
+                    <img src="img/temp_high.png"> 
+                    <img src="img/chart.png">
+                    <img src="img/temp_low.png">
+                    <img src="img/outdoor.png">
+                </div>  
+                <div class="stats_div">
+                    <p id="najnizszaTemperatura"></p> 
                 <p id="sredniaTemperatura"></p>
                 <p id="najwyzszaTemperatura" ></p>
                 <p id="sredniaTemperaturaZewnetrzna" ></p>
+                </div>
+            </div>
+                
                 
             </section>
             <section>
@@ -53,10 +65,10 @@
                 fetch('odczytaj_statystyki.php?pietro=' + pietroTemperaturaValue)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById("najnizszaTemperatura").innerHTML = ("MIN TEMP IN: " + data.najmniejszaTemperatura) + "  Czujnik: " + data.najnizszaTemperaturaCzujnik;
-                        document.getElementById("sredniaTemperatura").innerHTML = ("AVG TEMP IN: " + data.sredniaTemperatura);
-                        document.getElementById("najwyzszaTemperatura").innerHTML = ("MAX TEMP IN: " + data.najwyzszaTemperatura + "  Czujnik: " + data.najwyzszaTemperaturaCzujnik);
-                        document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML = ("AVG TEMP OUT: " + data.sredniaZewnetrzna);
+                        document.getElementById("najnizszaTemperatura").innerHTML = ( data.najmniejszaTemperatura) + " Czujnik: " + data.najnizszaTemperaturaCzujnik;
+                        document.getElementById("sredniaTemperatura").innerHTML = ( data.sredniaTemperatura);
+                        document.getElementById("najwyzszaTemperatura").innerHTML = ( data.najwyzszaTemperatura + " Czujnik: " + data.najwyzszaTemperaturaCzujnik);
+                        document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML = ( data.sredniaZewnetrzna);
                     }).catch(error => console.error('Błąd:', error));
             });
 
@@ -66,10 +78,10 @@
                 fetch('odczytaj_statystyki.php?pietro=' + pietroTemperaturaValue)
                     .then(response => response.json())
                     .then(data => {
-                        document.getElementById("najnizszaTemperatura").innerHTML = ("MIN TEMP IN: " + data.najmniejszaTemperatura + "  Czujnik: " + data.najnizszaTemperaturaCzujnik);
-                        document.getElementById("sredniaTemperatura").innerHTML = ("AVG TEMP IN: " + data.sredniaTemperatura );
-                        document.getElementById("najwyzszaTemperatura").innerHTML = ("MAX TEMP IN: " + data.najwyzszaTemperatura   + "  Czujnik: " + data.najwyzszaTemperaturaCzujnik);
-                        document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML = ("AVG TEMP OUT: " + data.sredniaZewnetrzna);
+                        document.getElementById("najnizszaTemperatura").innerHTML = ( data.najmniejszaTemperatura + " Czujnik: " + data.najnizszaTemperaturaCzujnik);
+                        document.getElementById("sredniaTemperatura").innerHTML = (data.sredniaTemperatura );
+                        document.getElementById("najwyzszaTemperatura").innerHTML = ( data.najwyzszaTemperatura   + " Czujnik: " + data.najwyzszaTemperaturaCzujnik);
+                        document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML = (  data.sredniaZewnetrzna);
                     }).catch(error => console.error('Błąd:', error));
             });
                 
