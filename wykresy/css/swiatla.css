@@ -26,6 +26,10 @@ button {
   cursor: pointer;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
 }
+#myDiv{
+  width: 80%;
+  margin: auto;
+}
 #myDiv2 {
   display: block;
 }
@@ -59,6 +63,9 @@ select:focus {
 }
 
 @media (max-width: 1100px) {
+  #myDiv1{
+    display: none;
+  }
   header img {
     width: 400px;
   }
