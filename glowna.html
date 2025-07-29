@@ -9,46 +9,83 @@
   </head>
   <body>
     <header>
-        <img src="logo.svg" alt="Logo" class="logo">
-        <div class="hamburger" onclick="hamburger(this)">
-            <div class="bar1"></div>
-            <div class="bar2"></div>
-            <div class="bar3"></div>
-        </div>
-        <nav class="tabs">
-            <ul class="tabs-list">
-                <li><button class="tab-button active" data-tab="statystyki" data-src="wykresy/statystyki.html">Statystyki</button></li>
-                <li><button class="tab-button" data-tab="swiatla" data-src="wykresy/swiatla.html">Światło</button></li>
-                <li><button class="tab-button" data-tab="temperatura" data-src="wykresy/temperatura.html">Temperatura</button></li>
-                <li><button class="tab-button" data-tab="pietro1">Piętro 1</button></li>
-                <li><button class="tab-button" data-tab="pietro2">Piętro 2</button></li>
-                <li><button class="tab-button" data-tab="pietro3" data-src="sterowanie/sterowanie3.html">Piętro 3</button></li>
-            </ul>
-        </nav>
+      <img src="logo.svg" alt="Logo" class="logo" />
+      <div class="hamburger" onclick="hamburger(this)">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </div>
+      <nav class="tabs">
+        <ul class="tabs-list">
+          <li>
+            <button
+              class="tab-button active"
+              data-tab="statystyki"
+              data-src="wykresy/statystyki.html"
+            >
+              Statystyki
+            </button>
+          </li>
+          <li>
+            <button
+              class="tab-button"
+              data-tab="swiatla"
+              data-src="wykresy/swiatla.html"
+            >
+              Światło
+            </button>
+          </li>
+          <li>
+            <button
+              class="tab-button"
+              data-tab="temperatura"
+              data-src="wykresy/temperatura.html"
+            >
+              Temperatura
+            </button>
+          </li>
+          <li>
+            <button class="tab-button" data-tab="pietro1">Piętro 1</button>
+          </li>
+          <li>
+            <button class="tab-button" data-tab="pietro2">Piętro 2</button>
+          </li>
+          <li>
+            <button
+              class="tab-button"
+              data-tab="pietro3"
+              data-src="sterowanie/sterowanie3.html"
+            >
+              Piętro 3
+            </button>
+          </li>
+        </ul>
+      </nav>
     </header>
 
     <main>
-        <section id="statystyki" class="tab-content active">
-            <iframe src="wykresy/statystyki.html" frameborder="0" width="100%" height="100%"></iframe>
-        </section>
-        <section id="swiatla" class="tab-content">  
-                  
-        </section>
-        <section id="temperatura" class="tab-content">
-            
-        </section>
-        <section id="pietro1" class="tab-content">
-            <h1>strona 2 </h1>
-            <p> zakladka</p>
-        </section>
-        <section id="pietro2" class="tab-content">
-            <h1>strona 3</h1>
-            <p>zakladka</p>
-        </section>
-        <section id="pietro3" class="tab-content">
-            <h1>strona 3</h1>
-            <p>zakladka</p>
-        </section>
+      <section id="statystyki" class="tab-content active">
+        <iframe
+          src="wykresy/statystyki.html"
+          frameborder="0"
+          width="100%"
+          height="100%"
+        ></iframe>
+      </section>
+      <section id="swiatla" class="tab-content"></section>
+      <section id="temperatura" class="tab-content"></section>
+      <section id="pietro1" class="tab-content">
+        <h1>strona 2</h1>
+        <p>zakladka</p>
+      </section>
+      <section id="pietro2" class="tab-content">
+        <h1>strona 3</h1>
+        <p>zakladka</p>
+      </section>
+      <section id="pietro3" class="tab-content">
+        <h1>strona 3</h1>
+        <p>zakladka</p>
+      </section>
     </main>
 
     <script src="./js/tabs.js"></script>
