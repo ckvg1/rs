@@ -135,7 +135,8 @@
           date.getHours()
         ).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
       }
-
+      // Jezeli sa jakies dane to zwraca true, w przeciwnym razie false
+      // Uzywane do sprawdzenia czy wykres kolowy ma byc wyswietlany
       function sprawdzCzySaDane(dane) {
         for (let i = 0; i < dane.length - 1; i++) {
           if (dane[i] !== 0) return true;
@@ -149,7 +150,7 @@
           .then((dane) => {
             if (!sprawdzCzySaDane(Object.values(dane))) {
               document.getElementById("myDiv2").innerHTML =
-                "<h3>Brak danych do wyświetlenia wykresu, lub wszystkie światła były wyłączone.</h3>";
+                "<h3>Brak danych do wyświetlenia wykresu";
               return;
             }
 

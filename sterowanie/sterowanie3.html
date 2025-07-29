@@ -38,14 +38,11 @@
       gap: 0px;
     "
   >
-    
     <h1>Sterowanie urządzeniami</h1>
 
     <div
       style="display: flex; flex-direction: row; gap: 15px; align-items: center"
-    >
-      
-    </div>
+    ></div>
     <div
       id="myDiv"
       class="main_image"
@@ -65,7 +62,7 @@
       </a>
       <div
         class="temperatura"
-        id="temperatura1"
+        id="t3_1"
         style="position: absolute; top: 21%; left: 19%"
       >
         35 *C
@@ -87,7 +84,7 @@
       </a>
       <div
         class="temperatura"
-        id="temperatura2"
+        id="t3_2"
         style="position: absolute; top: 24%; left: 54%"
       >
         25 *C
@@ -109,7 +106,7 @@
       </a>
       <div
         class="temperatura"
-        id="temperatura3"
+        id="t3_3"
         style="position: absolute; top: 24%; left: 73%"
       >
         17 *C
@@ -131,7 +128,7 @@
       </a>
       <div
         class="temperatura"
-        id="temperatura4"
+        id="t3_4"
         style="position: absolute; top: 65%; left: 18%"
       >
         22 *C
@@ -153,7 +150,7 @@
       </a>
       <div
         class="temperatura"
-        id="temperatura5"
+        id="t3_5"
         style="position: absolute; top: 62%; left: 39%"
       >
         19 *C
@@ -175,7 +172,7 @@
       </a>
       <div
         class="temperatura"
-        id="temperatura6"
+        id="t3_6"
         style="position: absolute; top: 62%; left: 55%"
       >
         27 *C
@@ -204,7 +201,7 @@
       </a>
       <div
         class="temperatura"
-        id="temperatura7"
+        id="t3_7"
         style="position: absolute; top: 62%; left: 73%"
       >
         20 *C
@@ -213,15 +210,25 @@
 
     <script>
       //const axios = require("axios/dist/browser/axios.cjs");
-      let temperatureLoaded = false;
-      addEventListener("DOMContentLoaded", (event) => {
+      let tempInterval, swiatloInterval;
+      addEventListener("DOMContentLoaded", () => {
+        // start interwałów
         pobierzDaneSwiatlo();
-
-        //pobierzDaneTemp();
+        swiatloInterval = setInterval(pobierzDaneSwiatlo, 100);
+        tempInterval = setInterval(pobierzDaneTemp, 10000);
       });
+
+      window.addEventListener("message", (event) => {
+        if (event.data === "cleanup") {
+          console.log("zatrzymywanie pobierania danych");
+          clearInterval(tempInterval);
+          clearInterval(swiatloInterval);
+          // możesz też anulować fetch z AbortController, jeśli chcesz
+        }
+      });
+
       //pobierzDaneTemp();
-      setInterval(pobierzDaneTemp, 10000);
-      setInterval(pobierzDaneSwiatlo, 100);
+
       function pobierzDaneSwiatlo() {
         axios
           .get("http://192.168.0.18:3000/swiatla/wyjscia")
