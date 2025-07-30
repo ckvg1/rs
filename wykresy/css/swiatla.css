@@ -1,6 +1,6 @@
 body {
   font-family: "Ubuntu", Courier, monospace;
-  background-color: white;
+  background-color: #f4f7f9;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -38,11 +38,18 @@ button:hover {
 #myDiv2 {
   display: block;
 }
-#myDiv2 h3 {
-  color: crimson;
-  font-size: 20px;
-  margin: 20px 0;
+.oaerror {
+  width: 80%;
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  margin: 10px auto;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
 }
+
 #myPlot {
   width: 100%;
   height: 400px;
