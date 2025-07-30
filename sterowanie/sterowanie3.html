@@ -286,11 +286,11 @@
       let tempInterval, swiatloInterval;
       addEventListener("DOMContentLoaded", () => {
         // start interwałów
-        pobierzDaneSwiatlo();
-        pobierzDaneTemp();
+        //pobierzDaneSwiatlo();
         //pobierzDaneTemp();
-        swiatloInterval = setInterval(pobierzDaneSwiatlo, 100);
-        tempInterval = setInterval(pobierzDaneTemp, 5000);
+        //pobierzDaneTemp();
+        swiatloInterval = setInterval(pobierzDaneSwiatlo, 1000);
+        tempInterval = setInterval(pobierzDaneTemp, 10000);
       });
 
       window.addEventListener("message", (event) => {

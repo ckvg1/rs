@@ -320,7 +320,8 @@
               const sensorKey = czujniki[i];
               const plotDiv = document.createElement("div");
               plotDiv.id = "plotSensor" + (i + 1);
-              plotDiv.style.width = "48%";
+              plotDiv.className = "plotSensor";
+              // plotDiv.style.width = "48%";
               plotDiv.style.margin = "1%";
               plotDiv.style.height = "400px";
               plotDiv.style.float = "left";

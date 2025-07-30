@@ -21,7 +21,7 @@ button {
   color: white;
   padding: 12px 24px;
   font-size: 16px;
-  border: 2px white solid;
+  border: 2px #2a80f9 solid;
   border-radius: 6px;
   cursor: pointer;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
@@ -30,7 +30,10 @@ button {
 button:hover {
   background-color: white;
   color: #2a80f9;
-  border: 2px #2a80f9 solid;
+}
+button:active {
+  background-color: #2a80f9;
+  color: white;
 }
 #myDiv {
   margin: auto;
@@ -48,6 +51,7 @@ button:hover {
   margin: 10px auto;
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
+  text-align: left;
 }
 
 #myPlot {
@@ -84,10 +88,11 @@ input:focus, select:focus {
   padding: 8px 20px;
 }
 
+.plotSensor{
+  width: 48%;
+}
+
 @media (max-width: 1100px) {
-  #myDiv {
-    display: none;
-  }
   header img {
     width: 400px;
   }
@@ -101,9 +106,20 @@ input:focus, select:focus {
     font-size: 18px;
   }
 }
-
+@media (max-width:900px){
+  #myDiv{
+    width: 100%;
+    margin: auto;
+  }
+  #myDiv img{
+    width: 100%;
+  }
+  .plotSensor{
+    width: 98%;
+  }
+}
 @media (max-width: 520px) {
   #myDiv2 {
-    scale: 0.8;
+    width: 100%;
   }
 }
