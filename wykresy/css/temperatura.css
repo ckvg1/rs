@@ -1,6 +1,6 @@
 body {
   font-family: "Ubuntu", Courier, monospace;
-  background-color: white;
+  background-color: #f4f7f9;
   margin: 0;
   padding: 20px;
 }
@@ -79,7 +79,7 @@ input:focus, select:focus {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  background-color: white;
+  background-color: #f4f7f9;
 }
 header img {
   width: 200px;
