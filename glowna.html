@@ -9,7 +9,22 @@
   </head>
   <body>
     <header>
-      <img src="logo.svg" alt="Logo" class="logo" />
+      <!-- div tylko dla lepszego ustawienia na stronie (logo i ikona obok siebie)-->
+      <div id="logo_settings">
+        <img src="logo.svg" alt="Logo" class="logo" />
+        <img onmouseover="hover(settings_icon)" onmouseleave="unhover(settings_icon)" src="./img_main/settings.png" alt="Settings" id="settings_icon" />
+      </div>
+      <script>
+        function hover(element) {
+          
+          element.setAttribute('src', './img_main/settings-move.gif');
+        }
+        function unhover(element) {
+            
+            element.setAttribute('src', './img_main/settings.png');
+        }
+      </script>
+      
       <div class="hamburger" onclick="hamburger(this)">
         <div class="bar1"></div>
         <div class="bar2"></div>
@@ -63,6 +78,70 @@
       </nav>
     </header>
 
+    <div id="settingsModal" class="modal">
+      <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Ustawienia</h2>
+        <p>Światła</p>
+        <select id="pietro_settings_select">
+          <option value="pietro1"> Piętro 1</option>
+          <option value="pietro2"> Piętro 2</option>
+          <option value="pietro3"> Piętro 3</option>
+        </select>
+        <div id="pietro1_urzadzenia">
+        <form id="settingsForm1" class="settings_forms">
+          <label for="l1_1_1">Światło 1_1_1:</label>
+          <input type="text" id="l1_1_1" name="device1" value="1_1_1" />
+          <br />
+          <label for="l1_1_2">Światło 1_1_2:</label>
+          <input type="text" id="l1_1_2" name="device2" value="1_1_2" />
+          <br />
+          <label for="l1_2_1">Światło 1_2_1:</label>
+          <input type="text" id="l1_2_1" name="device3" value="1_2_1" />
+          <br />
+          <label for="l1_2_2">Światło 1_2_2:</label>
+          <input type="text" id="l1_2_2" name="device4" value="1_2_2" />
+          <br />
+          <label for="l1_3_1">Światło 1_3_1:</label>
+          <input type="text" id="l1_3_1" name="device5" value="1_3_1" />
+          <br />
+          <label for="l1_3_2">Światło 1_3_2:</label>
+          <input type="text" id="l1_3_2" name="device6" value="1_3_2" />
+          <br />
+          <label for="l1_4_1">Światło 1_4_1:</label>
+          <input type="text" id="l1_4_1" name="device7" value="1_4_1" />
+          <br />
+          <label for="l1_4_2">Światło 1_4_2:</label>
+          <input type="text" id="l1_4_2" name="device8" value="1_4_2" />
+          <br />
+          <label for="l1_5_1">Światło 1_5_1:</label>
+          <input type="text" id="l1_5_1" name="device9" value="1_5_1" />
+          <br />
+          <label for="l1_5_2">Światło 1_5_2:</label>
+          <input type="text" id="l1_5_2" name="device10" value="1_5_2" />
+          <br />
+          <label for="l1_6_1">Światło 1_6_1:</label>
+          <input type="text" id="l1_6_1" name="device11" value="1_6_1" />
+          <br />
+          <label for="l1_6_2">Światło 1_6_2:</label>
+          <input type="text" id="l1_6_2" name="device12" value="1_6_2" />
+          <br />
+          <label for="l1_7_1">Światło 1_7_1:</label>
+          <input type="text" id="l1_7_1" name="device13" value="1_7_1" />
+          <br />
+          <label for="l1_7_2">Światło 1_7_2:</label>
+          <input type="text" id="l1_7_2" name="device14" value="1_7_2" />
+          <br/>
+          <!-- DIV do srodkowania-->
+          <div style="width: 100%; text-align: center; margin-top: 5px;">
+            <button type="submit">Zapisz</button>
+          </div>
+        </form>
+        </div>
+        
+      </div>
+    </div>
+
     <main>
       <section id="statystyki" class="tab-content active">
         <iframe
@@ -71,6 +150,7 @@
           width="100%"
           height="100%"
         ></iframe>
+        
       </section>
       <section id="swiatla" class="tab-content"></section>
       <section id="temperatura" class="tab-content"></section>
@@ -89,5 +169,29 @@
     </main>
 
     <script src="./js/tabs.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const modal = document.getElementById("settingsModal");
+        modal.style.display = "flex"; // Hide modal initially
+        const settingsIcon = document.getElementById("settings_icon");
+        settingsIcon.addEventListener("click", () => {
+          modal.style.display = "flex";
+        });
+        function closeModal() {
+          modal.style.display = "none";
+        }
+        window.closeModal = closeModal;
+      });
+    </script>
+    <script>
+      const modal = document.getElementById("settingsModal");
+      const settingsIcon = document.getElementById("settings_icon");
+      settingsIcon.addEventListener("click", () => {
+        modal.style.display = "flex";
+      });
+      function closeModal() {
+        modal.style.display = "none";
+      }
+    </script>
   </body>
 </html>
