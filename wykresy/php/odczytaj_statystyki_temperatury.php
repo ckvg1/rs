@@ -96,6 +96,16 @@
         [$t3_1, $t3_2, $t3_3, $t3_4, $t3_5, $t3_6, $t3_7]
     ];
    
+    $pietro1 = isset($_COOKIE["pietro1"]) ? json_decode($_COOKIE["pietro1"], true) : [];
+    $pietro2 = isset($_COOKIE["pietro2"]) ? json_decode($_COOKIE["pietro2"], true) : [];
+    $pietro3 = isset($_COOKIE["pietro3"]) ? json_decode($_COOKIE["pietro3"], true) : [];
+   
+    $nazwy_czujnikow = [
+        [$pietro1["t1_1"],$pietro1["t1_2"], $pietro1["t1_3"], $pietro1["t1_4"], $pietro1["t1_5"], $pietro1["t1_6"], $pietro1["t1_7"]],
+        [$pietro2["t2_1"],$pietro2["t2_2"], $pietro2["t2_3"], $pietro2["t2_4"], $pietro2["t2_5"], $pietro2["t2_6"], $pietro2["t2_7"]],
+        [$pietro3["t3_1"],$pietro3["t3_2"], $pietro3["t3_3"], $pietro3["t3_4"], $pietro3["t3_5"], $pietro3["t3_6"], $pietro3["t3_7"]]
+    ];
+        
 
     // Funkcje
     function znajdzNajmniejszaTemperature($tablica) {
@@ -106,7 +116,7 @@
                 $min_local = min($tablica[$i]);
                 if ($najmniejsza === null || $min_local < $najmniejsza) {
                     $najmniejsza = $min_local;
-                    $czujnik = $i + 1;
+                    $czujnik = $i;
                 }
             }
         }
@@ -120,7 +130,7 @@
                 $max_local = max($tablica[$i]);
                 if ($najwyzsza === null || $max_local > $najwyzsza) {
                     $najwyzsza = $max_local;
-                    $czujnik = $i + 1;
+                    $czujnik = $i;
                 }
             }
         }
@@ -158,8 +168,8 @@
         'najmniejszaTemperatura' => $najnizsza['temp'],
         'najwyzszaTemperatura' => $najwyzsza['temp'],
         'sredniaTemperatura' => $srednia,
-        'najnizszaTemperaturaCzujnik' => $najnizsza['czujnik'],
-        'najwyzszaTemperaturaCzujnik' => $najwyzsza['czujnik'],
+        'najnizszaTemperaturaCzujnik' => $nazwy_czujnikow[$pietro-1][$najnizsza['czujnik']],
+        'najwyzszaTemperaturaCzujnik' => $nazwy_czujnikow[$pietro-1][$najwyzsza['czujnik']],
         'sredniaZewnetrzna' => $sredniaTempZewn
         
     ];
