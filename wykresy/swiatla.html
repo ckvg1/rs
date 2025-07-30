@@ -38,8 +38,9 @@
     <!-- Heatmap and Plotly Divs 
   myDiv is for the heatmap, myDiv2 is for additional content if needed (for mobile screen resolutions), and myPlot is for the Plotly graphs. 
  -->
+   <div id="alertBox" class="oaerror danger" style="display: none"></div>
     <div id="myDiv" class="heatmap">
-      <img src="img/swiatla-bg-podpisane.png" />
+      <img src="img/swiatla-bg.png" />
     </div>
     <div id="myDiv2"></div>
     <div id="myPlot"></div>
@@ -144,9 +145,13 @@
           .then((res) => res.json())
           .then((dane) => {
             if (!sprawdzCzySaDane(Object.values(dane))) {
-              document.getElementById("myDiv2").innerHTML =
-                "<h3>Brak danych do wyświetlenia wykresu</h3>";
+              alertBox = document.getElementById("alertBox");
+              alertBox.style.display = "block";
+              document.querySelector(".oaerror").innerHTML =
+                "<strong>Uwaga</strong> - Brak danych do wyświetlenia wykresu. Proszę podać daty pomiaru.";
               return;
+            }else {
+              alertBox.style.display = "none";
             }
 
             document.getElementById("myDiv2").innerHTML = "";

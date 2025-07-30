@@ -7,7 +7,7 @@ t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7,
 t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7,
 zewnetrzna, czas_dodania 
 FROM temperatura 
-WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
+WHERE czas_dodania > NOW() - INTERVAL 1 DAY 
 ORDER BY czas_dodania DESC";
 
 $czas = [];
