@@ -288,7 +288,6 @@
         // start interwałów
         //pobierzDaneSwiatlo();
         //pobierzDaneTemp();
-        //pobierzDaneTemp();
         swiatloInterval = setInterval(pobierzDaneSwiatlo, 1000);
         tempInterval = setInterval(pobierzDaneTemp, 10000);
       });
@@ -338,7 +337,7 @@
               if (przycisk) {
                 przycisk.innerHTML = `${wartosc.toFixed(1)} *C`;
               } else {
-                console.log("Nie ma takiego diva z temperatura lol", id);
+                console.log("Nie ma takiego diva z temperatura", id);
               }
             });
           })
@@ -350,9 +349,6 @@
         axios
           .put(`http://localhost:3000/swiatla/3/${swiatlo}`, {
             wartosc: true,
-          })
-          .then((response) => {
-            // console.log("Odpowiedź:", response.data);
           })
           .then(() => {
             axios
