@@ -89,62 +89,327 @@
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2>Ustawienia</h2>
         <p>Światła</p>
-        <select id="pietro_settings_select">
+        <select id="pietro_settings_select" onchange="zmienPietroUstawienia()">
           <option value="pietro1"> Piętro 1</option>
           <option value="pietro2"> Piętro 2</option>
           <option value="pietro3"> Piętro 3</option>
         </select>
         <div id="pietro1_urzadzenia">
         <form id="settingsForm1" class="settings_forms">
-          <label for="l1_1_1">Światło 1_1_1:</label>
-          <input type="text" id="l1_1_1" name="device1" value="1_1_1" />
-          <br />
-          <label for="l1_1_2">Światło 1_1_2:</label>
-          <input type="text" id="l1_1_2" name="device2" value="1_1_2" />
-          <br />
-          <label for="l1_2_1">Światło 1_2_1:</label>
-          <input type="text" id="l1_2_1" name="device3" value="1_2_1" />
-          <br />
-          <label for="l1_2_2">Światło 1_2_2:</label>
-          <input type="text" id="l1_2_2" name="device4" value="1_2_2" />
-          <br />
-          <label for="l1_3_1">Światło 1_3_1:</label>
-          <input type="text" id="l1_3_1" name="device5" value="1_3_1" />
-          <br />
-          <label for="l1_3_2">Światło 1_3_2:</label>
-          <input type="text" id="l1_3_2" name="device6" value="1_3_2" />
-          <br />
-          <label for="l1_4_1">Światło 1_4_1:</label>
-          <input type="text" id="l1_4_1" name="device7" value="1_4_1" />
-          <br />
-          <label for="l1_4_2">Światło 1_4_2:</label>
-          <input type="text" id="l1_4_2" name="device8" value="1_4_2" />
-          <br />
-          <label for="l1_5_1">Światło 1_5_1:</label>
-          <input type="text" id="l1_5_1" name="device9" value="1_5_1" />
-          <br />
-          <label for="l1_5_2">Światło 1_5_2:</label>
-          <input type="text" id="l1_5_2" name="device10" value="1_5_2" />
-          <br />
-          <label for="l1_6_1">Światło 1_6_1:</label>
-          <input type="text" id="l1_6_1" name="device11" value="1_6_1" />
-          <br />
-          <label for="l1_6_2">Światło 1_6_2:</label>
-          <input type="text" id="l1_6_2" name="device12" value="1_6_2" />
-          <br />
-          <label for="l1_7_1">Światło 1_7_1:</label>
-          <input type="text" id="l1_7_1" name="device13" value="1_7_1" />
-          <br />
-          <label for="l1_7_2">Światło 1_7_2:</label>
-          <input type="text" id="l1_7_2" name="device14" value="1_7_2" />
-          <br/>
+          <div style="display:flex; flex-direction: row; align-items: flex-start; gap: 40px;">
+            <div class="swiatla_div" id="swiatla_div_1">
+              <label for="l1_1_1">Światło 1_1_1:</label>
+              <input type="text" id="l1_1_1" name="device1" value="1_1_1" />
+              <br />
+              <label for="l1_1_2">Światło 1_1_2:</label>
+              <input type="text" id="l1_1_2" name="device2" value="1_1_2" />
+              <br />
+              <label for="l1_2_1">Światło 1_2_1:</label>
+              <input type="text" id="l1_2_1" name="device3" value="1_2_1" />
+              <br />
+              <label for="l1_2_2">Światło 1_2_2:</label>
+              <input type="text" id="l1_2_2" name="device4" value="1_2_2" />
+              <br />
+              <label for="l1_3_1">Światło 1_3_1:</label>
+              <input type="text" id="l1_3_1" name="device5" value="1_3_1" />
+              <br />
+              <label for="l1_3_2">Światło 1_3_2:</label>
+              <input type="text" id="l1_3_2" name="device6" value="1_3_2" />
+              <br />
+              <label for="l1_4_1">Światło 1_4_1:</label>
+              <input type="text" id="l1_4_1" name="device7" value="1_4_1" />
+              <br />
+              <label for="l1_4_2">Światło 1_4_2:</label>
+              <input type="text" id="l1_4_2" name="device8" value="1_4_2" />
+              <br />
+              <label for="l1_5_1">Światło 1_5_1:</label>
+              <input type="text" id="l1_5_1" name="device9" value="1_5_1" />
+              <br />
+              <label for="l1_5_2">Światło 1_5_2:</label>
+              <input type="text" id="l1_5_2" name="device10" value="1_5_2" />
+              <br />
+              <label for="l1_6_1">Światło 1_6_1:</label>
+              <input type="text" id="l1_6_1" name="device11" value="1_6_1" />
+              <br />
+              <label for="l1_6_2">Światło 1_6_2:</label>
+              <input type="text" id="l1_6_2" name="device12" value="1_6_2" />
+              <br />
+              <label for="l1_7_1">Światło 1_7_1:</label>
+              <input type="text" id="l1_7_1" name="device13" value="1_7_1" />
+              <br />
+              <label for="l1_7_2">Światło 1_7_2:</label>
+              <input type="text" id="l1_7_2" name="device14" value="1_7_2" />
+              <br/>
+            </div>
+            <div class="czujniki_div" id="czujniki_div_1">
+              <label for="t1_1">Czujnik 1:</label>
+              <input type="text" id="t1_1" name="sensor1" value="t1_1" />
+              <br />
+              <label for="t1_2">Czujnik 2:</label>
+              <input type="text" id="t1_2" name="sensor2" value="t1_2" />
+              <br />
+              <label for="t1_3">Czujnik 3:</label>
+              <input type="text" id="t1_3" name="sensor3" value="t1_3" />
+              <br />
+              <label for="t1_4">Czujnik 4:</label>
+              <input type="text" id="t1_4" name="sensor4" value="t1_4" />
+              <br />
+              <label for="t1_5">Czujnik 5:</label>
+              <input type="text" id="t1_5" name="sensor5" value="t1_5" />
+              <br />
+              <label for="t1_6">Czujnik 6:</label>
+              <input type="text" id="t1_6" name="sensor6" value="t1_6" />
+              <br />
+              <label for="t1_7">Czujnik 7:</label>
+              <input type="text" id="t1_7" name="sensor7" value="t1_7" />
+              <br />
+            </div>
+            <div class="pokoje_div" id="pokoje_div_1">
+              <label for="r1_1">Biuro 1:</label>
+              <input type="text" id="r1_1" name="room1" value="Biuro 1" />
+              <br />
+              <label for="r1_2">Biuro 2:</label>
+              <input type="text" id="r1_2" name="room2" value="Biuro 2" />
+              <br />
+              <label for="r1_3">Biuro 3:</label>
+              <input type="text" id="r1_3" name="room3" value="Biuro 3" />
+              <br />
+              <label for="r1_4">Biuro 4:</label>
+              <input type="text" id="r1_4" name="room4" value="Biuro 4" />
+              <br />
+              <label for="r1_5">Biuro 5:</label>
+              <input type="text" id="r1_5" name="room5" value="Biuro 5" />
+              <br />
+              <label for="r1_6">Biuro 6:</label>
+              <input type="text" id="r1_6" name="room6" value="Biuro 6" />
+              <br />
+              <label for="r1_7">Biuro 7:</label>
+              <input type="text" id="r1_7" name="room7" value="Biuro 7" />
+              <br />
+            </div>
+          </div>
           <!-- DIV do srodkowania-->
           <div style="width: 100%; text-align: center; margin-top: 5px;">
             <button type="submit">Zapisz</button>
           </div>
         </form>
         </div>
-        
+
+        <div id="pietro2_urzadzenia" style="display:none;">
+          <form id="settingsForm2" class="settings_forms">
+            <div style="display:flex; flex-direction: row; align-items: flex-start; gap: 40px;">
+              <div class="swiatla_div" id="swiatla_div_2">
+                <label for="l2_1_1">Światło 2_1_1:</label>
+                <input type="text" id="l2_1_1" name="device1" value="2_1_1" />
+                <br />
+                <label for="l2_1_2">Światło 2_1_2:</label>
+                <input type="text" id="l2_1_2" name="device2" value="2_1_2" />
+                <br />
+                <label for="l2_2_1">Światło 2_2_1:</label>
+                <input type="text" id="l2_2_1" name="device3" value="2_2_1" />
+                <br />
+                <label for="l2_2_2">Światło 2_2_2:</label>
+                <input type="text" id="l2_2_2" name="device4" value="2_2_2" />
+                <br />
+                <label for="l2_3_1">Światło 2_3_1:</label>
+                <input type="text" id="l2_3_1" name="device5" value="2_3_1" />
+                <br />
+                <label for="l2_3_2">Światło 2_3_2:</label>
+                <input type="text" id="l2_3_2" name="device6" value="2_3_2" />
+                <br />
+                <label for="l2_4_1">Światło 2_4_1:</label>
+                <input type="text" id="l2_4_1" name="device7" value="2_4_1" />
+                <br />
+                <label for="l2_4_2">Światło 2_4_2:</label>
+                <input type="text" id="l2_4_2" name="device8" value="2_4_2" />
+                <br />
+                <label for="l2_5_1">Światło 2_5_1:</label>
+                <input type="text" id="l2_5_1" name="device9" value="2_5_1" />
+                <br />
+                <label for="l2_5_2">Światło 2_5_2:</label>
+                <input type="text" id="l2_5_2" name="device10" value="2_5_2" />
+                <br />
+                <label for="l2_6_1">Światło 2_6_1:</label>
+                <input type="text" id="l2_6_1" name="device11" value="2_6_1" />
+                <br />
+                <label for="l2_6_2">Światło 2_6_2:</label>
+                <input type="text" id="l2_6_2" name="device12" value="2_6_2" />
+                <br />
+                <label for="l2_7_1">Światło 2_7_1:</label>
+                <input type="text" id="l2_7_1" name="device13" value="2_7_1" />
+                <br />
+                <label for="l2_7_2">Światło 2_7_2:</label>
+                <input type="text" id="l2_7_2" name="device14" value="2_7_2" />
+                <br/>
+              </div>
+              <div class="czujniki_div" id="czujniki_div_2">
+                <label for="t2_1">Czujnik 1:</label>
+                <input type="text" id="t2_1" name="sensor1" value="t2_1" />
+                <br />
+                <label for="t2_2">Czujnik 2:</label>
+                <input type="text" id="t2_2" name="sensor2" value="t2_2" />
+                <br />
+                <label for="t2_3">Czujnik 3:</label>
+                <input type="text" id="t2_3" name="sensor3" value="t2_3" />
+                <br />
+                <label for="t2_4">Czujnik 4:</label>
+                <input type="text" id="t2_4" name="sensor4" value="t2_4" />
+                <br />
+                <label for="t2_5">Czujnik 5:</label>
+                <input type="text" id="t2_5" name="sensor5" value="t2_5" />
+                <br />
+                <label for="t2_6">Czujnik 6:</label>
+                <input type="text" id="t2_6" name="sensor6" value="t2_6" />
+                <br />
+                <label for="t2_7">Czujnik 7:</label>
+                <input type="text" id="t2_7" name="sensor7" value="t2_7" />
+                <br />
+              </div>
+              <div class="pokoje_div" id="pokoje_div_2">
+                <label for="r2_1">Biuro 1:</label>
+                <input type="text" id="r2_1" name="room1" value="Biuro 1" />
+                <br />
+                <label for="r2_2">Biuro 2:</label>
+                <input type="text" id="r2_2" name="room2" value="Biuro 2" />
+                <br />
+                <label for="r2_3">Biuro 3:</label>
+                <input type="text" id="r2_3" name="room3" value="Biuro 3" />
+                <br />
+                <label for="r2_4">Biuro 4:</label>
+                <input type="text" id="r2_4" name="room4" value="Biuro 4" />
+                <br />
+                <label for="r2_5">Biuro 5:</label>
+                <input type="text" id="r2_5" name="room5" value="Biuro 5" />
+                <br />
+                <label for="r2_6">Biuro 6:</label>
+                <input type="text" id="r2_6" name="room6" value="Biuro 6" />
+                <br />
+                <label for="r2_7">Biuro 7:</label>
+                <input type="text" id="r2_7" name="room7" value="Biuro 7" />
+                <br />
+              </div>
+            </div>
+            <div style="width: 100%; text-align: center; margin-top: 5px;">
+              <button type="submit">Zapisz</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="pietro3_urzadzenia" style="display:none;">
+          <form id="settingsForm3" class="settings_forms">
+            <div style="display:flex; flex-direction: row; align-items: flex-start; gap: 40px;">
+              <div class="swiatla_div" id="swiatla_div_3">
+                <label for="l3_1_1">Światło 3_1_1:</label>
+                <input type="text" id="l3_1_1" name="device1" value="3_1_1" />
+                <br />
+                <label for="l3_1_2">Światło 3_1_2:</label>
+                <input type="text" id="l3_1_2" name="device2" value="3_1_2" />
+                <br />
+                <label for="l3_2_1">Światło 3_2_1:</label>
+                <input type="text" id="l3_2_1" name="device3" value="3_2_1" />
+                <br />
+                <label for="l3_2_2">Światło 3_2_2:</label>
+                <input type="text" id="l3_2_2" name="device4" value="3_2_2" />
+                <br />
+                <label for="l3_3_1">Światło 3_3_1:</label>
+                <input type="text" id="l3_3_1" name="device5" value="3_3_1" />
+                <br />
+                <label for="l3_3_2">Światło 3_3_2:</label>
+                <input type="text" id="l3_3_2" name="device6" value="3_3_2" />
+                <br />
+                <label for="l3_4_1">Światło 3_4_1:</label>
+                <input type="text" id="l3_4_1" name="device7" value="3_4_1" />
+                <br />
+                <label for="l3_4_2">Światło 3_4_2:</label>
+                <input type="text" id="l3_4_2" name="device8" value="3_4_2" />
+                <br />
+                <label for="l3_5_1">Światło 3_5_1:</label>
+                <input type="text" id="l3_5_1" name="device9" value="3_5_1" />
+                <br />
+                <label for="l3_5_2">Światło 3_5_2:</label>
+                <input type="text" id="l3_5_2" name="device10" value="3_5_2" />
+                <br />
+                <label for="l3_6_1">Światło 3_6_1:</label>
+                <input type="text" id="l3_6_1" name="device11" value="3_6_1" />
+                <br />
+                <label for="l3_6_2">Światło 3_6_2:</label>
+                <input type="text" id="l3_6_2" name="device12" value="3_6_2" />
+                <br />
+                <label for="l3_7_1">Światło 3_7_1:</label>
+                <input type="text" id="l3_7_1" name="device13" value="3_7_1" />
+                <br />
+                <label for="l3_7_2">Światło 3_7_2:</label>
+                <input type="text" id="l3_7_2" name="device14" value="3_7_2" />
+                <br/>
+              </div>
+              <div class="czujniki_div" id="czujniki_div_3">
+                <label for="t3_1">Czujnik 1:</label>
+                <input type="text" id="t3_1" name="sensor1" value="t3_1" />
+                <br />
+                <label for="t3_2">Czujnik 2:</label>
+                <input type="text" id="t3_2" name="sensor2" value="t3_2" />
+                <br />
+                <label for="t3_3">Czujnik 3:</label>
+                <input type="text" id="t3_3" name="sensor3" value="t3_3" />
+                <br />
+                <label for="t3_4">Czujnik 4:</label>
+                <input type="text" id="t3_4" name="sensor4" value="t3_4" />
+                <br />
+                <label for="t3_5">Czujnik 5:</label>
+                <input type="text" id="t3_5" name="sensor5" value="t3_5" />
+                <br />
+                <label for="t3_6">Czujnik 6:</label>
+                <input type="text" id="t3_6" name="sensor6" value="t3_6" />
+                <br />
+                <label for="t3_7">Czujnik 7:</label>
+                <input type="text" id="t3_7" name="sensor7" value="t3_7" />
+                <br />
+              </div>
+              <div class="pokoje_div" id="pokoje_div_3">
+                <label for="r3_1">Biuro 1:</label>
+                <input type="text" id="r3_1" name="room1" value="Biuro 1" />
+                <br />
+                <label for="r3_2">Biuro 2:</label>
+                <input type="text" id="r3_2" name="room2" value="Biuro 2" />
+                <br />
+                <label for="r3_3">Biuro 3:</label>
+                <input type="text" id="r3_3" name="room3" value="Biuro 3" />
+                <br />
+                <label for="r3_4">Biuro 4:</label>
+                <input type="text" id="r3_4" name="room4" value="Biuro 4" />
+                <br />
+                <label for="r3_5">Biuro 5:</label>
+                <input type="text" id="r3_5" name="room5" value="Biuro 5" />
+                <br />
+                <label for="r3_6">Biuro 6:</label>
+                <input type="text" id="r3_6" name="room6" value="Biuro 6" />
+                <br />
+                <label for="r3_7">Biuro 7:</label>
+                <input type="text" id="r3_7" name="room7" value="Biuro 7" />
+                <br />
+              </div>
+            </div>
+            <div style="width: 100%; text-align: center; margin-top: 5px;">
+              <button type="submit">Zapisz</button>
+            </div>
+          </form>
+        </div>
+        <script>
+          function zmienPietroUstawienia() {
+            const selectedPietro = document.getElementById("pietro_settings_select").value;
+            document.getElementById("pietro1_urzadzenia").style.display = "none";
+            document.getElementById("pietro2_urzadzenia").style.display = "none";
+            document.getElementById("pietro3_urzadzenia").style.display = "none";
+
+            if (selectedPietro === "pietro1") {
+              document.getElementById("pietro1_urzadzenia").style.display = "block";
+            } else if (selectedPietro === "pietro2") {
+              document.getElementById("pietro2_urzadzenia").style.display = "block";
+            } else if (selectedPietro === "pietro3") {
+              document.getElementById("pietro3_urzadzenia").style.display = "block";
+            }
+          }
+        </script>
       </div>
     </div>
 
@@ -178,7 +443,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const modal = document.getElementById("settingsModal");
-        modal.style.display = "none"; // Hide modal initially
+        modal.style.display = "flex"; // Hide modal initially
         const settingsIcon = document.getElementById("settings_icon");
         settingsIcon.addEventListener("click", () => {
           modal.style.display = "flex";
