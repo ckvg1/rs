@@ -393,7 +393,9 @@
               <button type="button" onclick="zapiszUstawienia()">Zapisz</button>
             </div>
           </form>
+          
         </div>
+        <button title="Naciśnij dwukrotnie aby zresetowac nazwy" style="background-color: rgb(255, 99, 99);" type="button" ondblclick="resetujNazwy()">Reset</button>
         <script>
           let pietro = 1;
           function zmienPietroUstawienia() {
@@ -465,13 +467,13 @@
           l1_6_2: "1_6_2",
           l1_7_1: "1_7_1",
           l1_7_2: "1_7_2",
-          t1_1: "t1_01",
-          t1_2: "t1_02",
-          t1_3: "t1_03",
-          t1_4: "t1_04",
-          t1_5: "t1_05",
-          t1_6: "t1_06",
-          t1_7: "t1_07",
+          t1_1: "t1_1",
+          t1_2: "t1_2",
+          t1_3: "t1_3",
+          t1_4: "t1_4",
+          t1_5: "t1_5",
+          t1_6: "t1_6",
+          t1_7: "t1_7",
           r1_1: "Biuro 1",
           r1_2: "Biuro 2",
           r1_3: "Biuro 3",
@@ -544,17 +546,26 @@
 
         function getCookie(name) {
           let cname = name + "=";
-    let decodedCookie = decodeURIComponent(document.cookie);
-    let ca = decodedCookie.split(';');
-    for(let i = 0; i < ca.length; i++) {
-      let c = ca[i].trim();
-      if (c.indexOf(cname) == 0) {
-        return c.substring(cname.length, c.length);
-      }
-    }
-    return "";
-  }
-        
+          let decodedCookie = decodeURIComponent(document.cookie);
+          let ca = decodedCookie.split(';');
+          for(let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(cname) == 0) {
+              return c.substring(cname.length, c.length);
+            }
+          }
+          return "";
+        }
+  
+        function resetujNazwy() {
+          // Resetowanie ciasteczek do domyślnych wartości
+          setCookie("pietro1", JSON.stringify(default1));
+          setCookie("pietro2", JSON.stringify(default2));
+          setCookie("pietro3", JSON.stringify(default3));
+          // Odświeżenie strony po zresetowaniu
+          window.location.reload();
+        }
+
         // Sprawdzenie ciasteczek i ustawienie domyślnych wartości
         if(getCookie("pietro1") === "") {
           setCookie("pietro1", JSON.stringify(default1));
