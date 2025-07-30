@@ -48,7 +48,7 @@
       id="myDiv"
       class="main_image"
       style="
-        width: 1118px;
+        width: 100%;
         height: 745px;
         background-image: url('swiatla-bg.png');
         position: relative;
@@ -303,8 +303,8 @@
       });
 
       async function pobierzDaneSwiatlo() {
-        if (fetchingLight) return;
-        fetchingLight = true;
+        if (isFetchingLight) return;
+        isFetchingLight = true;
 
         try {
           const response = await axios.get(
@@ -320,13 +320,13 @@
         } catch (err) {
           console.error("Błąd pobierania danych o świetle:", err);
         } finally {
-          fetchingLight = false;
+          isFetchingLight = false;
         }
       }
 
       async function pobierzDaneTemp() {
-        if (fetchingTemp) return;
-        fetchingTemp = true;
+        if (isFetchingTemp) return;
+        isFetchingTemp = true;
 
         try {
           const response = await axios.get(
@@ -336,19 +336,22 @@
           Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(id);
             if (el) {
-              el.innerText = `${wartosc.toFixed(1)} °C`;
+              if(wartosc) {
+                el.innerText = `${wartosc} °C`;
+              }
+              
             }
           });
         } catch (err) {
           console.error("Błąd pobierania danych o temperaturze:", err);
         } finally {
-          fetchingTemp = false;
+          isFetchingTemp = false;
         }
       }
 
       async function wyslijTrue(swiatlo) {
-        if (fetchingLight) return;
-        fetchingLight = true;
+        if (isFetchingLight) return;
+        isFetchingLight = true;
 
         try {
           // Najpierw wł.
@@ -364,10 +367,10 @@
         } catch (err) {
           console.error("Błąd wysyłania sygnału:", err);
         } finally {
-          fetchingLight = false;
+          isFetchingLight = false;
         }
       }
-      async function roletkaWlacz(roleta) {
+      async function roletaWlacz(roleta) {
         if (isFetchingBlinds) return;
         isFetchingBlinds = true;
 
@@ -391,7 +394,7 @@
         } catch (err) {
           console.error("Błąd przy obsłudze rolety:", err);
         } finally {
-          fetchingBlinds = false;
+          isFetchingBlinds = false;
         }
       }
     </script>
