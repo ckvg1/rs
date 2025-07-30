@@ -14,6 +14,7 @@ form {
 input {
   margin: 10px;
   padding: 10px;
+  transition: all 0.3s;
 }
 button {
   background-color: #2a80f9;
@@ -24,9 +25,9 @@ button {
   border-radius: 6px;
   cursor: pointer;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s;
+  transition: all 0.1s;
 }
-button:active {
+button:hover {
   background-color: white;
   color: #2a80f9;
   border: 2px #2a80f9 solid;
@@ -62,12 +63,12 @@ select {
   transition: all 0.3s;
 }
 
-select:hover{
+input:hover, select:hover{
   border-color: #007bff;
   background-color: #d3e2ec;
 }
 
-select:focus {
+input:focus, select:focus {
   border-color: #007bff;
   background-color: #e6f0ff;
   outline: none;
