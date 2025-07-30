@@ -282,27 +282,33 @@
     </div>
 
     <script>
+      let isFetching = false;
       //const axios = require("axios/dist/browser/axios.cjs");
       let tempInterval, swiatloInterval;
       addEventListener("DOMContentLoaded", () => {
         // start interwałów
         //pobierzDaneSwiatlo();
-        //pobierzDaneTemp();
+        pobierzDaneTemp();
         swiatloInterval = setInterval(pobierzDaneSwiatlo, 1000);
-        tempInterval = setInterval(pobierzDaneTemp, 10000);
+        tempInterval = setInterval(pobierzDaneTemp, 5100);
       });
 
       window.addEventListener("message", (event) => {
         if (event.data === "cleanup") {
           console.log("zatrzymywanie pobierania danych");
-          clearInterval(tempInterval);
-          clearInterval(swiatloInterval);
+          //clearInterval(tempInterval);
+          //clearInterval(swiatloInterval);
           // możesz też anulować fetch z AbortController, jeśli chcesz
         }
       });
 
-      function pobierzDaneSwiatlo() {
-        axios
+      async function pobierzDaneSwiatlo() {
+        if(isFetching) {
+          return
+        } else {
+          isFetching = true;
+        }
+        await axios
           .get("http://localhost:3000/swiatla/3/wyjscia")
           .then((response) => {
             const dane = response.data;
@@ -321,12 +327,19 @@
               }
             });
           })
-          .then(() => {})
+          .then(() => {
+            isFetching = false;
+          })
           .catch((error) => {
             console.error("Błąd pobierania danych o swiatlach:", error);
-          });
+          })
       }
       function pobierzDaneTemp() {
+        if(isFetching) {
+          return
+        } else {
+          isFetching = true;
+        }
         axios
           .get("http://localhost:3000/temperatura/3")
           .then((response) => {
@@ -340,12 +353,20 @@
                 console.log("Nie ma takiego diva z temperatura", id);
               }
             });
+         
+            isFetching = false;
           })
           .catch((error) => {
             console.error("Blad pobierania danych o temperaturze", error);
           });
+          
       }
       function wyslijTrue(swiatlo) {
+        if(isFetching) {
+          return
+        } else {
+          isFetching = true;
+        }
         axios
           .put(`http://localhost:3000/swiatla/3/${swiatlo}`, {
             wartosc: true,
@@ -357,15 +378,17 @@
               })
               .then((response) => {
                 //console.log("Odpowiedź:", response.data);
+                isFetching = false
                 pobierzDaneSwiatlo();
               })
               .catch((error) => {
                 console.error("Błąd:", error);
               });
           })
-          .catch((error) => {
+                    .catch((error) => {
             console.error("Błąd:", error);
           });
+          isFetching = false
       }
 
       function roletaWlacz(roleta) {
