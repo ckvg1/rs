@@ -32,6 +32,7 @@ button {
   cursor: pointer;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.2s;
+  margin-bottom: 7px;
 }
 button:hover {
   background-color: white;
