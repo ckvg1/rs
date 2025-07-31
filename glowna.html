@@ -111,7 +111,7 @@
         </select>
         <div id="pietro1_urzadzenia">
         <form id="settingsForm1" class="settings_forms">
-          <div style="display:flex; flex-direction: row; align-items: flex-start; gap: 40px;">
+          <div id="tabelka1">
             <div class="swiatla_div" id="swiatla_div_1">
               <label for="l1_1_1">Światło 1_1_1:</label>
               <input type="text" id="l1_1_1" name="l1_1_1" value="1_1_1" />
@@ -410,7 +410,7 @@
           </form>
           
         </div>
-        <button title="Naciśnij dwukrotnie aby zresetowac nazwy" style="background-color: rgb(255, 99, 99);" type="button" ondblclick="resetujNazwy()">Reset</button>
+        <button id="reset" title="Naciśnij dwukrotnie aby zresetowac nazwy" type="button" ondblclick="resetujNazwy()">Reset</button>
         <script>
           let pietro = 1;
           function zmienPietroUstawienia() {
@@ -647,7 +647,7 @@
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const modal = document.getElementById("settingsModal");
-        modal.style.display = "none"; // Hide modal initially
+        modal.style.display = "flex"; // Hide modal initially
         const settingsIcon = document.getElementById("settings_icon");
         settingsIcon.addEventListener("click", () => {
           modal.style.display = "flex";
