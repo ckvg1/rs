@@ -135,7 +135,7 @@ function connected(err) {
     const { roleta } = req.params;
     conn.removeItems();
     conn.addItems([`wyj_${roleta}`]);
-    
+
     conn.readAllItems((err, val) => {
       if (err) {
         return res
