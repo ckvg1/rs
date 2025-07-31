@@ -1,0 +1,42 @@
+//plik z zmiennymi z drugiego pietra
+
+module.exports = {
+  wej_l2_1_1: "DB12,X0.4",
+  wej_l2_1_2: "DB12,X0.5",
+  wej_l2_2_1: "DB12,X0.6",
+  wej_l2_2_2: "DB12,X0.7",
+  wej_l2_3_1: "DB12,X1.0",
+  wej_l2_3_2: "DB12,X1.1",
+  wej_l2_4_1: "DB12,X1.2",
+  wej_l2_4_2: "DB12,X1.3",
+  wej_l2_5_1: "DB12,X1.4",
+  wej_l2_5_2: "DB12,X1.5",
+  wej_l2_6_1: "DB12,X1.6",
+  wej_l2_6_2: "DB12,X1.7",
+  wej_l2_7_1: "DB12,X2.0",
+  wej_l2_7_2: "DB12,X2.1",
+
+  wyj_l2_1_1: "Q120.4",
+  wyj_l2_1_2: "Q120.5",
+  wyj_l2_2_1: "Q120.6",
+  wyj_l2_2_2: "Q120.7",
+  wyj_l2_3_1: "Q121.0",
+  wyj_l2_3_2: "Q121.1",
+  wyj_l2_4_1: "Q121.2",
+  wyj_l2_4_2: "Q121.3",
+  wyj_l2_5_1: "Q121.4",
+  wyj_l2_5_2: "Q121.5",
+  wyj_l2_6_1: "Q121.6",
+  wyj_l2_6_2: "Q121.7",
+  wyj_l2_7_1: "Q122.0",
+  wyj_l2_7_2: "Q122.1",
+
+  t2_1: "DB9,REAL44",
+  t2_2: "DB9,REAL48",
+  t2_3: "DB9,REAL52",
+  t2_4: "DB9,REAL56",
+  t2_5: "DB9,REAL60",
+  t2_6: "DB9,REAL64",
+  t2_7: "DB9,REAL68",
+};
+
