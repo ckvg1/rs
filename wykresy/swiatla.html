@@ -273,7 +273,18 @@
           date.getSeconds()
         )}`;
       }
-
+      function getCookie(name) {
+          let cname = name + "=";
+          let decodedCookie = decodeURIComponent(document.cookie);
+          let ca = decodedCookie.split(';');
+          for(let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(cname) == 0) {
+              return c.substring(cname.length, c.length);
+            }
+          }
+          return "";
+        }
       function generujWykres(endpoint) {
         const czujniki = generujNazwyCzujnikow(pietro);
         fetch(endpoint)
@@ -281,9 +292,15 @@
           .then((dane) => {
             const container = document.getElementById("myPlot");
             container.innerHTML = "";
-
+            const cookie = getCookie("pietro" + pietro);
+            if(!cookie) {
+              console.error("Brak ciasteczka dla piętra: " + pietro);
+              return;
+            }
+            console.log("Cookie:", cookie);
+            console.log("Cookie JSON PARSE: ", JSON.stringify(JSON.parse(cookie).l1_1));
             const sensorNames = [
-              "Sensor 1_1",
+              JSON.stringify(JSON.parse(cookie).l1_1),
               "Sensor 1_2",
               "Sensor 2_1",
               "Sensor 2_2",
