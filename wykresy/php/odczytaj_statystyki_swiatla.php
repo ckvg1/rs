@@ -216,25 +216,32 @@ WHERE data > NOW() - INTERVAL 7 DAY
             }
             return array_search(min($licznik), $licznik) + 1; // numer światła (1-based)
         }   
+
+        $pietro1 = isset($_COOKIE["pietro1"]) ? json_decode($_COOKIE["pietro1"], true) : [];
+        $pietro2 = isset($_COOKIE["pietro2"]) ? json_decode($_COOKIE["pietro2"], true) : [];
+        $pietro3 = isset($_COOKIE["pietro3"]) ? json_decode($_COOKIE["pietro3"], true) : [];
+
         $najczesciejWlaczoneSwiatlo = obliczNajczesciejWlaczoneSwiatla($swiatla[$pietro - 1]);
         $najrzadziejWlaczoneSwiatlo = obliczNajrzadziejWlaczoneSwiatlo($swiatla[$pietro - 1]);
-       //switch($pietro){
-       //    case 1:
-       //        $najczesciejWlaczoneSwiatlo = obliczNajczesciejWlaczoneSwiatla($swiatla[0]);
-       //        break;
-       //    case 2:
-       //        $najczesciejWlaczoneSwiatlo = obliczNajczesciejWlaczoneSwiatla($swiatla[1]);
-       //        break;
-       //    case 3:
-       //        $najczesciejWlaczoneSwiatlo = obliczNajczesciejWlaczoneSwiatla($swiatla[2]);
-       //        break;
-       //}
+        //nazwy czujnikow pobrane z ciasteczek
+        $nazwy_czujnikow = [
+            [$pietro1["l1_1_1"],$pietro1["l1_1_2"], $pietro1["l1_2_1"], $pietro1["l1_2_2"], $pietro1["l1_3_1"], $pietro1["l1_3_2"], $pietro1["l1_4_1"], $pietro1["l1_4_2"], $pietro1["l1_5_1"], $pietro1["l1_5_2"], $pietro1["l1_6_1"], $pietro1["l1_6_2"], $pietro1["l1_7_1"], $pietro1["l1_7_2"]],
+            [$pietro2["l2_1_1"],$pietro2["l2_1_2"], $pietro2["l2_2_1"], $pietro2["l2_2_2"], $pietro2["l2_3_1"], $pietro2["l2_3_2"], $pietro2["l2_4_1"], $pietro2["l2_4_2"], $pietro2["l2_5_1"], $pietro2["l2_5_2"], $pietro2["l2_6_1"], $pietro2["l2_6_2"], $pietro2["l2_7_1"], $pietro2["l2_7_2"]],
+            [$pietro3["l3_1_1"],$pietro3["l3_1_2"], $pietro3["l3_2_1"], $pietro3["l3_2_2"], $pietro3["l3_3_1"], $pietro3["l3_3_2"], $pietro3["l3_4_1"], $pietro3["l3_4_2"], $pietro3["l3_5_1"], $pietro3["l3_5_2"], $pietro3["l3_6_1"], $pietro3["l3_6_2"], $pietro3["l3_7_1"], $pietro3["l3_7_2"]]
+        ];
+       
+        function obliczCzasWlaczoneSwiatlo($swiatla) {
+            return array_sum(array_map('array_sum', $swiatla));
+        }
 
+        $czas_wlaczone_swiatlo = obliczCzasWlaczoneSwiatlo($swiatla[$pietro - 1]) ; // zakładając, że każde wystąpienie to 5 minut
         
         
+        // Przygotowanie odpowiedzi
         $response = [
-            'najczesciejWlaczoneSwiatlo' => $najczesciejWlaczoneSwiatlo,
-            'najrzadziejWlaczoneSwiatlo' => $najrzadziejWlaczoneSwiatlo,    
+            'najczesciejWlaczoneSwiatlo' => $nazwy_czujnikow[$pietro-1][$najczesciejWlaczoneSwiatlo],
+            'najrzadziejWlaczoneSwiatlo' => $nazwy_czujnikow[$pietro-1][$najrzadziejWlaczoneSwiatlo],  
+            'czasWlaczoneSwiatlo' => $czas_wlaczone_swiatlo * 5,
         ];
         echo json_encode($response);
 

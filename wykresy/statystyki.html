@@ -27,15 +27,15 @@
           "
         >
           <div class="icons_div">
-            <img src="img/temp_low.png" />
-            <img src="img/chart.png" />
             <img src="img/temp_high.png" />
+            <img src="img/chart.png" />
+            <img src="img/temp_low.png" />
             <img src="img/outdoor.png" />
           </div>
           <div class="stats_div">
-            <p id="najnizszaTemperatura"></p>
-            <p id="sredniaTemperatura"></p>
             <p id="najwyzszaTemperatura"></p>
+            <p id="sredniaTemperatura"></p>
+            <p id="najnizszaTemperatura"></p>
             <p id="sredniaTemperaturaZewnetrzna"></p>
           </div>
         </div>
@@ -61,11 +61,10 @@
           <div class="icons_div">
             <img src="img/light_on.png" />
             <img src="img/light_off.png" />
-            <img src="img/light_high.png" />
+            
           </div>
           <div class="stats_div">
             <p id="najwyzszeSwiatlo">test</p>
-            <p id="srednieSwiatlo">test</p>
             <p id="najnizszeSwiatlo">test</p>
           </div>
         </div>
@@ -106,7 +105,20 @@
               data.sredniaZewnetrzna + "℃";
           })
           .catch((error) => console.error("Błąd:", error));
+        // Pobierz dane dla domyślnego piętra światła
+        fetch(
+          `./php/odczytaj_statystyki_swiatla.php?pietro=${pietroSwiatlaValue}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("najwyzszeSwiatlo").innerHTML =
+              data.najczesciejWlaczoneSwiatlo;
+            document.getElementById("najnizszeSwiatlo").innerHTML =
+              data.najrzadziejWlaczoneSwiatlo;
+          })
+          .catch((error) => console.error("Błąd:", error));
       });
+
 
       pietroTemperatura.addEventListener("change", function () {
         pietroTemperaturaValue = pietroTemperatura.value;
@@ -132,6 +144,8 @@
           })
           .catch((error) => console.error("Błąd:", error));
       });
+
+
       pietroSwiatla.addEventListener("change", function () {
         pietroSwiatlaValue = pietroSwiatla.value;
         console.log("Wybrane piętro (światła): " + pietroSwiatlaValue);
@@ -140,8 +154,10 @@
         )
           .then((response) => response.json())
           .then((data) => {
-            document.getElementById("najwyzszeSwiatlo").innerHTML =
+              document.getElementById("najwyzszeSwiatlo").innerHTML =
               data.najczesciejWlaczoneSwiatlo;
+              document.getElementById("najnizszeSwiatlo").innerHTML =
+              data.najrzadziejWlaczoneSwiatlo;
           })
           .catch((error) => console.error("Błąd:", error));
       });
