@@ -114,16 +114,16 @@
     </div>
 
     <script>
-      let isFetchingLight = false;
-      let isFetchingTemp = false;
-      let isFetchingBlinds = false;
+      let fetchingLight = false;
+      let fetchingTemp = false;
+      let fetchingBlinds = false;
       let tempInterval, swiatloInterval;
 
       addEventListener("DOMContentLoaded", () => {
         pobierzDaneSwiatlo();
         pobierzDaneTemp();
         swiatloInterval = setInterval(pobierzDaneSwiatlo, 1000);
-        tempInterval = setInterval(pobierzDaneTemp, 5100);
+        tempInterval = setInterval(pobierzDaneTemp, 1000);
       });
 
       window.addEventListener("message", (event) => {

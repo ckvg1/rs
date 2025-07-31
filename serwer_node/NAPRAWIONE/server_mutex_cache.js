@@ -13,11 +13,19 @@ const conn = new nodes7();
 const plcMutex = new Mutex();
 const cache = new NodeCache({ stdTTL: 2, checkperiod: 1 }); // TTL 2s, odczyt co 1s
 
-const L3_in = require("./variables/L3_in");
-const L3_out = require("./variables/L3_out");
-const T3 = require("./variables/T3");
-const B3_in = require("./variables/B3_in");
-const B3_out = require("./variables/B3_out");
+// 3 pietro
+const L3_in = require("./variables/floor3/L3_in");
+const L3_out = require("./variables/floor3/L3_out");
+const T3 = require("./variables/floor3/T3");
+const B3_in = require("./variables/floor3/B3_in");
+const B3_out = require("./variables/floor3/B3_out");
+
+// 2 pietro
+const L2_in = require("./variables/floor2/L2_in");
+const L2_out = require("./variables/floor2/L2_out");
+const T2 = require("./variables/floor2/T2");
+const B2_in = require("./variables/floor2/B2_in");
+const B2_out = require("./variables/floor2/B2_out");
 
 const variables = {
   ...L3_in,
@@ -25,14 +33,30 @@ const variables = {
   ...T3,
   ...B3_in,
   ...B3_out,
+  ...L2_in,
+  ...L2_out,
+  ...T2,
+  ...B2_in,
+  ...B2_out,
 };
 
 const T3_keys = Object.keys(T3);
 const L3_out_keys = Object.keys(L3_out);
 const B3_out_keys = Object.keys(B3_out);
-const ALL_KEYS = [...new Set([...T3_keys, ...L3_out_keys, ...B3_out_keys])];
+const T2_keys = Object.keys(T2);
+const L2_out_keys = Object.keys(L2_out);
+const B2_out_keys = Object.keys(B2_out);
 
-const pendingTimers = new Map();
+const LIGHT_KEYS = [...new Set([...L2_out_keys, ...L3_out_keys])];
+const TEMP_KEYS = [...new Set([...T2_keys, ...T3_keys])];
+
+// ALL_KEYS zawiera wszystkie klucze ktore odczytujemy z PLC i aktualizujemy w cache
+// const ALL_KEYS = [
+//   ...new Set([...T3_keys, ...L3_out_keys, ...T2_keys, ...L2_out_keys]),
+// ];
+
+// TEMPERATURE_KEYS zawiera wszystkie klucze temperatury
+const TEMPERATURE_KEYS = [...new Set([...T3, ...T2])];
 
 const server = app.listen(port, () => {
   console.log(`Serwer nasłuchuje na porcie ${port}`);
@@ -61,11 +85,22 @@ function connected(err) {
   // Cykliczne odczyty do cache co 1s
   setInterval(() => {
     plcMutex.runExclusive(async () => {
+      // światła
       conn.removeItems();
-      conn.addItems(ALL_KEYS);
+      conn.addItems(LIGHT_KEYS);
       await new Promise((resolve) => {
         conn.readAllItems((err, val) => {
-          if (!err) cache.set("plcData", val);
+          if (!err) cache.set("swiatlaData", val);
+          resolve();
+        });
+      });
+
+      // temperatura
+      conn.removeItems();
+      conn.addItems(TEMP_KEYS);
+      await new Promise((resolve) => {
+        conn.readAllItems((err, val) => {
+          if (!err) cache.set("temperaturaData", val);
           resolve();
         });
       });
@@ -79,7 +114,7 @@ function connected(err) {
 
   // GET: temperatura z cache
   app.get("/temperatura/3", (req, res) => {
-    const data = cache.get("plcData");
+    const data = cache.get("temperaturaData");
     if (!data) return res.status(503).json({ error: "Dane niedostępne" });
 
     const temp = {};
@@ -89,7 +124,7 @@ function connected(err) {
 
   // GET: swiatla z cache
   app.get("/swiatla/3/wyjscia", (req, res) => {
-    const data = cache.get("plcData");
+    const data = cache.get("swiatlaData");
     if (!data) return res.status(503).json({ error: "Dane niedostępne" });
 
     const lights = {};
@@ -108,8 +143,10 @@ function connected(err) {
           if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
 
           // Odczyt po zapisie do odświeżenia cache
+          conn.removeItems();
+          conn.addItems(L3_out_keys);
           conn.readAllItems((err, val) => {
-            if (!err) cache.set("plcData", val);
+            if (!err) cache.set("swiatlaData", val);
             res.json({ status: "zapisano", wartosc });
             resolve();
           });
