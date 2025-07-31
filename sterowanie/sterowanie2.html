@@ -165,14 +165,15 @@
     </div>
 
     <script>
-      //const axios = require("axios/dist/browser/axios.cjs");
+      let fetchingLight = false;
+      let fetchingTemp = false;
+      let fetchingBlinds = false;
       let tempInterval, swiatloInterval;
+
       addEventListener("DOMContentLoaded", () => {
-        // start interwałów
         pobierzDaneSwiatlo();
         pobierzDaneTemp();
-        //pobierzDaneTemp();
-        swiatloInterval = setInterval(pobierzDaneSwiatlo, 100);
+        swiatloInterval = setInterval(pobierzDaneSwiatlo, 1000);
         tempInterval = setInterval(pobierzDaneTemp, 5000);
       });
 
@@ -181,114 +182,101 @@
           console.log("zatrzymywanie pobierania danych");
           clearInterval(tempInterval);
           clearInterval(swiatloInterval);
-          // możesz też anulować fetch z AbortController, jeśli chcesz
         }
       });
 
-      function pobierzDaneSwiatlo() {
-        axios
-          .get("http://localhost:3000/swiatla/2/wyjscia")
-          .then((response) => {
-            const dane = response.data;
-            //console.log(Object.entries(dane));
-            Object.entries(dane).forEach(([id, wartosc]) => {
-              //  console.log("Dane o swiatle:", id, wartosc);
-              const przycisk = document.getElementById(id);
-              if (przycisk) {
-                //console.log(przycisk);
-                przycisk.setAttribute(
-                  "src",
-                  wartosc ? "bulb_on.png" : "bulb_of.png"
-                );
-              } else {
-                console.log("nie ma takiego przycisku ", przycisk);
-              }
-            });
-          })
-          .then(() => {})
-          .catch((error) => {
-            console.error("Błąd pobierania danych o swiatlach:", error);
-          });
-      }
-      function pobierzDaneTemp() {
-        axios
-          .get("http://localhost:3000/temperatura/2")
-          .then((response) => {
-            const dane = response.data;
-            console.log("Pobrano dane o temperaturze:", response);
-            Object.entries(dane).forEach(([id, wartosc]) => {
-              const przycisk = document.getElementById(id);
-              if (przycisk) {
-                przycisk.innerHTML = `${wartosc.toFixed(1)} *C`;
-              } else {
-                console.log("Nie ma takiego diva z temperatura", id);
-              }
-            });
-          })
-          .catch((error) => {
-            console.error("Blad pobierania danych o temperaturze", error);
-          });
-      }
-      function wyslijTrue(swiatlo) {
-        axios
-          .put(`http://localhost:3000/swiatla/2/${swiatlo}`, {
-            wartosc: true,
-          })
-          .then((response) => {
-            // console.log("Odpowiedź:", response.data);
-          })
-          .then(() => {
-            axios
-              .put(`http://localhost:3000/swiatla/2/${swiatlo}`, {
-                wartosc: false,
-              })
-              .then((response) => {
-                //console.log("Odpowiedź:", response.data);
-                pobierzDaneSwiatlo();
-              })
-              .catch((error) => {
-                console.error("Błąd:", error);
-              });
-          })
-          .catch((error) => {
-            console.error("Błąd:", error);
-          });
-      }
+      async function pobierzDaneSwiatlo() {
+        if (fetchingLight) return;
+        fetchingLight = true;
 
-      function roletaWlacz(roleta) {
-        axios
-          .get(`http://localhost:3000/rolety/2/wyjscia/${roleta}`)
-          .then((response) => {
-            console.log("Stan przed wlaczeniem rolety:", response.data);
-            if (response.data.wartosc === false) {
-              //jezeli roleta nie jedzie to wysylamy true a jak jedzie to false zeby ja zatrzymac
-              axios
-                .put(`http://localhost:3000/rolety/2/${roleta}`, {
-                  wartosc: true,
-                })
-                .then((response) => {
-                  console.log(
-                    "Odpowiedź po kliknieciu roleta gora:",
-                    response.data
-                  );
-                });
-            } else {
-              console.log("Roleta już jedzie");
-              axios
-                .put(`http://localhost:3000/rolety/2/${roleta}`, {
-                  wartosc: false,
-                })
-                .then((response) => {
-                  console.log(
-                    "Odpowiedź po kliknieciu roleta gora:",
-                    response.data
-                  );
-                });
+        try {
+          const response = await axios.get(
+            "http://localhost:3000/swiatla/3/wyjscia"
+          );
+          const dane = response.data;
+          Object.entries(dane).forEach(([id, wartosc]) => {
+            const el = document.getElementById(id);
+            if (el) {
+              el.src = wartosc ? "bulb_on.png" : "bulb_of.png";
             }
           });
+        } catch (err) {
+          console.error("Błąd pobierania danych o świetle:", err);
+        } finally {
+          fetchingLight = false;
+        }
       }
 
-      //function wyslijFalse(swiatlo) {}
+      async function pobierzDaneTemp() {
+        if (fetchingTemp) return;
+        fetchingTemp = true;
+
+        try {
+          const response = await axios.get(
+            "http://localhost:3000/temperatura/3"
+          );
+          const dane = response.data;
+          Object.entries(dane).forEach(([id, wartosc]) => {
+            const el = document.getElementById(id);
+            if (el) {
+              el.innerText = `${wartosc.toFixed(1)} °C`;
+            }
+          });
+        } catch (err) {
+          console.error("Błąd pobierania danych o temperaturze:", err);
+        } finally {
+          fetchingTemp = false;
+        }
+      }
+
+      async function wyslijTrue(swiatlo) {
+        if (fetchingLight) return;
+        fetchingLight = true;
+
+        try {
+          // Najpierw wł.
+          await axios.put(`http://localhost:3000/swiatla/3/${swiatlo}`, {
+            wartosc: true,
+          });
+          // Następnie wył.
+          await axios.put(`http://localhost:3000/swiatla/3/${swiatlo}`, {
+            wartosc: false,
+          });
+          // Odśwież stan
+          await pobierzDaneSwiatlo();
+        } catch (err) {
+          console.error("Błąd wysyłania sygnału:", err);
+        } finally {
+          fetchingLight = false;
+        }
+      }
+      /*async function roletkaWlacz(roleta) {
+        if (isFetchingBlinds) return;
+        isFetchingBlinds = true;
+
+        try {
+          // 1. Pobierz aktualny stan rolety
+          const getRes = await axios.get(
+            `http://localhost:3000/rolety/3/wyjscia/${roleta}`
+          );
+          const { wartosc } = getRes.data;
+          console.log("Stan przed zmianą rolety:", wartosc);
+
+          // 2. Ustal nową wartość (przełącz)
+          const nowaWartosc = !wartosc;
+
+          // 3. Wyślij PUT z przełączoną wartością
+          const putRes = await axios.put(
+            `http://localhost:3000/rolety/3/${roleta}`,
+            { wartosc: nowaWartosc }
+          );
+          console.log("Odpowiedź po zmianie rolety:", putRes.data);
+        } catch (err) {
+          console.error("Błąd przy obsłudze rolety:", err);
+        } finally {
+          fetchingBlinds = false;
+        }
+      }*/
     </script>
   </body>
 </html>
