@@ -94,13 +94,13 @@
           .then((data) => {
             document.getElementById("najnizszaTemperatura").innerHTML =
               data.najmniejszaTemperatura +
-              "℃ Czujnik: " +
+              "℃ " +
               data.najnizszaTemperaturaCzujnik;
             document.getElementById("sredniaTemperatura").innerHTML =
               data.sredniaTemperatura + "℃";
             document.getElementById("najwyzszaTemperatura").innerHTML =
               data.najwyzszaTemperatura +
-              "℃ Czujnik: " +
+              "℃ " +
               data.najwyzszaTemperaturaCzujnik;
             document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML =
               data.sredniaZewnetrzna + "℃";
@@ -119,14 +119,14 @@
           .then((data) => {
             document.getElementById("najnizszaTemperatura").innerHTML =
               data.najmniejszaTemperatura +
-              "℃ Czujnik: " +
+              "℃ " +
               data.najnizszaTemperaturaCzujnik;
             document.getElementById("sredniaTemperatura").innerHTML =
               data.sredniaTemperatura + "℃";
             document.getElementById("najwyzszaTemperatura").innerHTML =
               data.najwyzszaTemperatura +
-              "℃ Czujnik: " +
-              data.najwyzszaTemperaturaCzujnik;
+              "℃ <span style='color:rgb(17, 94, 153)'>" +
+              data.najwyzszaTemperaturaCzujnik +"</span>";
             document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML =
               data.sredniaZewnetrzna + "℃";
           })
