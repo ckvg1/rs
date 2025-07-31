@@ -65,9 +65,37 @@
         const minutes = String(date.getMinutes()).padStart(2, "0");
         return `${day}-${month}-${year} ${hours}:${minutes}`;
       }
+      function getCookie(name) {
+          let cname = name + "=";
+          let decodedCookie = decodeURIComponent(document.cookie);
+          let ca = decodedCookie.split(';');
+          for(let i = 0; i < ca.length; i++) {
+            let c = ca[i].trim();
+            if (c.indexOf(cname) == 0) {
+              return c.substring(cname.length, c.length);
+            }
+          }
+          return "";
+        }
 
+        let cookie = getCookie("pietro" + pietro);
+        let parsedCookie = JSON.parse(cookie);
+        const bazoweBiura = [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+        ];
+        function generujNazwyBiur(pietro) {
+          return bazoweBiura.map((id) => `r${pietro}_${id}`);
+        }
       // Pobieranie danych i rysowanie wykresu
       function fetchAndPlot(url, layoutOverrides = {}) {
+        const nazwyBiur = generujNazwyBiur(pietro);
+        
         fetch(url)
           .then((response) => {
             if (!response.ok) {
@@ -76,19 +104,23 @@
             return response.json();
           })
           .then((dane) => {
-            console.log("Dane do wykresu:", dane);
+            //console.log("Dane do wykresu:", dane);
             const seriesData = [];
-
+            //console.log("Parsed cookie:", parsedCookie);
+            const nazwy = nazwyBiur.map(key => parsedCookie[key] || key);
+            //console.log("Nazwy biur:", nazwyBiur); 
+            console.log("Nazwy biur pobrane z cookie:", nazwy);
             for (let i = 1; i <= 8; i++) {
               //lecimy do 7 bo tyle czujnikow
-
+              
+              
               const key = `Temp. ${pietro}_${i}`;
               if (dane[key]) {
                 seriesData.push({
                   x: dane.Data,
                   y: dane[key],
                   mode: currentMode,
-                  name: `Pomieszczenie ${i}`,
+                  name: nazwy[i - 1] || key, // używamy nazwy z cookie lub domyślnej
                   line: { shape: "spline" }, //vh - schodkowe
                 });
               }

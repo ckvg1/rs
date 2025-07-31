@@ -6,132 +6,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sterowanie</title>
     <link rel="stylesheet" href="../css_main/czcionka.css" />
+    <link rel="stylesheet" href="sterowanie.css">
     <link rel="icon" type="image/x-icon" href="icon.png" />
-    <style>
-      body {
-        font-family: "Courier New", Courier, monospace;
-        background-color: #d3e2ec;
-      }
-
-      button {
-        background-color: #2a80f9;
-        color: white;
-        padding: 12px 24px;
-        font-size: 16px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-      }
-      .temperatura {
-        font-weight: bold;
-        font-size: 16pt;
-      }
-    </style>
   </head>
-  <body
-    style="
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      gap: 0px;
-      font-family: 'Ubuntu';
-    "
-  >
+  <body>
     <h1 style="font-size: 18pt">Sterowanie urządzeniami - 2 piętro</h1>
 
     <div
       style="display: flex; flex-direction: row; gap: 15px; align-items: center"
     ></div>
-    <div
-      id="myDiv"
-      class="main_image"
-      style="
-        width: 1118px;
-        height: 745px;
-        background-image: url('swiatla-bg.png');
-        position: relative;
-      "
-    >
+    <div id="myDiv" class="main_image">
+      <img src="swiatla-bg.png" id="main_image">
       <a onmousedown="wyslijTrue('l2_1_1')" style="cursor: pointer">
-        <img
-          id="wyj_l2_1_1"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 25%; left: 17%"
-        />
+        <img id="wyj_l2_1_1" class="zarowka" src="bulb_on.png "/>
       </a>
-      <div
-        class="temperatura"
-        id="t2_1"
-        style="position: absolute; top: 21%; left: 19%"
-      >
+      <div class="temperatura" id="t2_1">
         35 *C
       </div>
       <a onmousedown="wyslijTrue('l2_1_2')" style="cursor: pointer">
-        <img
-          id="wyj_l2_1_2"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 25%; left: 22%"
-        />
+        <img id="wyj_l2_1_2" class="zarowka"  src="bulb_on.png "/>
       </a>
 
       <a onmousedown="wyslijTrue('l2_2_1')" style="cursor: pointer">
-        <img
-          id="wyj_l2_2_1"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 29%; left: 53%"
-        />
+        <img id="wyj_l2_2_1" class="zarowka" src="bulb_on.png "/>
       </a>
-      <div
-        class="temperatura"
-        id="t2_2"
-        style="position: absolute; top: 24%; left: 54%"
-      >
+      <div class="temperatura" id="t2_2">
         25 *C
       </div>
       <a onmousedown="wyslijTrue('l2_2_2')" style="cursor: pointer">
-        <img
-          id="wyj_l2_2_2"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 29%; left: 58%"
-        />
+        <img id="wyj_l2_2_2" class="zarowka" src="bulb_on.png "/>
       </a>
 
       <a onmousedown="wyslijTrue('l2_3_1')" style="cursor: pointer">
-        <img
-          id="wyj_l2_3_1"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 29%; left: 71%"
-        />
+        <img id="wyj_l2_3_1" class="zarowka" src="bulb_on.png "/>
       </a>
-      <div
-        class="temperatura"
-        id="t2_3"
-        style="position: absolute; top: 24%; left: 73%"
-      >
+      <div class="temperatura" id="t2_3">
         17 *C
       </div>
       <a onmousedown="wyslijTrue('l2_3_2')" style="cursor: pointer">
-        <img
-          id="wyj_l2_3_2"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 29%; left: 76%"
-        />
+        <img id="wyj_l2_3_2" class="zarowka" src="bulb_on.png "/>
       </a>
 
       <a onmousedown="wyslijTrue('l2_4_1')" style="cursor: pointer">
-        <img
-          id="wyj_l2_4_1"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 71%; left: 17%"
-        />
+        <img id="wyj_l2_4_1" class="zarowka" src="bulb_on.png "/>
       </a>
-      <div
-        class="temperatura"
-        id="t2_4"
-        style="position: absolute; top: 65%; left: 18%"
-      >
+      <div class="temperatura" id="t2_4">
         22 *C
       </div>
       <img
@@ -153,25 +72,13 @@
         onmousedown="roletaWlacz('b2_r4_2')"
       />
       <a onmousedown="wyslijTrue('l2_4_2')" style="cursor: pointer">
-        <img
-          id="wyj_l2_4_2"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 71%; left: 22%"
-        />
+        <img id="wyj_l2_4_2" class="zarowka"  src="bulb_on.png "/>
       </a>
 
       <a onmousedown="wyslijTrue('l2_5_1')" style="cursor: pointer">
-        <img
-          id="wyj_l2_5_1"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 68%; left: 37%"
-        />
+        <img id="wyj_l2_5_1" class="zarowka" src="bulb_on.png "/>
       </a>
-      <div
-        class="temperatura"
-        id="t2_5"
-        style="position: absolute; top: 62%; left: 39%"
-      >
+      <div class="temperatura" id="t2_5">
         19 *C
       </div>
       <img
@@ -193,25 +100,13 @@
         onmousedown="roletaWlacz('b2_r5_2')"
       />
       <a onmousedown="wyslijTrue('l2_5_2')" style="cursor: pointer">
-        <img
-          id="wyj_l2_5_2"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 68%; left: 42%"
-        />
+        <img id="wyj_l2_5_2" class="zarowka" src="bulb_on.png "/>
       </a>
 
       <a onmousedown="wyslijTrue('l2_6_1')" style="cursor: pointer">
-        <img
-          id="wyj_l2_6_1"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 68%; left: 53%"
-        />
+        <img id="wyj_l2_6_1" class="zarowka" src="bulb_on.png "/>
       </a>
-      <div
-        class="temperatura"
-        id="t2_6"
-        style="position: absolute; top: 62%; left: 55%"
-      >
+      <div class="temperatura" id="t2_6">
         27 *C
       </div>
       <img
@@ -234,31 +129,19 @@
       />
       <a onmousedown="wyslijTrue('l2_6_2')" style="cursor: pointer">
         <img
-          id="wyj_l2_6_2"
+          id="wyj_l2_6_2" class="zarowka"
           src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 68%; left: 58%"
+          style="top: 68%; left: 58%"
         />
       </a>
 
       <a onmousedown="wyslijTrue('l2_7_1')" style="cursor: pointer">
-        <img
-          id="wyj_l2_7_1"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 68%; left: 71%"
-        />
+        <img id="wyj_l2_7_1" class="zarowka" src="bulb_on.png "/>
       </a>
       <a onmousedown="wyslijTrue('l2_7_2')" style="cursor: pointer">
-        <img
-          id="wyj_l2_7_2"
-          src="bulb_on.png "
-          style="width: 4%; position: absolute; top: 68%; left: 76%"
-        />
+        <img id="wyj_l2_7_2" class="zarowka" src="bulb_on.png "/>
       </a>
-      <div
-        class="temperatura"
-        id="t2_7"
-        style="position: absolute; top: 62%; left: 73%"
-      >
+      <div class="temperatura" id="t2_7">
         20 *C
       </div>
       <img
