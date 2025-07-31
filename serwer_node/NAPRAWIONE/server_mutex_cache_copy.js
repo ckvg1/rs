@@ -53,7 +53,7 @@ const ALL_KEYS = [
 ];
 
 // TEMPERATURE_KEYS zawiera wszystkie klucze temperatury
-const TEMPERATURE_KEYS = [...new Set([...T3, ...T2])];
+const TEMPERATURE_KEYS = [...new Set([...T3_keys, ...T2_keys])];
 
 const server = app.listen(port, () => {
   console.log(`Serwer nasłuchuje na porcie ${port}`);
@@ -108,6 +108,15 @@ function connected(err) {
     res.json(temp);
   });
 
+  app.get("/temperatura/2", (req, res) => {
+    const data = cache.get("plcData");
+    if (!data) return res.status(503).json({ error: "Dane niedostępne" });
+
+    const temp = {};
+    for (let k of T2_keys) temp[k] = data[k];
+    res.json(temp);
+  });
+
   // GET: swiatla z cache
   app.get("/swiatla/3/wyjscia", (req, res) => {
     const data = cache.get("plcData");
@@ -118,8 +127,37 @@ function connected(err) {
     res.json(lights);
   });
 
+  app.get("/swiatla/2/wyjscia", (req, res) => {
+    const data = cache.get("plcData");
+    if (!data) return res.status(503).json({ error: "Dane niedostępne" });
+
+    const lights = {};
+    for (let k of L2_out_keys) lights[k] = data[k];
+    res.json(lights);
+  });
+
   // PUT: sterowanie światłem
   app.put("/swiatla/3/:swiatlo", async (req, res) => {
+    const { swiatlo } = req.params;
+    const { wartosc } = req.body;
+
+    await plcMutex.runExclusive(async () => {
+      await new Promise((resolve) => {
+        conn.writeItems(`wej_${swiatlo}`, wartosc, (err) => {
+          if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
+
+          // Odczyt po zapisie do odświeżenia cache
+          conn.readAllItems((err, val) => {
+            if (!err) cache.set("plcData", val);
+            res.json({ status: "zapisano", wartosc });
+            resolve();
+          });
+        });
+      });
+    });
+  });
+
+  app.put("/swiatla/2/:swiatlo", async (req, res) => {
     const { swiatlo } = req.params;
     const { wartosc } = req.body;
 

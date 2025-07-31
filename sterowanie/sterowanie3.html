@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sterowanie</title>
     <link rel="stylesheet" href="../css_main/czcionka.css" />
-    <link rel="stylesheet" href="sterowanie.css">
+    <link rel="stylesheet" href="sterowanie.css" />
     <link rel="icon" type="image/x-icon" href="icon.png" />
   </head>
   <body>
@@ -16,9 +16,11 @@
       style="display: flex; flex-direction: row; gap: 15px; align-items: center"
     ></div>
     <div id="myDiv" class="main_image">
-      <img src="swiatla-bg.png">
+      <img src="swiatla-bg.png" />
       <a onmousedown="wyslijTrue('l3_1_1')" style="cursor: pointer">
-        <img id="wyj_l3_1_1" class="zarowka"
+        <img
+          id="wyj_l3_1_1"
+          class="zarowka"
           src="bulb_on.png "
           style="width: 4%; position: absolute; top: 25%; left: 17%"
         />
@@ -244,16 +246,16 @@
     </div>
 
     <script>
-      let fetchingLight = false;
-      let fetchingTemp = false;
+      let isFetchingLight = false;
+      let isFetchingTemp = false;
       let fetchingBlinds = false;
       let tempInterval, swiatloInterval;
 
       addEventListener("DOMContentLoaded", () => {
         pobierzDaneSwiatlo();
         pobierzDaneTemp();
-        swiatloInterval = setInterval(pobierzDaneSwiatlo, 1000);
-        tempInterval = setInterval(pobierzDaneTemp, 1000);
+        swiatloInterval = setInterval(pobierzDaneSwiatlo, 200);
+        tempInterval = setInterval(pobierzDaneTemp, 200);
       });
 
       window.addEventListener("message", (event) => {
@@ -298,10 +300,9 @@
           Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(id);
             if (el) {
-              if(wartosc) {
-                el.innerText = `${wartosc} °C`;
+              if (wartosc) {
+                el.innerText = `${Math.round(wartosc * 100) / 100} °C`;
               }
-              
             }
           });
         } catch (err) {
@@ -325,7 +326,7 @@
             wartosc: false,
           });
           // Odśwież stan
-          await pobierzDaneSwiatlo();
+          //await pobierzDaneSwiatlo();
         } catch (err) {
           console.error("Błąd wysyłania sygnału:", err);
         } finally {

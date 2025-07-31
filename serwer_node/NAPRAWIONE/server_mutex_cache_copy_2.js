@@ -47,13 +47,10 @@ const T2_keys = Object.keys(T2);
 const L2_out_keys = Object.keys(L2_out);
 const B2_out_keys = Object.keys(B2_out);
 
-const LIGHT_KEYS = [...new Set([...L2_out_keys, ...L3_out_keys])];
-const TEMP_KEYS = [...new Set([...T2_keys, ...T3_keys])];
-
 // ALL_KEYS zawiera wszystkie klucze ktore odczytujemy z PLC i aktualizujemy w cache
-// const ALL_KEYS = [
-//   ...new Set([...T3_keys, ...L3_out_keys, ...T2_keys, ...L2_out_keys]),
-// ];
+const ALL_KEYS = [
+  ...new Set([...T3_keys, ...L3_out_keys, ...T2_keys, ...L2_out_keys]),
+];
 
 // TEMPERATURE_KEYS zawiera wszystkie klucze temperatury
 const TEMPERATURE_KEYS = [...new Set([...T3_keys, ...T2_keys])];
@@ -85,27 +82,16 @@ function connected(err) {
   // Cykliczne odczyty do cache co 1s
   setInterval(() => {
     plcMutex.runExclusive(async () => {
-      // światła
       conn.removeItems();
-      conn.addItems(LIGHT_KEYS);
+      conn.addItems(ALL_KEYS);
       await new Promise((resolve) => {
         conn.readAllItems((err, val) => {
-          if (!err) cache.set("swiatlaData", val);
-          resolve();
-        });
-      });
-
-      // temperatura
-      conn.removeItems();
-      conn.addItems(TEMP_KEYS);
-      await new Promise((resolve) => {
-        conn.readAllItems((err, val) => {
-          if (!err) cache.set("temperaturaData", val);
+          if (!err) cache.set("plcData", val);
           resolve();
         });
       });
     });
-  }, 200);
+  }, 1000);
 
   // GET: ping
   app.get("/", (req, res) => {
@@ -114,7 +100,7 @@ function connected(err) {
 
   // GET: temperatura z cache
   app.get("/temperatura/3", (req, res) => {
-    const data = cache.get("temperaturaData");
+    const data = cache.get("plcData");
     if (!data) return res.status(503).json({ error: "Dane niedostępne" });
 
     const temp = {};
@@ -124,7 +110,7 @@ function connected(err) {
 
   // GET: swiatla z cache
   app.get("/swiatla/3/wyjscia", (req, res) => {
-    const data = cache.get("swiatlaData");
+    const data = cache.get("plcData");
     if (!data) return res.status(503).json({ error: "Dane niedostępne" });
 
     const lights = {};
@@ -143,15 +129,43 @@ function connected(err) {
           if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
 
           // Odczyt po zapisie do odświeżenia cache
-          conn.removeItems();
-          conn.addItems(L3_out_keys);
           conn.readAllItems((err, val) => {
-            if (!err) cache.set("swiatlaData", val);
+            if (!err) cache.set("plcData", val);
             res.json({ status: "zapisano", wartosc });
             resolve();
           });
         });
       });
     });
+  });
+
+  // SSE: strumień świateł
+  app.get("/stream/swiatla", (req, res) => {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+
+    const sendLights = () => {
+      const data = cache.get("swiatlaData");
+      if (data) res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
+
+    const interval = setInterval(sendLights, 1000);
+    req.on("close", () => clearInterval(interval));
+  });
+
+  // SSE: strumień temperatury
+  app.get("/stream/temperatura", (req, res) => {
+    res.setHeader("Content-Type", "text/event-stream");
+    res.setHeader("Cache-Control", "no-cache");
+    res.setHeader("Connection", "keep-alive");
+
+    const sendTemp = () => {
+      const data = cache.get("temperaturaData");
+      if (data) res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
+
+    const interval = setInterval(sendTemp, 1000);
+    req.on("close", () => clearInterval(interval));
   });
 }
