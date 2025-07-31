@@ -7,11 +7,11 @@ app.use(cors());
 var conn = new nodes7();
 app.use(express.json());
 
-const L3_in = require("./variables/L3_in");
-const L3_out = require("./variables/L3_out");
-const T3 = require("./variables/T3");
-const B3_in = require("./variables/B3_in");
-const B3_out = require("./variables/B3_out");
+const L3_in = require("./variables/floor3/L3_in");
+const L3_out = require("./variables/floor3/L3_out");
+const T3 = require("./variables/floor3/T3");
+const B3_in = require("./variables/floor3/B3_in");
+const B3_out = require("./variables/floor3/B3_out");
 let variables = {
   ...L3_in,
   ...L3_out,
