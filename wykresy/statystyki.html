@@ -61,11 +61,12 @@
           <div class="icons_div">
             <img src="img/light_on.png" />
             <img src="img/light_off.png" />
-            
+            <img src="img/clock.png" />
           </div>
           <div class="stats_div">
             <p id="najwyzszeSwiatlo">test</p>
             <p id="najnizszeSwiatlo">test</p>
+            <p id="swiatloWlaczoneCzas"></p>
           </div>
         </div>
       </section>
@@ -115,6 +116,8 @@
               data.najczesciejWlaczoneSwiatlo;
             document.getElementById("najnizszeSwiatlo").innerHTML =
               data.najrzadziejWlaczoneSwiatlo;
+              document.getElementById("swiatloWlaczoneCzas").innerHTML =
+              data.czasWlaczoneSwiatlo + " minut";
           })
           .catch((error) => console.error("Błąd:", error));
       });
@@ -158,6 +161,8 @@
               data.najczesciejWlaczoneSwiatlo;
               document.getElementById("najnizszeSwiatlo").innerHTML =
               data.najrzadziejWlaczoneSwiatlo;
+              document.getElementById("swiatloWlaczoneCzas").innerHTML =
+              data.czasWlaczoneSwiatlo + " minut";
           })
           .catch((error) => console.error("Błąd:", error));
       });
