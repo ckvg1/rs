@@ -30,7 +30,14 @@ const server = app.listen(port, () => {
 });
 
 conn.initiateConnection(
-  { port: 102, host: "192.168.25.1", rack: 0, slot: 1, debug: false },
+  {
+    port: 102,
+    host: "192.168.25.1",
+    rack: 0,
+    slot: 1,
+    debug: false,
+    doNotOptimize: true,
+  },
   connected
 );
 

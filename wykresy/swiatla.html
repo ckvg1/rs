@@ -66,11 +66,21 @@
         "7_1",
         "7_2",
       ];
+      const bazoweBiura = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+      ]
 
       function generujNazwyCzujnikow(pietro) {
         return bazoweCzujniki.map((id) => `l${pietro}_${id}`);
       }
-
+      function generujNazwyBiur(pietro){
+        return bazoweBiura.map((id) => `r${pietro}_${id}`);
+      }
       function ustaw_pietro() {
         pietro = document.getElementById("pietroSelect").value;
         console.log("Ustawiono piętro: ", pietro);
@@ -84,7 +94,8 @@
         generujHeatmape(`odczytaj_swiatla.php?pietro=${pietro}`);
         generujWykresKolowy(`odczytaj_swiatla.php?pietro=${pietro}`);
       });
-
+      let cookie = getCookie("pietro" + pietro);
+      let parsedCookie = JSON.parse(cookie);
       function filtruj() {
         const data1 = document.getElementById("data1").value
           ? new Date(document.getElementById("data1").value).toISOString()
@@ -120,6 +131,8 @@
           generujWykres(`odczytaj_swiatla.php?wszystko=true&pietro=${pietro}`);
           generujWykresKolowy(`odczytaj_swiatla.php?pietro=${pietro}`);
         }
+        cookie = getCookie("pietro" + pietro);
+        parsedCookie = JSON.parse(cookie);
       }
 
       function formatDate(dateString) {
@@ -153,6 +166,7 @@
             }else {
               alertBox.style.display = "none";
             }
+            let biura = generujNazwyBiur(pietro);
 
             document.getElementById("myDiv2").innerHTML = "";
             let values = [];
@@ -160,19 +174,13 @@
             for (let i = 1; i <= 7; i++) {
               values.push(dane[`l${pietro}_${i}_1`]);
             }
-
+            const labelsNames = biura.map(key => parsedCookie[key] || key);
+            //const sensorNames = czujniki.map(key => parsedCookie[key] || key);
+          
             const data = [
               {
                 values: values,
-                labels: [
-                  "Biuro 1",
-                  "Biuro 2",
-                  "Biuro 3",
-                  "Biuro 4",
-                  "Biuro 5",
-                  "Biuro 6",
-                  "Biuro 7",
-                ],
+                labels: labelsNames,
                 type: "pie",
                 hole: 0.3, // efekt donut
                 name: "Procent udziału we włączonym świetle",
@@ -292,29 +300,18 @@
           .then((dane) => {
             const container = document.getElementById("myPlot");
             container.innerHTML = "";
-            const cookie = getCookie("pietro" + pietro);
+            
             if(!cookie) {
               console.error("Brak ciasteczka dla piętra: " + pietro);
               return;
             }
-            console.log("Cookie:", cookie);
-            console.log("Cookie JSON PARSE: ", JSON.stringify(JSON.parse(cookie).l1_1));
-            const sensorNames = [
-              JSON.stringify(JSON.parse(cookie).l1_1),
-              "Sensor 1_2",
-              "Sensor 2_1",
-              "Sensor 2_2",
-              "Sensor 3_1",
-              "Sensor 3_2",
-              "Sensor 4_1",
-              "Sensor 4_2",
-              "Sensor 5_1",
-              "Sensor 5_2",
-              "Sensor 6_1",
-              "Sensor 6_2",
-              "Sensor 7_1",
-              "Sensor 7_2",
-            ];
+            console.log(cookie);
+            //console.log("Cookie JSON PARSE: ", JSON.stringify(JSON.parse(cookie).l1_1));
+            
+
+            const sensorNames = czujniki.map(key => parsedCookie[key] || key);
+          
+            
 
             const sensorColors = [
               "Black",
