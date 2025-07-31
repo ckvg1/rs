@@ -36,5 +36,10 @@ function hamburger(x) {
   console.log("Kliknięto hamburger menu");
   x.classList.toggle("change");
   tabsList = document.querySelector(".tabs-list");
-  tabsList.classList.toggle("wysowanie");
+  if(tabsList.style.right == "0px"){
+    tabsList.style.right = "-300px";
+  }
+  else{
+    tabsList.style.right = "0px";
+  }
 }
