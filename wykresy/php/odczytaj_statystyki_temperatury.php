@@ -10,14 +10,28 @@
 
     // Parametr GET
     $pietro = isset($_GET["pietro"]) ? intval($_GET["pietro"]) : 1;
-
+    $czas = isset($_GET["czas"]) ? intval($_GET["czas"]) : 1; // Domyślnie 1 to 24h
+    $interval;
+    switch($czas) {
+        case 1: // 24h
+            $interval = "1";
+            break;
+        case 2: // 7 dni
+            $interval = "7";
+            break;
+        case 3: // 30 dni
+            $interval = "30";
+            break;
+        default:
+            die("Nieprawidłowy czas");
+    }
     // Zapytanie SQL w zależności od piętra
     switch($pietro){
         case 1:
             $sql_temp = "SELECT t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, 
                         zewnetrzna, czas_dodania 
                         FROM temperatura 
-                        WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
+                        WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
                         ORDER BY czas_dodania DESC";
             
 
@@ -26,7 +40,7 @@
             $sql_temp = "SELECT t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7, 
                         zewnetrzna, czas_dodania 
                         FROM temperatura 
-                        WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
+                        WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
                         ORDER BY czas_dodania DESC";
             
             break;
@@ -34,7 +48,7 @@
             $sql_temp = "SELECT t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7, 
                         zewnetrzna, czas_dodania 
                         FROM temperatura 
-                        WHERE czas_dodania > NOW() - INTERVAL 7 DAY 
+                        WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
                         ORDER BY czas_dodania DESC";
             
             break;
@@ -51,6 +65,23 @@
 
     // Pobieranie danych z bazy
     $result = mysqli_query($conn, $sql_temp);
+        if (!$result || mysqli_num_rows($result) === 0) {
+        // Brak danych w tabeli
+        $null_response_text = "brak danych";
+        // Czujniki pusta odpowiedz zeby nie pisac 2 razy tego samego na stronie
+        $response = [
+            'najmniejszaTemperatura' => $null_response_text,
+            'najwyzszaTemperatura' => $null_response_text,
+            'sredniaTemperatura' => $null_response_text,
+            'najnizszaTemperaturaCzujnik' => "",
+            'najwyzszaTemperaturaCzujnik' => "",
+            'sredniaZewnetrzna' => $null_response_text
+        ];
+        echo json_encode($response);
+        mysqli_close($conn);
+        exit;
+    }
+
     while ($row = mysqli_fetch_assoc($result)) {
         $czas[] = $row['czas_dodania'];
         switch($pietro){

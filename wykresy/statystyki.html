@@ -10,9 +10,15 @@
   <body>
     <div class="flex_div">
       <section id="statystykiTemperatura">
-        <h1>Temperatura (7dni)</h1>
+        <h1>Temperatura
+          <select id="temperaturaCzasSelect">
+            <option value="1">24h</option>
+            <option value="2">7 dni</option>
+            <option value="3">30 dni</option>
+          </select>
+        </h1>
         <div>
-          <select>
+          <select id="temperaturaPietroSelect">
             <option value="1">Piętro 1</option>
             <option value="2">Piętro 2</option>
             <option value="3">Piętro 3</option>
@@ -42,9 +48,16 @@
       </section>
 
       <section id="statystykiSwiatla">
-        <h1>Światło (7dni)</h1>
+        <h1>Światło 
+          <select id="czasSwiatloSelect">
+            <option value="1">24h</option>
+            <option value="2">7 dni</option>
+            <option value="3">30 dni</option>
+          </select>
+        </h1>
+        
         <div>
-          <select>
+          <select id="swiatloPietroSelect">
             <option selected value="1">Piętro 1</option>
             <option value="2">Piętro 2</option>
             <option value="3">Piętro 3</option>
@@ -70,69 +83,93 @@
           </div>
         </div>
       </section>
-      <section>To jest sekcja 3
-        sa`mofna`ofn oa`f
+      
+      <section>
+        To jest sekcja 3
       </section>
-      <section>To jest sekcja 4
-        sfosnfosnf
-      </section>
+      <section>
+  <h1>Raporty</h1>
+  <select id="raportySelect">
+    <option value="1">1 piętro</option>
+    <option value="2">2 piętro</option>
+    <option value="3">3 piętro</option>
+    <option selected value="4">Wszystkie piętra</option>
+  </select>
+
+  <button id="pobierzRaportTemperaturyButton">
+    Pobierz miesięczny raport temperatury
+  </button>
+  <button id="pobierzRaportSwiatlaButton">
+    Pobierz miesięczny raport światła
+  </button>
+
+  <script>
+    const raportySelect = document.getElementById("raportySelect");
+
+    // aktualizacja etykiet
+    raportySelect.addEventListener("change", () => {
+      const pietro = raportySelect.value;
+      const postfix = pietro != 4 ? ` - Piętro ${pietro}` : "";
+
+      const buttons = [
+        { id: "pobierzRaportTemperaturyButton", label: "temperatury" },
+        { id: "pobierzRaportSwiatlaButton", label: "światła" }
+      ];
+
+      buttons.forEach(({ id, label }) => {
+        document.getElementById(id).innerText =
+          `Pobierz miesięczny raport ${label}${postfix}`;
+      });
+    });
+
+    // pobieranie raportów
+    document.getElementById("pobierzRaportTemperaturyButton").addEventListener("click", () => {
+      const pietro = raportySelect.value;
+      window.location.href = `./php/generate_report.php?tabela=temperatura&pietro=${pietro}`;
+    });
+
+    document.getElementById("pobierzRaportSwiatlaButton").addEventListener("click", () => {
+      const pietro = raportySelect.value;
+      window.location.href = `./php/generate_report.php?tabela=light&pietro=${pietro}`;
+    });
+  </script>
+</section>
       <section>To jest sekcja 5</section>
       <section>To jest sekcja 6</section>
     </div>
     <script>
-      let pietroTemperatura = document.querySelector(
-        "#statystykiTemperatura select"
+      const pietroTemperatura = document.querySelector(
+        "#temperaturaPietroSelect"
       );
       let pietroTemperaturaValue = 1; // Domyślne piętro
+      const temperaturaCzasSelect = document.querySelector(
+        "#temperaturaCzasSelect"
+      );
 
-      let pietroSwiatla = document.querySelector("#statystykiSwiatla select");
+      const pietroSwiatla = document.querySelector("#swiatloPietroSelect");
+      const czasWlaczoneSwiatlo = document.querySelector(
+        "#swiatloSelect"
+      );
+      const czasSwiatloSelect = document.querySelector(
+        "#czasSwiatloSelect"
+      );
       let pietroSwiatlaValue = 1; // Domyślne piętro dla swiatla
 
-      addEventListener("DOMContentLoaded", function () {
-        // Pobierz dane dla domyślnego piętra
-        fetch(
-          "./php/odczytaj_statystyki_temperatury.php?pietro=" +
-            pietroTemperaturaValue
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            document.getElementById("najnizszaTemperatura").innerHTML =
-              data.najmniejszaTemperatura +
-              "℃ " +
-              data.najnizszaTemperaturaCzujnik;
-            document.getElementById("sredniaTemperatura").innerHTML =
-              data.sredniaTemperatura + "℃";
-            document.getElementById("najwyzszaTemperatura").innerHTML =
-              data.najwyzszaTemperatura +
-              "℃ " +
-              data.najwyzszaTemperaturaCzujnik;
-            document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML =
-              data.sredniaZewnetrzna + "℃";
-          })
-          .catch((error) => console.error("Błąd:", error));
-        // Pobierz dane dla domyślnego piętra światła
-        fetch(
-          `./php/odczytaj_statystyki_swiatla.php?pietro=${pietroSwiatlaValue}`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            document.getElementById("najwyzszeSwiatlo").innerHTML =
-              data.najczesciejWlaczoneSwiatlo;
-            document.getElementById("najnizszeSwiatlo").innerHTML =
-              data.najrzadziejWlaczoneSwiatlo;
-              document.getElementById("swiatloWlaczoneCzas").innerHTML =
-              data.czasWlaczoneSwiatlo + " minut";
-          })
-          .catch((error) => console.error("Błąd:", error));
-      });
+      addEventListener("DOMContentLoaded", fetchStartData);
 
+      function fetchStartData() {
+        fetchTemperaturaData();
+        fetchSwiatloData();
+      }
 
-      pietroTemperatura.addEventListener("change", function () {
+      pietroTemperatura.addEventListener("change", fetchTemperaturaData);
+      temperaturaCzasSelect.addEventListener("change", fetchTemperaturaData);
+
+      function fetchTemperaturaData() {
         pietroTemperaturaValue = pietroTemperatura.value;
-        console.log("Wybrane piętro (temperatura): " + pietroTemperaturaValue);
+        const czasTemperatura = document.getElementById("temperaturaCzasSelect").value;
         fetch(
-          "./php/odczytaj_statystyki_temperatury.php?pietro=" +
-            pietroTemperaturaValue
+          `./php/odczytaj_statystyki_temperatury.php?pietro=${pietroTemperaturaValue}&czas=${czasTemperatura}`
         )
           .then((response) => response.json())
           .then((data) => {
@@ -150,26 +187,31 @@
               data.sredniaZewnetrzna + "℃";
           })
           .catch((error) => console.error("Błąd:", error));
-      });
+      }
 
+      pietroSwiatla.addEventListener("change", fetchSwiatloData);
+      czasSwiatloSelect.addEventListener("change", fetchSwiatloData);
 
-      pietroSwiatla.addEventListener("change", function () {
+      function fetchSwiatloData() {
         pietroSwiatlaValue = pietroSwiatla.value;
-        console.log("Wybrane piętro (światła): " + pietroSwiatlaValue);
+
+        const czasSwiatlo = document.getElementById("czasSwiatloSelect").value;
         fetch(
-          `./php/odczytaj_statystyki_swiatla.php?pietro=${pietroSwiatlaValue}`
+          `./php/odczytaj_statystyki_swiatla.php?pietro=${pietroSwiatlaValue}&czas=${czasSwiatlo}`
         )
           .then((response) => response.json())
           .then((data) => {
-              document.getElementById("najwyzszeSwiatlo").innerHTML =
+            document.getElementById("najwyzszeSwiatlo").innerHTML =
               data.najczesciejWlaczoneSwiatlo;
-              document.getElementById("najnizszeSwiatlo").innerHTML =
+            document.getElementById("najnizszeSwiatlo").innerHTML =
               data.najrzadziejWlaczoneSwiatlo;
-              document.getElementById("swiatloWlaczoneCzas").innerHTML =
+            document.getElementById("swiatloWlaczoneCzas").innerHTML =
               data.czasWlaczoneSwiatlo + " minut";
           })
           .catch((error) => console.error("Błąd:", error));
-      });
+      }
+
+
     </script>
   </body>
 </html>
