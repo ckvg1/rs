@@ -187,12 +187,26 @@
         }
         return $licznik > 0 ? round($suma / $licznik, 2) : null;
     }
+    function sprawdzBledneDane($tablica, $nazwy) {
+        $bledne = [];
+        for ($i = 0; $i < count($tablica); $i++) {
+            foreach ($tablica[$i] as $val) {
+                if (is_null($val) || $val === 0 || $val === 99 || $val < 0) {
+                    $bledne[] = $nazwy[$i];
+                    break; // wystarczy znaleźć jedno błędne dla czujnika
+                }
+            }
+        }
+        return $bledne;
+    }
     
     // Obliczenia
     $najnizsza = znajdzNajmniejszaTemperature($pomieszczenia[$pietro-1]);
     $najwyzsza = znajdzNajwyzszaTemperature($pomieszczenia[$pietro-1]);
     $srednia = znajdzSredniaTemperature($pomieszczenia[$pietro-1]);
     $sredniaTempZewn = obliczSredniaTemperatureZewnetrzna($temp_zewn);
+
+    $bledneCzujniki = sprawdzBledneDane($pomieszczenia[$pietro-1], $nazwy_czujnikow[$pietro-1]);
 
     // Odpowiedź JSON
     $response = [
@@ -201,8 +215,9 @@
         'sredniaTemperatura' => $srednia,
         'najnizszaTemperaturaCzujnik' => $nazwy_czujnikow[$pietro-1][$najnizsza['czujnik']],
         'najwyzszaTemperaturaCzujnik' => $nazwy_czujnikow[$pietro-1][$najwyzsza['czujnik']],
-        'sredniaZewnetrzna' => $sredniaTempZewn
-        
+        'sredniaZewnetrzna' => $sredniaTempZewn,
+        'bledneDane' => !empty($bledneCzujniki),
+        'czujnikBledneDane' => $bledneCzujniki
     ];
 
     echo json_encode($response);
