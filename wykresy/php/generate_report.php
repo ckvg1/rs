@@ -32,21 +32,21 @@ $sql = "SELECT * FROM $tabela
 switch ($pietro) {
     case 1:
         if ($tabela === "temperatura") {
-            $sql = str_replace("SELECT *", "SELECT t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, zewnetrzna, czas_dodania", $sql);
+            $sql = str_replace("SELECT *", "SELECT t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, t_zewn, czas_dodania", $sql);
         } else {
             $sql = str_replace("SELECT *", "SELECT l1_1_1, l1_1_2, l1_2_1, l1_2_2, l1_3_1, l1_3_2, l1_4_1, l1_4_2, l1_5_1, l1_5_2, l1_6_1, l1_6_2, l1_7_1, l1_7_2", $sql);
         }
         break;
     case 2:
         if ($tabela === "temperatura") {
-            $sql = str_replace("SELECT *", "SELECT t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7, zewnetrzna, czas_dodania", $sql);
+            $sql = str_replace("SELECT *", "SELECT t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7, t_zewn, czas_dodania", $sql);
         } else {
             $sql = str_replace("SELECT *", "SELECT l2_1_1, l2_1_2, l2_2_1, l2_2_2, l2_3_1, l2_3_2, l2_4_1, l2_4_2, l2_5_1, l2_5_2, l2_6_1, l2_6_2, l2_7_1, l2_7_2", $sql);
         }
         break;
     case 3:
         if ($tabela === "temperatura") {
-            $sql = str_replace("SELECT *", "SELECT t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7, zewnetrzna, czas_dodania", $sql);
+            $sql = str_replace("SELECT *", "SELECT t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7, t_zewn, czas_dodania", $sql);
         } else {
             $sql = str_replace("SELECT *", "SELECT l3_1_1, l3_1_2, l3_2_1, l3_2_2, l3_3_1, l3_3_2, l3_4_1, l3_4_2, l3_5_1, l3_5_2, l3_6_1, l3_6_2, l3_7_1, l3_7_2", $sql);
         }
