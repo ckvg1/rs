@@ -255,7 +255,7 @@ WHERE data > NOW() - INTERVAL ". $interval ." DAY
         $response = [
             'najczesciejWlaczoneSwiatlo' => $nazwy_czujnikow[$pietro-1][$najczesciejWlaczoneSwiatlo],
             'najrzadziejWlaczoneSwiatlo' => $nazwy_czujnikow[$pietro-1][$najrzadziejWlaczoneSwiatlo],  
-            'czasWlaczoneSwiatlo' => $czas_wlaczone_swiatlo * 5,
+            'czasWlaczoneSwiatlo' => round(($czas_wlaczone_swiatlo * 5)/60,1),
         ];
         echo json_encode($response);
 

@@ -87,21 +87,20 @@
       <section>
         To jest sekcja 3
       </section>
-      <section>
-  <h1>Raporty</h1>
-  <select id="raportySelect">
-    <option value="1">1 piętro</option>
-    <option value="2">2 piętro</option>
-    <option value="3">3 piętro</option>
-    <option selected value="4">Wszystkie piętra</option>
-  </select>
-
-  <button id="pobierzRaportTemperaturyButton">
-    Pobierz miesięczny raport temperatury
-  </button>
-  <button id="pobierzRaportSwiatlaButton">
-    Pobierz miesięczny raport światła
-  </button>
+      <section id="raporty">
+        <h1>Raporty</h1>
+          <select id="raportySelect">
+            <option value="1">1 piętro</option>
+            <option value="2">2 piętro</option>
+            <option value="3">3 piętro</option>
+            <option selected value="4">Wszystkie piętra</option>
+          </select>
+          <button id="pobierzRaportTemperaturyButton">
+            Pobierz miesięczny raport temperatury
+          </button>
+          <button id="pobierzRaportSwiatlaButton">
+            Pobierz miesięczny raport światła
+          </button>
 
   <script>
     const raportySelect = document.getElementById("raportySelect");
@@ -206,7 +205,7 @@
             document.getElementById("najnizszeSwiatlo").innerHTML =
               "<span style='color: green'>"+ data.najrzadziejWlaczoneSwiatlo + "</span>";
             document.getElementById("swiatloWlaczoneCzas").innerHTML =
-              data.czasWlaczoneSwiatlo + " minut";
+              data.czasWlaczoneSwiatlo + " godz.";
           })
           .catch((error) => console.error("Błąd:", error));
       }

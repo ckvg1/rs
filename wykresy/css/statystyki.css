@@ -46,6 +46,7 @@ select {
   -moz-appearance: none;
   cursor: pointer;
   transition: all 0.3s;
+  text-align: center;
 }
 
 select:hover{
