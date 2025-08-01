@@ -142,7 +142,6 @@ iframe {
   cursor: pointer;
 }
 #tabelka1, #tabelka2, #tabelka3{
-  /* column-count: 3; */
   height: 60vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -154,15 +153,8 @@ iframe {
 }
 .swiatla_div, .czujniki_div, .pokoje_div{
   display: block;
-  /* break-inside: avoid; */
 }
 
-/* .swiatla_div label,.swiatla_div input,
-.czujniki_div label,.czujniki_div input, 
-.pokoje_div label,.pokoje_div input{
-  margin: 5px 0;
-  
-} */
 
 
 .settings_forms button{
@@ -254,7 +246,7 @@ input:focus, select:focus {
     }
     #tabelka1, #tabelka2, #tabelka3{
       column-count: 2;
-      display: block;
+      display: inline-grid;
       width: 70vw;
     }
     /* .swiatla_div{
@@ -337,5 +329,12 @@ input:focus, select:focus {
   }
   .swiatla_div{
     width: 100%;
+  }
+}
+
+@media (max-height: 700px){
+  .close-btn {
+    top: 40px;
+    right: 20px;
   }
 }
