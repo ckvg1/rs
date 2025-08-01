@@ -105,10 +105,10 @@
 
   <script>
     const raportySelect = document.getElementById("raportySelect");
-
+    let pietro = 4;
     // aktualizacja etykiet
     raportySelect.addEventListener("change", () => {
-      const pietro = raportySelect.value;
+      pietro = raportySelect.value;
       const postfix = pietro != 4 ? ` - Piętro ${pietro}` : "";
 
       const buttons = [

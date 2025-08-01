@@ -10,10 +10,11 @@ $pietro = isset($_GET["pietro"]) ? intval($_GET["pietro"]) : 1;
 // dynamiczna kolumna czasu
 $czasDodaniaKlauzula = $tabela === "light" ? "data" : "czas_dodania";
 $month = date('m');
+$filename = $pietro . $tabela . $month . ".csv";
 if($pietro === 4) {
     $filename = "wszystkie" . $tabela . $month . ".csv";
 }
-$filename = $pietro . $tabela . $month . ".csv";
+
 header("Content-Disposition: attachment; filename=\"$filename\"");
 
 $conn = new mysqli("localhost", "root", "", "plc_database");
