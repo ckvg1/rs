@@ -1,5 +1,5 @@
 //wejscia rolet 2 pietro
-module.export = {
+module.exports = {
   wej_b2_r4_1: "DB12,X2.5",
   wej_b2_r4_2: "DB12,X2.6",
   wej_b2_r5_1: "DB12,X2.7",

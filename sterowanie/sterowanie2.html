@@ -44,13 +44,17 @@
       <a onmousedown="wyslijTrue('l2_4_1')" style="cursor: pointer">
         <img id="wyj_l2_4_1" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t2_4">
-        22 *C
-      </div>
-      <img id="b2_r4_1" class="strzalka" src="arrow.png"
+      <div class="temperatura" id="t2_4">22 *C</div>
+      <img
+        id="b2_r4_1"
+        class="strzalka"
+        src="arrow.png"
         onmousedown="roletaWlacz('b2_r4_1')"
       />
-      <img id="b2_r4_2" class="strzalka odwrot" src="arrow.png"
+      <img
+        id="b2_r4_2"
+        class="strzalka odwrot"
+        src="arrow.png"
         onmousedown="roletaWlacz('b2_r4_2')"
       />
       <a onmousedown="wyslijTrue('l2_4_2')" style="cursor: pointer">
@@ -62,10 +66,15 @@
       </a>
       <div class="temperatura" id="t2_5">19 *C</div>
       <img
-        id="b2_r5_1" class="strzalka" src="arrow.png"
+        id="b2_r5_1"
+        class="strzalka"
+        src="arrow.png"
         onmousedown="roletaWlacz('b2_r5_1')"
       />
-      <img id="b2_r5_2" class="strzalka odwrot" src="arrow.png"
+      <img
+        id="b2_r5_2"
+        class="strzalka odwrot"
+        src="arrow.png"
         onmousedown="roletaWlacz('b2_r5_2')"
       />
       <a onmousedown="wyslijTrue('l2_5_2')" style="cursor: pointer">
@@ -75,17 +84,21 @@
       <a onmousedown="wyslijTrue('l2_6_1')" style="cursor: pointer">
         <img id="wyj_l2_6_1" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t2_6">
-        27 *C
-      </div>
-      <img id="b2_r6_1" class="strzalka" src="arrow.png"
+      <div class="temperatura" id="t2_6">27 *C</div>
+      <img
+        id="b2_r6_1"
+        class="strzalka"
+        src="arrow.png"
         onmousedown="roletaWlacz('b2_r6_1')"
       />
-      <img id="b2_r6_2" class="strzalka odwrot" src="arrow.png"
+      <img
+        id="b2_r6_2"
+        class="strzalka odwrot"
+        src="arrow.png"
         onmousedown="roletaWlacz('b2_r6_2')"
       />
       <a onmousedown="wyslijTrue('l2_6_2')" style="cursor: pointer">
-        <img id="wyj_l2_6_2" class="zarowka" src="bulb_on.png "/>
+        <img id="wyj_l2_6_2" class="zarowka" src="bulb_on.png " />
       </a>
 
       <a onmousedown="wyslijTrue('l2_7_1')" style="cursor: pointer">
@@ -94,86 +107,75 @@
       <a onmousedown="wyslijTrue('l2_7_2')" style="cursor: pointer">
         <img id="wyj_l2_7_2" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t2_7">
-        20 *C
-      </div>
-      <img id="b2_r7_1" class="strzalka" src="arrow.png"
+      <div class="temperatura" id="t2_7">20 *C</div>
+      <img
+        id="b2_r7_1"
+        class="strzalka"
+        src="arrow.png"
         onmousedown="roletaWlacz('b2_r7_1')"
       />
-      <img id="b2_r7_2" class="strzalka odwrot" src="arrow.png"
+      <img
+        id="b2_r7_2"
+        class="strzalka odwrot"
+        src="arrow.png"
         onmousedown="roletaWlacz('b2_r7_2')"
       />
     </div>
 
     <script>
-      let fetchingLight = false;
-      let fetchingTemp = false;
+      let isFetchingLight = false;
+      let isFetchingTemp = false;
       let fetchingBlinds = false;
       let tempInterval, swiatloInterval;
 
       addEventListener("DOMContentLoaded", () => {
-        pobierzDaneSwiatlo();
-        pobierzDaneTemp();
-        swiatloInterval = setInterval(pobierzDaneSwiatlo, 1000);
-        tempInterval = setInterval(pobierzDaneTemp, 5000);
-      });
-
-      window.addEventListener("message", (event) => {
-        if (event.data === "cleanup") {
-          console.log("zatrzymywanie pobierania danych");
-          clearInterval(tempInterval);
-          clearInterval(swiatloInterval);
-        }
-      });
-
-      async function pobierzDaneSwiatlo() {
-        if (fetchingLight) return;
-        fetchingLight = true;
-
-        try {
-          const response = await axios.get(
-            "http://localhost:3000/swiatla/2/wyjscia"
-          );
-          const dane = response.data;
+        const swiatlaStream = new EventSource(
+          "http://localhost:3000/stream/swiatla"
+        );
+        swiatlaStream.onmessage = (event) => {
+          const dane = JSON.parse(event.data);
           Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(id);
             if (el) {
-              el.src = wartosc ? "bulb_on.png" : "bulb_of.png";
+              if (el.id[0] == "w") {
+                el.src = wartosc ? "bulb_on.png" : "bulb_of.png";
+              }
             }
           });
-        } catch (err) {
-          console.error("Błąd pobierania danych o świetle:", err);
-        } finally {
-          fetchingLight = false;
-        }
-      }
+        };
 
-      async function pobierzDaneTemp() {
-        if (fetchingTemp) return;
-        fetchingTemp = true;
-
-        try {
-          const response = await axios.get(
-            "http://localhost:3000/temperatura/2"
-          );
-          const dane = response.data;
+        const temperaturaStream = new EventSource(
+          "http://localhost:3000/stream/temperatura"
+        );
+        temperaturaStream.onmessage = (event) => {
+          const dane = JSON.parse(event.data);
+          console.log(dane);
           Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(id);
+
+            if (el) el.innerText = `${wartosc.toFixed(1)} °C`;
+          });
+        };
+
+        const roletyStream = new EventSource(
+          "http://localhost:3000/stream/rolety"
+        );
+        roletyStream.onmessage = (event) => {
+          const dane = JSON.parse(event.data);
+          Object.entries(dane).forEach(([id, wartosc]) => {
+            const el = document.getElementById(
+              id.split("_")[1] + "_" + id.split("_")[2] + "_" + id.split("_")[3]
+            );
             if (el) {
-              el.innerText = `${wartosc.toFixed(1)} °C`;
+              el.src = wartosc ? "arrow.png" : "arrow_of.png";
             }
           });
-        } catch (err) {
-          console.error("Błąd pobierania danych o temperaturze:", err);
-        } finally {
-          fetchingTemp = false;
-        }
-      }
+        };
+      });
 
       async function wyslijTrue(swiatlo) {
-        if (fetchingLight) return;
-        fetchingLight = true;
-
+        if (isFetchingLight) return;
+        isFetchingLight = true;
         try {
           // Najpierw wł.
           await axios.put(`http://localhost:3000/swiatla/2/${swiatlo}`, {
@@ -183,41 +185,29 @@
           await axios.put(`http://localhost:3000/swiatla/2/${swiatlo}`, {
             wartosc: false,
           });
-          // Odśwież stan
-          await pobierzDaneSwiatlo();
         } catch (err) {
           console.error("Błąd wysyłania sygnału:", err);
         } finally {
-          fetchingLight = false;
+          isFetchingLight = false;
         }
       }
-      /*async function roletkaWlacz(roleta) {
-        if (isFetchingBlinds) return;
-        isFetchingBlinds = true;
 
+      async function roletaWlacz(roleta) {
+        if (fetchingBlinds) return;
+        fetchingBlinds = true;
         try {
-          // 1. Pobierz aktualny stan rolety
-          const getRes = await axios.get(
-            `http://localhost:3000/rolety/3/wyjscia/${roleta}`
-          );
-          const { wartosc } = getRes.data;
-          console.log("Stan przed zmianą rolety:", wartosc);
-
-          // 2. Ustal nową wartość (przełącz)
-          const nowaWartosc = !wartosc;
-
-          // 3. Wyślij PUT z przełączoną wartością
-          const putRes = await axios.put(
-            `http://localhost:3000/rolety/3/${roleta}`,
-            { wartosc: nowaWartosc }
-          );
-          console.log("Odpowiedź po zmianie rolety:", putRes.data);
+          await axios.put(`http://localhost:3000/rolety/2/${roleta}`, {
+            wartosc: true,
+          });
+          await axios.put(`http://localhost:3000/rolety/2/${roleta}`, {
+            wartosc: false,
+          });
         } catch (err) {
-          console.error("Błąd przy obsłudze rolety:", err);
+          console.error("Błąd wysyłania sygnału do rolet:", err);
         } finally {
           fetchingBlinds = false;
         }
-      }*/
+      }
     </script>
   </body>
 </html>
