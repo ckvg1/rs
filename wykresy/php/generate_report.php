@@ -99,17 +99,17 @@ if ($result->num_rows > 0) {
         $header[] = $aliases[$col] ?? $col;
     }
 
-    fputcsv($output, $header);
+    fputcsv($output, $header, ';');
 
     // zapis pierwszego wiersza
-    fputcsv($output, $firstRow);
+    fputcsv($output, $firstRow, ';');
 
     // reszta danych
     while ($row = $result->fetch_assoc()) {
-        fputcsv($output, $row);
+        fputcsv($output, $row, ';');
     }
 } else {
-    fputcsv($output, ["Brak danych"]);
+    fputcsv($output, ["Brak danych"], ';');
 }
 
 fclose($output);

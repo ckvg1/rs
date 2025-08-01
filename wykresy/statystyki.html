@@ -33,16 +33,16 @@
           "
         >
           <div class="icons_div">
-            <img src="img/temp_high.png" />
-            <img src="img/chart.png" />
-            <img src="img/temp_low.png" />
-            <img src="img/outdoor.png" />
+            <img title = "Maksymalna temperatura w budynku (1 odczyt)" src="img/temp_high.png" />
+            <img title = "Średnia temperatura w budynku" src="img/chart.png" />
+            <img title = "Minimalna temperatura w budynku (1 odczyt)" src="img/temp_low.png" />
+            <img title = "Średnia temperatura na zewnątrz" src="img/outdoor.png" />
           </div>
           <div class="stats_div">
-            <p id="najwyzszaTemperatura"></p>
-            <p id="sredniaTemperatura"></p>
-            <p id="najnizszaTemperatura"></p>
-            <p id="sredniaTemperaturaZewnetrzna"></p>
+            <p title = "Maksymalna temperatura w budynku (1 odczyt)" id="najwyzszaTemperatura"></p>
+            <p title = "Średnia temperatura w budynku" id="sredniaTemperatura"></p>
+            <p title = "Minimalna temperatura w budynku (1 odczyt)" id="najnizszaTemperatura"></p>
+            <p title = "Średnia temperatura na zewnątrz" id="sredniaTemperaturaZewnetrzna"></p>
           </div>
         </div>
       </section>
@@ -72,14 +72,14 @@
           "
         >
           <div class="icons_div">
-            <img src="img/light_on.png" />
-            <img src="img/light_off.png" />
-            <img src="img/clock.png" />
+            <img title="Najczęściej włączane światło" src="img/light_on.png" /> <span>max</span>
+            <img title="Najczęściej wyłączone światło" src="img/light_off.png" /> <span>min</span>
+            <img title="Czas, w którym światło było włączone" src="img/clock.png" /> 
           </div>
           <div class="stats_div">
-            <p id="najwyzszeSwiatlo">test</p>
-            <p id="najnizszeSwiatlo">test</p>
-            <p id="swiatloWlaczoneCzas"></p>
+            <p title="Najczęściej włączane światło" id="najwyzszeSwiatlo"></p><span><p> </p></span>
+            <p title="Najczęściej wyłączone światło" id="najnizszeSwiatlo"></p><span><p> </p></span>
+            <p title="Czas, w którym światło było włączone" id="swiatloWlaczoneCzas"></p><span><p> </p></span>
           </div>
         </div>
       </section>
@@ -175,13 +175,13 @@
           .then((data) => {
             document.getElementById("najnizszaTemperatura").innerHTML =
               data.najmniejszaTemperatura +
-              "℃ " +
-              data.najnizszaTemperaturaCzujnik;
+              "℃ <span style='color:blue'>" +
+              data.najnizszaTemperaturaCzujnik +"</span>";
             document.getElementById("sredniaTemperatura").innerHTML =
               data.sredniaTemperatura + "℃";
             document.getElementById("najwyzszaTemperatura").innerHTML =
               data.najwyzszaTemperatura +
-              "℃ <span style='color:rgb(17, 94, 153)'>" +
+              "℃ <span style='color:red'>" +
               data.najwyzszaTemperaturaCzujnik +"</span>";
             document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML =
               data.sredniaZewnetrzna + "℃";
@@ -202,9 +202,9 @@
           .then((response) => response.json())
           .then((data) => {
             document.getElementById("najwyzszeSwiatlo").innerHTML =
-              data.najczesciejWlaczoneSwiatlo;
+             "<span style='color: red'>"+ data.najczesciejWlaczoneSwiatlo + "</span>";
             document.getElementById("najnizszeSwiatlo").innerHTML =
-              data.najrzadziejWlaczoneSwiatlo;
+              "<span style='color: green'>"+ data.najrzadziejWlaczoneSwiatlo + "</span>";
             document.getElementById("swiatloWlaczoneCzas").innerHTML =
               data.czasWlaczoneSwiatlo + " minut";
           })
