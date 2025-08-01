@@ -108,6 +108,7 @@ iframe {
   background-image: url("./img_main/settings-move.gif");
   background-size: cover;
 }
+
 #logo_settings {
   display: flex;
   align-items: center;
@@ -128,12 +129,14 @@ iframe {
   align-items: center;
   justify-content: center;
 }
+
 .modal-content {
   background: #fff;
   padding: 40px;
   border-radius: 8px;
   position: relative;
 }
+
 .close-btn {
   position: absolute;
   top: 10px;
@@ -141,6 +144,7 @@ iframe {
   font-size: 50px;
   cursor: pointer;
 }
+
 #tabelka1, #tabelka2, #tabelka3{
   height: 60vh;
   overflow-y: auto;
@@ -151,13 +155,16 @@ iframe {
   align-items: center;
   align-items: flex-start; 
 }
+
 .swiatla_div, .czujniki_div, .pokoje_div{
   display: block;
 }
-
-
-
-.settings_forms button{
+#divZapisz{
+  width: 100%; 
+  text-align: center; 
+  margin-top: 5px;
+}
+#divZapisz button{
   background-color: #2a80f9;
   color: white;
   padding: 12px 24px;
@@ -168,11 +175,11 @@ iframe {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
   transition: all 0.1s;
 }
-.settings_forms button:hover {
+#divZapisz button:hover {
   background-color: white;
   color: #2a80f9;
 }
-.settings_forms button:active {
+#divZapisz button:active {
   background-color: #2a80f9;
   color: white;
 }
@@ -249,10 +256,6 @@ input:focus, select:focus {
       display: inline-grid;
       width: 70vw;
     }
-    /* .swiatla_div{
-      height: 100%;
-      float: left;
-    } */
     .czujniki_div, .pokoje_div{
       float: right;
     }

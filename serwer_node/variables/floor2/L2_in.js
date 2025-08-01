@@ -15,4 +15,6 @@ module.exports = {
   wej_l2_6_2: "DB12,X1.7",
   wej_l2_7_1: "DB12,X2.0",
   wej_l2_7_2: "DB12,X2.1",
+
+  wej_all_l2: "DB12,X.0.1",
 };
