@@ -258,8 +258,15 @@ input:focus, select:focus {
     }
 }
 
+@media (min-width:781px) and (max-width: 1235px){
+  header {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 
 @media only screen and (max-width: 780px) {
+   
   main {
     height: calc(100vh - 90px);
   }
