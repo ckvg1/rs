@@ -10,7 +10,21 @@
 
     // Parametr GET
     $pietro = isset($_GET["pietro"]) ? intval($_GET["pietro"]) : 1;
-
+    $czas = isset($_GET["czas"]) ? intval($_GET["czas"]) : 1;
+    $interval = 1;
+    switch($czas) {
+        case 1: // 24h
+            $interval = "1";
+            break;
+        case 2: // 7 dni
+            $interval = "7";
+            break;
+        case 3: // 30 dni
+            $interval = "30";
+            break;
+        default:
+            die("Nieprawidłowy czas");
+    }
      switch($pietro){
     case 1:
         $sql = "SELECT 
@@ -29,7 +43,7 @@
     SUM(l1_7_1) AS l1_7_1_count,
     SUM(l1_7_2) AS l1_7_2_count
 FROM light
-WHERE data > NOW() - INTERVAL 7 DAY
+WHERE data > NOW() - INTERVAL ". $interval ." DAY
 ";
         break;
     case 2:
@@ -49,7 +63,7 @@ WHERE data > NOW() - INTERVAL 7 DAY
     SUM(l2_7_1) AS l2_7_1_count,
     SUM(l2_7_2) AS l2_7_2_count
 FROM light
-WHERE data > NOW() - INTERVAL 7 DAY
+WHERE data > NOW() - INTERVAL ". $interval ." DAY
 ";
         break;
     case 3:
@@ -69,7 +83,7 @@ WHERE data > NOW() - INTERVAL 7 DAY
     SUM(l3_7_1) AS l3_7_1_count,
     SUM(l3_7_2) AS l3_7_2_count
 FROM light
-WHERE data > NOW() - INTERVAL 7 DAY
+WHERE data > NOW() - INTERVAL ". $interval ." DAY
 ";
         break;
     default:
