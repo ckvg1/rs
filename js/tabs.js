@@ -43,3 +43,12 @@ function hamburger(x) {
     tabsList.style.right = "0px";
   }
 }
+
+function znikanie(){
+  tabs_list = document.querySelector(".tabs_list");
+  burger = document.querySelector(".hamburger");
+  if(window.innerWidth <= 810){
+    burger.classList.remove("change");
+    tabsList.style.right = "-300px";
+  }
+}
