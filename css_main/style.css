@@ -269,6 +269,7 @@ input:focus, select:focus {
 }
 
 @media only screen and (max-width: 810px) {
+   
   main {
     height: calc(100vh - 90px);
   }

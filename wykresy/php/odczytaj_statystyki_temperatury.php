@@ -29,7 +29,7 @@
     switch($pietro){
         case 1:
             $sql_temp = "SELECT t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, 
-                        zewnetrzna, czas_dodania 
+                        t_zewn, czas_dodania 
                         FROM temperatura 
                         WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
                         ORDER BY czas_dodania DESC";
@@ -38,7 +38,7 @@
             break;
         case 2:
             $sql_temp = "SELECT t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7, 
-                        zewnetrzna, czas_dodania 
+                        t_zewn, czas_dodania 
                         FROM temperatura 
                         WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
                         ORDER BY czas_dodania DESC";
@@ -46,7 +46,7 @@
             break;
         case 3:
             $sql_temp = "SELECT t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7, 
-                        zewnetrzna, czas_dodania 
+                        t_zewn, czas_dodania 
                         FROM temperatura 
                         WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
                         ORDER BY czas_dodania DESC";
@@ -87,33 +87,33 @@
         switch($pietro){
             case 1:
                 $t1_1[] = ($row['t1_1']);
-                $t1_2[] = round($row['t1_2'], 1);
-                $t1_3[] = round($row['t1_3'], 1);
-                $t1_4[] = round($row['t1_4'], 1);
-                $t1_5[] = round($row['t1_5'], 1);
-                $t1_6[] = round($row['t1_6'], 1);
-                $t1_7[] = round($row['t1_7'], 1) ;
-                break;
-            case 2:
-                $t2_1[] = round($row['t2_1'], 1);
-                $t2_2[] = round($row['t2_2'], 1);
-                $t2_3[] = round($row['t2_3'], 1);
-                $t2_4[] = round($row['t2_4'], 1);
-                $t2_5[] = round($row['t2_5'], 1);
-                $t2_6[] = round($row['t2_6'], 1);
-                $t2_7[] = round($row['t2_7'], 1);
-                break;
-            case 3:
-                $t3_1[] = round($row['t3_1'], 1);
-                $t3_2[] = round($row['t3_2'], 1);
-                $t3_3[] = round($row['t3_3'], 1);
-                $t3_4[] = round($row['t3_4'], 1);
-                $t3_5[] = round($row['t3_5'], 1);
-                $t3_6[] = round($row['t3_6'], 1);
-                $t3_7[] = round($row['t3_7'], 1);
+                $t1_2[] = round($row['t1_2'] ?? 0, 1);
+                $t1_3[] = round($row['t1_3'] ?? 0, 1);
+                $t1_4[] = round($row['t1_4'] ?? 0, 1);
+                $t1_5[] = round($row['t1_5'] ?? 0, 1);
+                $t1_6[] = round($row['t1_6'] ?? 0, 1);
+                $t1_7[] = round($row['t1_7'] ?? 0, 1) ;
+                break; 
+            case 2: 
+                $t2_1[] = round($row['t2_1'] ?? 0, 1);
+                $t2_2[] = round($row['t2_2'] ?? 0, 1);
+                $t2_3[] = round($row['t2_3'] ?? 0, 1);
+                $t2_4[] = round($row['t2_4'] ?? 0, 1);
+                $t2_5[] = round($row['t2_5'] ?? 0, 1);
+                $t2_6[] = round($row['t2_6'] ?? 0, 1);
+                $t2_7[] = round($row['t2_7'] ?? 0, 1);
+                break; 
+            case 3: 
+                $t3_1[] = round($row['t3_1'] ?? 0, 1);
+                $t3_2[] = round($row['t3_2'] ?? 0, 1);
+                $t3_3[] = round($row['t3_3'] ?? 0, 1);
+                $t3_4[] = round($row['t3_4'] ?? 0, 1);
+                $t3_5[] = round($row['t3_5'] ?? 0, 1);
+                $t3_6[] = round($row['t3_6'] ?? 0, 1);
+                $t3_7[] = round($row['t3_7'] ?? 0, 1);
                 break;
         }
-        $temp_zewn[] = round($row['zewnetrzna'],1);
+        $temp_zewn[] = round($row['t_zewn'],1);
     }
     
     
