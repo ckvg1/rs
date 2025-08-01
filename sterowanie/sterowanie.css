@@ -36,7 +36,7 @@ button {
     margin: auto;
 }
 
-.zarowka{
+.zarowka, .wszystkieSwiatla{
     position: absolute;
     width: 4%;
 }
@@ -53,6 +53,8 @@ button {
 .odwrot{
     transform: rotate(180deg);
 }
+
+#all_l1, #all_l2, #all_l3{top: 4%; left: 93%;}
 
 #wyj_l1_1_1, #wyj_l2_1_1, #wyj_l3_1_1{top: 27%; left: 12%;}
 #wyj_l1_1_2, #wyj_l2_1_2, #wyj_l3_1_2{top: 27%; left: 17%;}
