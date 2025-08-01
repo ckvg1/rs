@@ -5,7 +5,7 @@ $sql = "SELECT
 t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, 
 t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7,
 t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7,
-zewnetrzna, czas_dodania 
+t_zewn, czas_dodania 
 FROM temperatura 
 WHERE czas_dodania > NOW() - INTERVAL 1 DAY 
 ORDER BY czas_dodania DESC";
@@ -24,7 +24,7 @@ if (isset($_GET["data_od"]) && isset($_GET["data_do"])) {
     t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, 
     t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7,
     t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7,
-    zewnetrzna, czas_dodania 
+    t_zewn, czas_dodania 
     FROM temperatura 
     WHERE czas_dodania BETWEEN '$data_od' AND '$data_do' 
     ORDER BY czas_dodania DESC";
@@ -58,7 +58,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $t3_6[] = round($row['t3_6'],1);
     $t3_7[] = round($row['t3_7'],1);
 
-    $temp_zewn[] = round($row['zewnetrzna'],1);
+    $temp_zewn[] = round($row['t_zewn'],1);
 }
 
 $response = [];

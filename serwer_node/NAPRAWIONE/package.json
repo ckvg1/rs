@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "async-mutex": "^0.5.0",
-    "node-cache": "^5.1.2"
-  }
-}

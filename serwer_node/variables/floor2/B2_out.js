@@ -1,5 +1,5 @@
 //wyjscia rolet 2 pietro
-module.export = {
+module.exports = {
   wyj_b2_r4_1: "Q123.0",
   wyj_b2_r4_2: "Q123.1",
   wyj_b2_r5_1: "Q123.2",
