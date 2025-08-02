@@ -20,9 +20,16 @@
       <a onmousedown="" style="cursor: pointer">
         <img
           id="all_l2"
-          onmousedown="wyslijTrue('all_l2')"
+          onmousedown="wyslijTrue('all_ON_l2')"
           class="wszystkieSwiatla"
           src="btn_on.png"
+        />
+        <img
+          id="all_l2"
+          onmousedown="wyslijTrue('all_OFF_l2')"
+          class="wszystkieSwiatla"
+          src="btn_of.png"
+          style="margin-left: 5%"
         />
         <!-- Przycisk do wszystkich świateł -->
       </a>
@@ -139,7 +146,7 @@
 
       addEventListener("DOMContentLoaded", () => {
         const swiatlaStream = new EventSource(
-          "http://localhost:3000/stream/swiatla"
+          "http://192.168.25.59:3000/stream/swiatla"
         );
         swiatlaStream.onmessage = (event) => {
           const dane = JSON.parse(event.data);
@@ -154,7 +161,7 @@
         };
 
         const temperaturaStream = new EventSource(
-          "http://localhost:3000/stream/temperatura"
+          "http://192.168.25.59:3000/stream/temperatura"
         );
         temperaturaStream.onmessage = (event) => {
           const dane = JSON.parse(event.data);
@@ -167,7 +174,7 @@
         };
 
         const roletyStream = new EventSource(
-          "http://localhost:3000/stream/rolety"
+          "http://192.168.25.59:3000/stream/rolety"
         );
         roletyStream.onmessage = (event) => {
           const dane = JSON.parse(event.data);
@@ -187,11 +194,11 @@
         isFetchingLight = true;
         try {
           // Najpierw wł.
-          await axios.put(`http://localhost:3000/swiatla/2/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/2/${swiatlo}`, {
             wartosc: true,
           });
           // Następnie wył.
-          await axios.put(`http://localhost:3000/swiatla/2/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/2/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -205,10 +212,10 @@
         if (fetchingBlinds) return;
         fetchingBlinds = true;
         try {
-          await axios.put(`http://localhost:3000/rolety/2/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/2/${roleta}`, {
             wartosc: true,
           });
-          await axios.put(`http://localhost:3000/rolety/2/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/2/${roleta}`, {
             wartosc: false,
           });
         } catch (err) {
