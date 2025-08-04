@@ -16,5 +16,6 @@ module.exports = {
   wej_l3_7_1: "DB13,X2.0",
   wej_l3_7_2: "DB13,X2.1",
 
-  wej_all_l3: "DB13,X.0.1" // wejście do wszystkich świateł 3 piętro
+  wej_all_OFF_l3: "DB13,X0.0", // MAIN_OFF
+  wej_all_ON_l3: "DB13,X0.1", // MAIN_ON
 };

@@ -11,25 +11,28 @@
   </head>
   <body>
     <h1 style="font-size: 18pt">Sterowanie urządzeniami - 3 piętro</h1>
+    <div id="alertBox" class="oaerror danger" style="display: none"></div>
 
     <div
       style="display: flex; flex-direction: row; gap: 15px; align-items: center"
     ></div>
     <div id="myDiv" class="main_image">
       <img src="swiatla-bg.png" id="main_image" />
-      <a onmousedown="" style="cursor: pointer">
-        <img
-          id="all_l3"
-          onmousedown="wyslijTrue('all_l3')"
-          class="wszystkieSwiatla"
-          src="btn_on.png"
-        />
+      <a onmousedown="wyslijTrue('all_ON_l3')" style="cursor: pointer">
+        <img id="a" class="zarowka" src="btn_of.png" />
+
         <!-- Przycisk do wszystkich świateł -->
       </a>
+      <a onmousedown="wyslijTrue('all_OFF_l3')" style="cursor: pointer">
+        <img style="margin-left: 5%" id="a" class="zarowka" src="btn_on.png" />
+
+        <!-- Przycisk do wszystkich świateł -->
+      </a>
+
       <a onmousedown="wyslijTrue('l3_1_1')" style="cursor: pointer">
         <img id="wyj_l3_1_1" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t3_1">35 *C</div>
+      <div class="temperatura" id="t3_1">Błąd odczytu</div>
       <a onmousedown="wyslijTrue('l3_1_2')" style="cursor: pointer">
         <img id="wyj_l3_1_2" class="zarowka" src="bulb_on.png " />
       </a>
@@ -37,7 +40,7 @@
       <a onmousedown="wyslijTrue('l3_2_1')" style="cursor: pointer">
         <img id="wyj_l3_2_1" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t3_2">25 *C</div>
+      <div class="temperatura" id="t3_2">Błąd odczytu</div>
       <a onmousedown="wyslijTrue('l3_2_2')" style="cursor: pointer">
         <img id="wyj_l3_2_2" class="zarowka" src="bulb_on.png " />
       </a>
@@ -45,7 +48,7 @@
       <a onmousedown="wyslijTrue('l3_3_1')" style="cursor: pointer">
         <img id="wyj_l3_3_1" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t3_3">17 *C</div>
+      <div class="temperatura" id="t3_3">Błąd odczytu</div>
       <a onmousedown="wyslijTrue('l3_3_2')" style="cursor: pointer">
         <img id="wyj_l3_3_2" class="zarowka" src="bulb_on.png " />
       </a>
@@ -53,7 +56,7 @@
       <a onmousedown="wyslijTrue('l3_4_1')" style="cursor: pointer">
         <img id="wyj_l3_4_1" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t3_4">22 *C</div>
+      <div class="temperatura" id="t3_4">Błąd odczytu</div>
       <img
         id="b3_r4_1"
         class="strzalka"
@@ -73,7 +76,7 @@
       <a onmousedown="wyslijTrue('l3_5_1')" style="cursor: pointer">
         <img id="wyj_l3_5_1" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t3_5">19 *C</div>
+      <div class="temperatura" id="t3_5">Błąd odczytu</div>
       <img
         id="b3_r5_1"
         class="strzalka"
@@ -93,7 +96,7 @@
       <a onmousedown="wyslijTrue('l3_6_1')" style="cursor: pointer">
         <img id="wyj_l3_6_1" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t3_6">27 *C</div>
+      <div class="temperatura" id="t3_6">Błąd odczytu</div>
       <img
         id="b3_r6_1"
         class="strzalka"
@@ -116,7 +119,7 @@
       <a onmousedown="wyslijTrue('l3_7_2')" style="cursor: pointer">
         <img id="wyj_l3_7_2" class="zarowka" src="bulb_on.png " />
       </a>
-      <div class="temperatura" id="t3_7">20 *C</div>
+      <div class="temperatura" id="t3_7">Błąd odczytu</div>
       <img
         id="b3_r7_1"
         class="strzalka"
@@ -132,14 +135,30 @@
     </div>
 
     <script>
-      let isFetchingLight = false;
-      let isFetchingTemp = false;
-      let fetchingBlinds = false;
-      let tempInterval, swiatloInterval;
+      const alertBox = document.getElementById("alertBox");
 
+      let isFetchingLight = false;
+      let isFetchingBlinds = false;
+
+      function reconnectStreams() {
+        location.reload(); // odświeżenie strony w celu ponownego nawiązania połączenia z serwerem
+      }
+
+      function showAlert(
+        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong style='color: black'> spróbuj ponownie </strong> </a>"
+      ) {
+        alertBox.style.display = "block";
+        document.querySelector(".oaerror").innerHTML = message;
+      }
+      function hideAlert() {
+        alertBox.style.display = "none";
+      }
       addEventListener("DOMContentLoaded", () => {
+        showAlert(
+          " Trwa łączenie z PLC. <img src='loading.gif' style='width: 30px; height: 30px; vertical-align: middle; margin-left: 10px' />"
+        );
         const swiatlaStream = new EventSource(
-          "http://localhost:3000/stream/swiatla"
+          "http://192.168.25.59:3000/stream/swiatla"
         );
         swiatlaStream.onmessage = (event) => {
           const dane = JSON.parse(event.data);
@@ -154,7 +173,7 @@
         };
 
         const temperaturaStream = new EventSource(
-          "http://localhost:3000/stream/temperatura"
+          "http://192.168.25.59:3000/stream/temperatura"
         );
         temperaturaStream.onmessage = (event) => {
           const dane = JSON.parse(event.data);
@@ -166,7 +185,7 @@
         };
 
         const roletyStream = new EventSource(
-          "http://localhost:3000/stream/rolety"
+          "http://192.168.25.59:3000/stream/rolety"
         );
         roletyStream.onmessage = (event) => {
           const dane = JSON.parse(event.data);
@@ -179,6 +198,30 @@
             }
           });
         };
+        roletyStream.onerror = (err) => {
+          showAlert();
+          console.error("Błąd połączenia z serwerem rolety:", err);
+        };
+        temperaturaStream.onerror = (err) => {
+          showAlert();
+          console.error("Błąd połączenia z serwerem temperatury:", err);
+        };
+        swiatlaStream.onerror = (err) => {
+          showAlert();
+          console.error("Błąd połączenia z serwerem świateł:", err);
+        };
+        roletyStream.onopen = () => {
+          hideAlert();
+          console.log("Połączono z serwerem rolety");
+        };
+        temperaturaStream.onopen = () => {
+          hideAlert();
+          console.log("Połączono z serwerem temperatury");
+        };
+        swiatlaStream.onopen = () => {
+          hideAlert();
+          console.log("Połączono z serwerem świateł");
+        };
       });
 
       async function wyslijTrue(swiatlo) {
@@ -186,34 +229,37 @@
         isFetchingLight = true;
         try {
           // Najpierw wł.
-          await axios.put(`http://localhost:3000/swiatla/3/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
             wartosc: true,
           });
           // Następnie wył.
-          await axios.put(`http://localhost:3000/swiatla/3/${swiatlo}`, {
+
+          await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
-          console.error("Błąd wysyłania sygnału:", err);
+          alertBox.style.display = "block";
+          showAlert();
         } finally {
           isFetchingLight = false;
         }
       }
 
       async function roletaWlacz(roleta) {
-        if (fetchingBlinds) return;
-        fetchingBlinds = true;
+        if (isFetchingBlinds) return;
+        isFetchingBlinds = true;
         try {
-          await axios.put(`http://localhost:3000/rolety/3/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/3/${roleta}`, {
             wartosc: true,
           });
-          await axios.put(`http://localhost:3000/rolety/3/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/3/${roleta}`, {
             wartosc: false,
           });
         } catch (err) {
+          showAlert();
           console.error("Błąd wysyłania sygnału do rolet:", err);
         } finally {
-          fetchingBlinds = false;
+          isFetchingBlinds = false;
         }
       }
     </script>
