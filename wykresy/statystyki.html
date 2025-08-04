@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Statystyki</title>
     <link rel="icon" type="image/x-icon" href="wykresy/icon.png" />
+        <link rel="stylesheet" href="../css_main/glowny.css" />
     <link rel="stylesheet" href="./css/statystyki.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="../sterowanie/axios.min.js"></script>
@@ -187,18 +188,18 @@
       </section>
       <section id="raporty">
         <h1>Raporty</h1>
-        <select id="raportySelect" style="margin: 10px">
-          <option value="1">1 piętro</option>
-          <option value="2">2 piętro</option>
-          <option value="3">3 piętro</option>
-          <option selected value="4">Wszystkie piętra</option>
-        </select>
-        <button id="pobierzRaportTemperaturyButton">
-          Pobierz miesięczny raport temperatury
-        </button>
-        <button id="pobierzRaportSwiatlaButton">
-          Pobierz miesięczny raport światła
-        </button>
+          <select id="raportySelect" style="margin: 10px;">
+            <option value="1">1 piętro</option>
+            <option value="2">2 piętro</option>
+            <option value="3">3 piętro</option>
+            <option selected value="4">Wszystkie piętra</option>
+          </select>
+          <button class="przycisk" id="pobierzRaportTemperaturyButton">
+            Pobierz miesięczny raport temperatury
+          </button>
+          <button class="przycisk" id="pobierzRaportSwiatlaButton">
+            Pobierz miesięczny raport światła
+          </button>
 
         <script>
           const raportySelect = document.getElementById("raportySelect");

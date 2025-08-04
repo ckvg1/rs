@@ -1,6 +1,4 @@
 body {
-  font-family: "Ubuntu", Courier, monospace;
-  background-color: #f4f7f9;
   margin: 0;
   padding: 20px;
 }
@@ -10,64 +8,14 @@ body {
   align-items: center;
   gap: 10px;
 }
-header img {
-  width: 200px;
-  max-width: 100%;
-}
 .form-group {
   gap: 5px;
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
 }
-button {
-  background-color: #2a80f9;
-  color: white;
-  padding: 0 24px;
-  height: 47px;
-  font-size: 16px;
-  border: 2px #2a80f9 solid;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s;
-  margin-bottom: 7px;
-}
-button:hover {
-  background-color: white;
-  color: #2a80f9;
-}
-
-button:active {
-  background-color: #2a80f9;
-  color: white;
-}
-
-input, select {
-  padding: 0 24px;
-  height: 47px;
-  margin: 10px;
-  font-size: 16px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  background-color: #f5f5f5;
-  color: #333;
-  appearance: none;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-input:hover, select:hover{
-  border-color: #007bff;
-  background-color: #d3e2ec;
-}
-
-input:focus, select:focus {
-  border-color: #007bff;
-  background-color: #e6f0ff;
-  outline: none;
-  background-color: #d3e2ec;
-  padding: 0 30px;
+input, select{
+  margin-bottom: auto;
 }
 
 /* CSS tylko dla switcha - codepan */
@@ -119,22 +67,7 @@ label:active:after {
   gap: 10px;
   background-color: #f4f7f9;
 }
-header img {
-  width: 200px;
-  max-width: 100%;
-}
 
-.oaerror {
-  width: 80%;
-  background-color: #ffffff;
-  padding: 20px;
-  border: 1px solid #eee;
-  border-left-width: 5px;
-  border-radius: 3px;
-  margin: 10px auto;
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
-}
 
 @media (max-width: 1100px) {
   #myDiv {
@@ -156,4 +89,8 @@ header img {
   #dataInfoText {
     font-size: 18px;
   }
+  input, select{
+    margin-bottom: 10px;
+  }
+
 }
