@@ -7,58 +7,6 @@
     <link rel="stylesheet" href="css/temperatura.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="js/plotly.min.js" charset="utf-8"></script>
-    <style>
-      #formularz {
-  display: flex;
-  align-items: center;
-  gap: 7x; /* odstęp między elementami */
-  flex-wrap: wrap;
-}
-
-      /* CSS tylko dla switcha - codepan */
-      input[type=checkbox] {
-          height: 0;
-          width: 0;
-          visibility: hidden;
-      }
-
-      label {
-          cursor: pointer;
-          text-indent: -9999px;
-          width: 66px;           /* 200 / 3 */
-          height: 33px;          /* 100 / 3 */
-          background: grey;
-          display: block;
-          border-radius: 33px;   /* 100 / 3 */
-          position: relative;
-      }
-
-      label:after {
-          content: '';
-          position: absolute;
-          top: 1.67px;           /* 5 / 3 */
-          left: 1.67px;          /* 5 / 3 */
-          width: 30px;           /* 90 / 3 */
-          height: 30px;          /* 90 / 3 */
-          background: #fff;
-          border-radius: 30px;   /* 90 / 3 */
-          transition: 0.3s;
-      }
-
-      input:checked + label {
-          background: #2a80f9;
-      }
-
-      input:checked + label:after {
-          left: calc(100% - 1.67px);
-          transform: translateX(-100%);
-      }
-
-      label:active:after {
-          width: 43.33px;        /* 130 / 3 */
-      }
-
-    </style>
   </head>
   <body>
     <div class="container">
@@ -79,11 +27,12 @@
           <option value="3" selected>Piętro 3</option>
         </select>
         <button id="filtrujBtn">Filtruj</button>
+        
+        <input type="checkbox" id="switch" /> 
+        <label for="switch">Toggle</label>
         <!-- <button id="markersBtn">Wykres kropkowy</button>
         <button id="linesBtn">Wykres liniowy</button> -->
-        <input type="checkbox" id="switch" />
-        
-        <label for="switch">Toggle</label>
+
         
       </div>
       <!-- domyslnie ukryty, pokazuje sie jak nie bedzie danych -->
