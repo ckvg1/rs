@@ -135,10 +135,10 @@
 
         <a
           onmousedown="wlaczWszstkieSwiatla()"
-          style="cursor: pointer; text-align: center"
+          style="cursor: pointer; margin: 25%"
         >
           <img
-            style="margin-left: 5%"
+            style="margin: auto; width: 50%"
             id="all_l1"
             class="wszystkieSwiatla"
             src="../sterowanie/btn_on.png"
@@ -153,6 +153,11 @@
             //wyslijTrue("all_ON_l1");
             wyslijTrue("all_ON_l2");
             wyslijTrue("all_ON_l3");
+          }
+          function wylaczWszystkieSwiatla() {
+            //wyslijTrue("all_OFF_l1");
+            wyslijTrue("all_OFF_l2");
+            wyslijTrue("all_OFF_l3");
           }
           async function wyslijTrue(swiatlo) {
             if (isFetchingLight) return;
@@ -231,7 +236,23 @@
             });
         </script>
       </section>
-      <section>To jest sekcja 5</section>
+      <section>
+        <h1>Wyłącz wszystkie światła</h1>
+
+        <a
+          onmousedown="wylaczWszystkieSwiatla()"
+          style="cursor: pointer; text-align: center"
+        >
+          <img
+            style="margin-left: 5%; height: 50%"
+            id="all_l1"
+            class="wszystkieSwiatla"
+            src="../sterowanie/btn_of.png"
+          />
+
+          <!-- Przycisk do wszystkich świateł -->
+        </a>
+      </section>
       <section>To jest sekcja 6</section>
     </div>
 
@@ -322,18 +343,6 @@
               "</span>";
             document.getElementById("swiatloWlaczoneCzas").innerHTML =
               data.czasWlaczoneSwiatlo + " godz.";
-            if (data.bledneDane === true) {
-              console.log("Błędne dane w bazie:", data.czujnikBledneDane);
-              const alertBox = document.getElementById("alertBox");
-              alertBox.style.display = "block";
-              alertBox.innerHTML =
-                "Prawdopodobne błędne dane w bazie. Czujniki: " +
-                data.czujnikBledneDane.join(", ") +
-                ". Błędne odczyty są ingorowane w statystykach.";
-            } else {
-              const alertBox = document.getElementById("alertBox");
-              alertBox.style.display = "none";
-            }
           })
           .catch((error) => console.error("Błąd:", error));
       }
