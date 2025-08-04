@@ -7,11 +7,21 @@
         <link rel="stylesheet" href="../css_main/glowny.css" />
     <link rel="stylesheet" href="./css/statystyki.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
+    <script src="../sterowanie/axios.min.js"></script>
   </head>
   <body>
+    <div
+      id="alertBox"
+      class="oaerror danger"
+      style="display: none"
+      title="Za błędne dane skrypt uznaje czujniki, które wpisują do bazy wartość 0, 99, mniejszą niż 0 lub NULL."
+    >
+      <!-- text ustawiam w js. alertbox domyslnie schowany pokazuje sie jak skrypt wysle ze sa bledne dane w bazie -->
+    </div>
     <div class="flex_div">
       <section id="statystykiTemperatura">
-        <h1>Temperatura
+        <h1>
+          Temperatura
           <select id="temperaturaCzasSelect">
             <option value="1">24h</option>
             <option value="2">7 dni</option>
@@ -34,29 +44,51 @@
           "
         >
           <div class="icons_div">
-            <img title = "Maksymalna temperatura w budynku (1 odczyt)" src="img/temp_high.png" />
-            <img title = "Średnia temperatura w budynku" src="img/chart.png" />
-            <img title = "Minimalna temperatura w budynku (1 odczyt)" src="img/temp_low.png" />
-            <img title = "Średnia temperatura na zewnątrz" src="img/outdoor.png" />
+            <img
+              title="Maksymalna temperatura w budynku (1 odczyt)"
+              src="img/temp_high.png"
+            />
+            <img title="Średnia temperatura w budynku" src="img/chart.png" />
+            <img
+              title="Minimalna temperatura w budynku (1 odczyt)"
+              src="img/temp_low.png"
+            />
+            <img
+              title="Średnia temperatura na zewnątrz"
+              src="img/outdoor.png"
+            />
           </div>
           <div class="stats_div">
-            <p title = "Maksymalna temperatura w budynku (1 odczyt)" id="najwyzszaTemperatura"></p>
-            <p title = "Średnia temperatura w budynku" id="sredniaTemperatura"></p>
-            <p title = "Minimalna temperatura w budynku (1 odczyt)" id="najnizszaTemperatura"></p>
-            <p title = "Średnia temperatura na zewnątrz" id="sredniaTemperaturaZewnetrzna"></p>
+            <p
+              title="Maksymalna temperatura w budynku (1 odczyt)"
+              id="najwyzszaTemperatura"
+            ></p>
+            <p
+              title="Średnia temperatura w budynku"
+              id="sredniaTemperatura"
+            ></p>
+            <p
+              title="Minimalna temperatura w budynku (1 odczyt)"
+              id="najnizszaTemperatura"
+            ></p>
+            <p
+              title="Średnia temperatura na zewnątrz"
+              id="sredniaTemperaturaZewnetrzna"
+            ></p>
           </div>
         </div>
       </section>
 
       <section id="statystykiSwiatla">
-        <h1>Światło 
+        <h1>
+          Światło
           <select id="czasSwiatloSelect">
             <option value="1">24h</option>
             <option value="2">7 dni</option>
             <option value="3">30 dni</option>
           </select>
         </h1>
-        
+
         <div>
           <select id="swiatloPietroSelect">
             <option selected value="1">Piętro 1</option>
@@ -73,20 +105,86 @@
           "
         >
           <div class="icons_div">
-            <img title="Najczęściej włączane światło" src="img/light_on.png" /> <span>max</span>
-            <img title="Najczęściej wyłączone światło" src="img/light_off.png" /> <span>min</span>
-            <img title="Czas, w którym światło było włączone" src="img/clock.png" /> 
+            <img title="Najczęściej włączane światło" src="img/light_on.png" />
+            <span>max</span>
+            <img
+              title="Najczęściej wyłączone światło"
+              src="img/light_off.png"
+            />
+            <span>min</span>
+            <img
+              title="Czas, w którym światło było włączone"
+              src="img/clock.png"
+            />
           </div>
           <div class="stats_div">
-            <p title="Najczęściej włączane światło" id="najwyzszeSwiatlo"></p><span><p> </p></span>
-            <p title="Najczęściej wyłączone światło" id="najnizszeSwiatlo"></p><span><p> </p></span>
-            <p title="Czas, w którym światło było włączone" id="swiatloWlaczoneCzas"></p><span><p> </p></span>
+            <p title="Najczęściej włączane światło" id="najwyzszeSwiatlo"></p>
+            <span><p></p></span>
+            <p title="Najczęściej wyłączone światło" id="najnizszeSwiatlo"></p>
+            <span><p></p></span>
+            <p
+              title="Czas, w którym światło było włączone"
+              id="swiatloWlaczoneCzas"
+            ></p>
+            <span><p></p></span>
           </div>
         </div>
       </section>
-      
+
       <section>
-        To jest sekcja 3
+        <h1>Włącz wszystkie światła</h1>
+
+        <a
+          onmousedown="wlaczWszstkieSwiatla()"
+          style="cursor: pointer; margin: 25%"
+        >
+          <img
+            style="margin: auto; width: 50%"
+            id="all_l1"
+            class="wszystkieSwiatla"
+            src="../sterowanie/btn_on.png"
+          />
+
+          <!-- Przycisk do wszystkich świateł -->
+        </a>
+        <script>
+          let isFetchingLight = false;
+
+          function wlaczWszstkieSwiatla() {
+            //wyslijTrue("all_ON_l1");
+            wyslijTrue("all_ON_l2");
+            wyslijTrue("all_ON_l3");
+          }
+          function wylaczWszystkieSwiatla() {
+            //wyslijTrue("all_OFF_l1");
+            wyslijTrue("all_OFF_l2");
+            wyslijTrue("all_OFF_l3");
+          }
+          async function wyslijTrue(swiatlo) {
+            if (isFetchingLight) return;
+            isFetchingLight = true;
+            try {
+              // Najpierw wł.
+              await axios.put(
+                `http://192.168.25.59:3000/swiatla/2/${swiatlo}`,
+                {
+                  wartosc: true,
+                }
+              );
+              // Następnie wył.
+              await axios.put(
+                `http://192.168.25.59:3000/swiatla/2/${swiatlo}`,
+                {
+                  wartosc: false,
+                }
+              );
+            } catch (err) {
+              console.error("Błąd wysyłania sygnału:", err);
+            } finally {
+              isFetchingLight = false;
+            }
+          }
+        </script>
       </section>
       <section id="raporty">
         <h1>Raporty</h1>
@@ -103,40 +201,62 @@
             Pobierz miesięczny raport światła
           </button>
 
-  <script>
-    const raportySelect = document.getElementById("raportySelect");
-    let pietro = 4;
-    // aktualizacja etykiet
-    raportySelect.addEventListener("change", () => {
-      pietro = raportySelect.value;
-      const postfix = pietro != 4 ? ` - Piętro ${pietro}` : "";
+        <script>
+          const raportySelect = document.getElementById("raportySelect");
+          let pietro = 4;
+          // aktualizacja etykiet
+          raportySelect.addEventListener("change", () => {
+            pietro = raportySelect.value;
+            const postfix = pietro != 4 ? ` - Piętro ${pietro}` : "";
 
-      const buttons = [
-        { id: "pobierzRaportTemperaturyButton", label: "temperatury" },
-        { id: "pobierzRaportSwiatlaButton", label: "światła" }
-      ];
+            const buttons = [
+              { id: "pobierzRaportTemperaturyButton", label: "temperatury" },
+              { id: "pobierzRaportSwiatlaButton", label: "światła" },
+            ];
 
-      buttons.forEach(({ id, label }) => {
-        document.getElementById(id).innerText =
-          `Pobierz miesięczny raport ${label}${postfix}`;
-      });
-    });
+            buttons.forEach(({ id, label }) => {
+              document.getElementById(
+                id
+              ).innerText = `Pobierz miesięczny raport ${label}${postfix}`;
+            });
+          });
 
-    // pobieranie raportów
-    document.getElementById("pobierzRaportTemperaturyButton").addEventListener("click", () => {
-      const pietro = raportySelect.value;
-      window.location.href = `./php/generate_report.php?tabela=temperatura&pietro=${pietro}`;
-    });
+          // pobieranie raportów
+          document
+            .getElementById("pobierzRaportTemperaturyButton")
+            .addEventListener("click", () => {
+              const pietro = raportySelect.value;
+              window.location.href = `./php/generate_report.php?tabela=temperatura&pietro=${pietro}`;
+            });
 
-    document.getElementById("pobierzRaportSwiatlaButton").addEventListener("click", () => {
-      const pietro = raportySelect.value;
-      window.location.href = `./php/generate_report.php?tabela=light&pietro=${pietro}`;
-    });
-  </script>
-</section>
-      <section>To jest sekcja 5</section>
+          document
+            .getElementById("pobierzRaportSwiatlaButton")
+            .addEventListener("click", () => {
+              const pietro = raportySelect.value;
+              window.location.href = `./php/generate_report.php?tabela=light&pietro=${pietro}`;
+            });
+        </script>
+      </section>
+      <section>
+        <h1>Wyłącz wszystkie światła</h1>
+
+        <a
+          onmousedown="wylaczWszystkieSwiatla()"
+          style="cursor: pointer; text-align: center"
+        >
+          <img
+            style="margin-left: 5%; height: 50%"
+            id="all_l1"
+            class="wszystkieSwiatla"
+            src="../sterowanie/btn_of.png"
+          />
+
+          <!-- Przycisk do wszystkich świateł -->
+        </a>
+      </section>
       <section>To jest sekcja 6</section>
     </div>
+
     <script>
       const pietroTemperatura = document.querySelector(
         "#temperaturaPietroSelect"
@@ -147,12 +267,8 @@
       );
 
       const pietroSwiatla = document.querySelector("#swiatloPietroSelect");
-      const czasWlaczoneSwiatlo = document.querySelector(
-        "#swiatloSelect"
-      );
-      const czasSwiatloSelect = document.querySelector(
-        "#czasSwiatloSelect"
-      );
+      const czasWlaczoneSwiatlo = document.querySelector("#swiatloSelect");
+      const czasSwiatloSelect = document.querySelector("#czasSwiatloSelect");
       let pietroSwiatlaValue = 1; // Domyślne piętro dla swiatla
 
       addEventListener("DOMContentLoaded", fetchStartData);
@@ -167,7 +283,9 @@
 
       function fetchTemperaturaData() {
         pietroTemperaturaValue = pietroTemperatura.value;
-        const czasTemperatura = document.getElementById("temperaturaCzasSelect").value;
+        const czasTemperatura = document.getElementById(
+          "temperaturaCzasSelect"
+        ).value;
         fetch(
           `./php/odczytaj_statystyki_temperatury.php?pietro=${pietroTemperaturaValue}&czas=${czasTemperatura}`
         )
@@ -176,15 +294,30 @@
             document.getElementById("najnizszaTemperatura").innerHTML =
               data.najmniejszaTemperatura +
               "℃ <span style='color:blue'>" +
-              data.najnizszaTemperaturaCzujnik +"</span>";
+              data.najnizszaTemperaturaCzujnik +
+              "</span>";
             document.getElementById("sredniaTemperatura").innerHTML =
               data.sredniaTemperatura + "℃";
             document.getElementById("najwyzszaTemperatura").innerHTML =
               data.najwyzszaTemperatura +
               "℃ <span style='color:red'>" +
-              data.najwyzszaTemperaturaCzujnik +"</span>";
+              data.najwyzszaTemperaturaCzujnik +
+              "</span>";
             document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML =
               data.sredniaZewnetrzna + "℃";
+
+            if (data.bledneDane) {
+              console.log("Błędne dane w bazie:", data.czujnikBledneDane);
+              const alertBox = document.getElementById("alertBox");
+              alertBox.style.display = "block";
+              alertBox.innerHTML =
+                "Prawdopodobne błędne dane w bazie. Czujniki: " +
+                data.czujnikBledneDane.join(", ") +
+                ". Błędne odczyty są ingorowane w statystykach.";
+            } else {
+              const alertBox = document.getElementById("alertBox");
+              alertBox.style.display = "none";
+            }
           })
           .catch((error) => console.error("Błąd:", error));
       }
@@ -202,16 +335,18 @@
           .then((response) => response.json())
           .then((data) => {
             document.getElementById("najwyzszeSwiatlo").innerHTML =
-             "<span style='color: red'>"+ data.najczesciejWlaczoneSwiatlo + "</span>";
+              "<span style='color: red'>" +
+              data.najczesciejWlaczoneSwiatlo +
+              "</span>";
             document.getElementById("najnizszeSwiatlo").innerHTML =
-              "<span style='color: green'>"+ data.najrzadziejWlaczoneSwiatlo + "</span>";
+              "<span style='color: green'>" +
+              data.najrzadziejWlaczoneSwiatlo +
+              "</span>";
             document.getElementById("swiatloWlaczoneCzas").innerHTML =
               data.czasWlaczoneSwiatlo + " godz.";
           })
           .catch((error) => console.error("Błąd:", error));
       }
-
-
     </script>
   </body>
 </html>

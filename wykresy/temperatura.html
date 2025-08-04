@@ -33,14 +33,9 @@
         <label for="switch">Toggle</label>
         <!-- <button id="markersBtn">Wykres kropkowy</button>
         <button id="linesBtn">Wykres liniowy</button> -->
-
-        
       </div>
       <!-- domyslnie ukryty, pokazuje sie jak nie bedzie danych -->
-      <div id="alertBox" class="oaerror danger" style="display: none">
-        <strong>Error</strong>- You need to remember your username/password.
-        Please try again.
-      </div>
+      <div id="alertBox" class="oaerror danger" style="display: none"></div>
 
       <div id="myPlot" style="width: 100%"></div>
     </div>
@@ -71,36 +66,28 @@
         return `${day}-${month}-${year} ${hours}:${minutes}`;
       }
       function getCookie(name) {
-          let cname = name + "=";
-          let decodedCookie = decodeURIComponent(document.cookie);
-          let ca = decodedCookie.split(';');
-          for(let i = 0; i < ca.length; i++) {
-            let c = ca[i].trim();
-            if (c.indexOf(cname) == 0) {
-              return c.substring(cname.length, c.length);
-            }
+        let cname = name + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i].trim();
+          if (c.indexOf(cname) == 0) {
+            return c.substring(cname.length, c.length);
           }
-          return "";
         }
+        return "";
+      }
 
-        let cookie = getCookie("pietro" + pietro);
-        let parsedCookie = JSON.parse(cookie);
-        const bazoweBiura = [
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-        ];
-        function generujNazwyBiur(pietro) {
-          return bazoweBiura.map((id) => `r${pietro}_${id}`);
-        }
+      let cookie = getCookie("pietro" + pietro);
+      let parsedCookie = JSON.parse(cookie);
+      const bazoweBiura = ["1", "2", "3", "4", "5", "6", "7"];
+      function generujNazwyBiur(pietro) {
+        return bazoweBiura.map((id) => `r${pietro}_${id}`);
+      }
       // Pobieranie danych i rysowanie wykresu
       function fetchAndPlot(url, layoutOverrides = {}) {
         const nazwyBiur = generujNazwyBiur(pietro);
-        
+
         fetch(url)
           .then((response) => {
             if (!response.ok) {
@@ -112,13 +99,12 @@
             //console.log("Dane do wykresu:", dane);
             const seriesData = [];
             //console.log("Parsed cookie:", parsedCookie);
-            const nazwy = nazwyBiur.map(key => parsedCookie[key] || key);
-            //console.log("Nazwy biur:", nazwyBiur); 
+            const nazwy = nazwyBiur.map((key) => parsedCookie[key] || key);
+            //console.log("Nazwy biur:", nazwyBiur);
             console.log("Nazwy biur pobrane z cookie:", nazwy);
             for (let i = 1; i <= 8; i++) {
               //lecimy do 7 bo tyle czujnikow
-              
-              
+
               const key = `Temp. ${pietro}_${i}`;
               if (dane[key]) {
                 seriesData.push({
@@ -221,7 +207,6 @@
         currentMode = e.target.checked ? "lines" : "markers";
         filtruj(); // Przeładuj wykres po zmianie trybu
       });
-      
 
       // Załaduj wykres domyślny
       fetchAndPlot(`odczytaj_dane.php?pietro=${pietro}`);
