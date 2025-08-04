@@ -3,7 +3,6 @@ body{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* przerwa pomiedzy sekcjami */
     gap: 35px;
     padding-top: 30px;
     font-family: 'Ubuntu';
@@ -37,51 +36,9 @@ section div{
     text-align: center
 }
 button {
-  background-color: #2a80f9;
-  color: white;
-  padding: 12px 24px;
-  border: 2px #2a80f9 solid;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.1s;
   margin: 10px;
 }
-button:hover {
-  background-color: white;
-  color: #2a80f9;
-}
-button:active {
-  background-color: #2a80f9;
-  color: white;
-}
-select {
-  padding: 8px 12px;
-  margin: 0 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f5f5f5;
-  color: #333;
-  appearance: none;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-align: center;
-}
 
-select:hover{
-  border-color: #007bff;
-  background-color: #d3e2ec;
-}
-
-select:focus {
-  border-color: #007bff;
-  background-color: #e6f0ff;
-  outline: none;
-  background-color: #d3e2ec;
-  scale: 1, 1.1;
-  padding: 8px 20px;
-}
 .flex_div{
     column-count: 3;
     gap: 30px;

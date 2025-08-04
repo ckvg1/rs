@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Hub</title>
     <link rel="icon" type="image/x-icon" href="wykresy/img/icon.png" />
+    <link rel="stylesheet" href="./css_main/glowny.css">
     <link rel="stylesheet" href="./css_main/style.css" />
     <link rel="stylesheet" href="./css_main/czcionka.css" />
   </head>
@@ -210,7 +211,7 @@
           </div>
           <!-- DIV do srodkowania-->
           <div id="divZapisz">
-            <button type="button" onclick="zapiszUstawienia()">Zapisz</button>
+            <button type="button" class="przycisk" onclick="zapiszUstawienia()">Zapisz</button>
           </div>
         </form>
         </div>
@@ -310,7 +311,7 @@
               </div>
             </div>
           <div id="divZapisz">
-            <button type="button" onclick="zapiszUstawienia()">Zapisz</button>
+            <button type="button" class="przycisk" onclick="zapiszUstawienia()">Zapisz</button>
           </div>
           </form>
         </div>
@@ -410,7 +411,7 @@
               </div>
             </div>
           <div id="divZapisz">
-            <button type="button" onclick="zapiszUstawienia()">Zapisz</button>
+            <button type="button" class="przycisk" onclick="zapiszUstawienia()">Zapisz</button>
           </div>
           </form>
           
@@ -441,7 +442,6 @@
             const pietro1 = document.getElementById("pietro1_urzadzenia");
             const pietro2 = document.getElementById("pietro2_urzadzenia");
             const pietro3 = document.getElementById("pietro3_urzadzenia");
-
             const form1 = document.getElementById("settingsForm1");
             const form2 = document.getElementById("settingsForm2");
             const form3 = document.getElementById("settingsForm3");
