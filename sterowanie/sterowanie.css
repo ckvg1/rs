@@ -46,7 +46,7 @@ button {
 }
 .oaerror {
   width: 80%;
-  background-color: #ff4040;
+  background-color: #ffffff;
   padding: 20px;
   border: 1px solid #eee;
   border-left-width: 5px;
@@ -69,7 +69,7 @@ button {
 #all_l2,
 #all_l3 {
   top: 4%;
-  left: 93%;
+  left: 90%;
 }
 
 #wyj_l1_1_1,
