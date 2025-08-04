@@ -18,6 +18,12 @@
         "image-alt": "off",
         "frame-title": "off"
       }
+    ],
+    "axe/language": [
+      "default",
+      {
+        "html-has-lang": "off"
+      }
     ]
   }
 }
