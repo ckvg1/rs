@@ -92,7 +92,17 @@ select:focus {
     width: 50%;
     
 }
-
+.oaerror {
+  width: 80%;
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  margin: 10px auto;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+}
 .stats_div p{
     text-align: left;
 }

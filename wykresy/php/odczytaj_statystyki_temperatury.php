@@ -4,13 +4,13 @@
     if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
+    //ini_set('display_errors', 1);
+    //ini_set('display_startup_errors', 1);
+    //error_reporting(E_ALL);
 
     // Parametr GET
     $pietro = isset($_GET["pietro"]) ? intval($_GET["pietro"]) : 1;
-    $czas = isset($_GET["czas"]) ? intval($_GET["czas"]) : 1; // Domyślnie 1 to 24h
+    $czas = isset($_GET["czas"]) ? intval($_GET["czas"]) : 2; // Domyślnie 1 to 24h
     $interval;
     switch($czas) {
         case 1: // 24h
@@ -86,34 +86,34 @@
         $czas[] = $row['czas_dodania'];
         switch($pietro){
             case 1:
-                $t1_1[] = ($row['t1_1']);
-                $t1_2[] = round($row['t1_2'] ?? 0, 1);
-                $t1_3[] = round($row['t1_3'] ?? 0, 1);
-                $t1_4[] = round($row['t1_4'] ?? 0, 1);
-                $t1_5[] = round($row['t1_5'] ?? 0, 1);
-                $t1_6[] = round($row['t1_6'] ?? 0, 1);
-                $t1_7[] = round($row['t1_7'] ?? 0, 1) ;
+                if (!is_null($row['t1_1'])) $t1_1[] = round($row['t1_1'], 1);
+                if (!is_null($row['t1_2'])) $t1_2[] = round($row['t1_2'], 1);
+                if (!is_null($row['t1_3'])) $t1_3[] = round($row['t1_3'], 1);
+                if (!is_null($row['t1_4'])) $t1_4[] = round($row['t1_4'], 1);
+                if (!is_null($row['t1_5'])) $t1_5[] = round($row['t1_5'], 1);
+                if (!is_null($row['t1_6'])) $t1_6[] = round($row['t1_6'], 1);
+                if (!is_null($row['t1_7'])) $t1_7[] = round($row['t1_7'], 1);
                 break; 
             case 2: 
-                $t2_1[] = round($row['t2_1'] ?? 0, 1);
-                $t2_2[] = round($row['t2_2'] ?? 0, 1);
-                $t2_3[] = round($row['t2_3'] ?? 0, 1);
-                $t2_4[] = round($row['t2_4'] ?? 0, 1);
-                $t2_5[] = round($row['t2_5'] ?? 0, 1);
-                $t2_6[] = round($row['t2_6'] ?? 0, 1);
-                $t2_7[] = round($row['t2_7'] ?? 0, 1);
+                if (!is_null($row['t2_1'])) $t2_1[] = round($row['t2_1'], 1);
+                if (!is_null($row['t2_2'])) $t2_2[] = round($row['t2_2'], 1);
+                if (!is_null($row['t2_3'])) $t2_3[] = round($row['t2_3'], 1);
+                if (!is_null($row['t2_4'])) $t2_4[] = round($row['t2_4'], 1);
+                if (!is_null($row['t2_5'])) $t2_5[] = round($row['t2_5'], 1);
+                if (!is_null($row['t2_6'])) $t2_6[] = round($row['t2_6'], 1);
+                if (!is_null($row['t2_7'])) $t2_7[] = round($row['t2_7'], 1);
                 break; 
             case 3: 
-                $t3_1[] = round($row['t3_1'] ?? 0, 1);
-                $t3_2[] = round($row['t3_2'] ?? 0, 1);
-                $t3_3[] = round($row['t3_3'] ?? 0, 1);
-                $t3_4[] = round($row['t3_4'] ?? 0, 1);
-                $t3_5[] = round($row['t3_5'] ?? 0, 1);
-                $t3_6[] = round($row['t3_6'] ?? 0, 1);
-                $t3_7[] = round($row['t3_7'] ?? 0, 1);
+                if (!is_null($row['t3_1'])) $t3_1[] = round($row['t3_1'], 1);
+                if (!is_null($row['t3_2'])) $t3_2[] = round($row['t3_2'], 1);
+                if (!is_null($row['t3_3'])) $t3_3[] = round($row['t3_3'], 1);
+                if (!is_null($row['t3_4'])) $t3_4[] = round($row['t3_4'], 1);
+                if (!is_null($row['t3_5'])) $t3_5[] = round($row['t3_5'], 1);
+                if (!is_null($row['t3_6'])) $t3_6[] = round($row['t3_6'], 1);
+                if (!is_null($row['t3_7'])) $t3_7[] = round($row['t3_7'], 1);
                 break;
         }
-        $temp_zewn[] = round($row['t_zewn'],1);
+        if (!is_null($row['t_zewn'])) $temp_zewn[] = round($row['t_zewn'],1);
     }
     
     
@@ -144,36 +144,47 @@
         $czujnik = null;
         for ($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $min_local = min($tablica[$i]);
-                if ($najmniejsza === null || $min_local < $najmniejsza) {
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val !== 0 && $val !== 99 && $val >= 0);
+                if (!empty($filtered)) {
+                    $min_local = min($filtered);
+                } else {
+                    continue;
+                }
+                if (($najmniejsza === null || $min_local < $najmniejsza) && $min_local > 0)  {
                     $najmniejsza = $min_local;
                     $czujnik = $i;
                 }
             }
         }
-        return ['temp' => $najmniejsza, 'czujnik' => $czujnik];
+        return $najmniejsza !== null ? ['temp' => $najmniejsza, 'czujnik' => $czujnik] : ['temp' => null, 'czujnik' => null];
     }
     function znajdzNajwyzszaTemperature($tablica) {
         $najwyzsza = null;
         $czujnik = null;
         for ($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $max_local = max($tablica[$i]);
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val !== 0 && $val !== 99 && $val >= 0);
+                if (!empty($filtered)) {
+                    $max_local = max($filtered);
+                } else {
+                    continue;
+                }
                 if ($najwyzsza === null || $max_local > $najwyzsza) {
                     $najwyzsza = $max_local;
                     $czujnik = $i;
                 }
             }
         }
-        return ['temp' => $najwyzsza, 'czujnik' => $czujnik];
+        return $najwyzsza !== null ? ['temp' => $najwyzsza, 'czujnik' => $czujnik] : ['temp' => null, 'czujnik' => null];
     }
     function znajdzSredniaTemperature($tablica) {
         $suma = 0;
         $licznik = 0;
         for($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $suma += array_sum($tablica[$i]);
-                $licznik += count($tablica[$i]);
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val !== 0 && $val !== 99 && $val >= 0);
+                $suma += array_sum($filtered);
+                $licznik += count($filtered);
             }
         }
         return $licznik > 0 ? round($suma / $licznik, 2) : null;
@@ -192,12 +203,11 @@
         for ($i = 0; $i < count($tablica); $i++) {
             foreach ($tablica[$i] as $val) {
                 if (is_null($val) || $val === 0 || $val === 99 || $val < 0) {
-                    $bledne[] = $nazwy[$i];
-                    break; // wystarczy znaleźć jedno błędne dla czujnika
+                    $bledne[] = $nazwy[$i]; //wpisanie nazw wszyztkich czujnikow z blednymi danymi
                 }
             }
         }
-        return $bledne;
+        return array_values(array_unique($bledne)); //usuniecie duplikatow z tablicy
     }
     
     // Obliczenia
@@ -210,12 +220,12 @@
 
     // Odpowiedź JSON
     $response = [
-        'najmniejszaTemperatura' => $najnizsza['temp'],
-        'najwyzszaTemperatura' => $najwyzsza['temp'],
-        'sredniaTemperatura' => $srednia,
-        'najnizszaTemperaturaCzujnik' => $nazwy_czujnikow[$pietro-1][$najnizsza['czujnik']],
-        'najwyzszaTemperaturaCzujnik' => $nazwy_czujnikow[$pietro-1][$najwyzsza['czujnik']],
-        'sredniaZewnetrzna' => $sredniaTempZewn,
+        'najmniejszaTemperatura' => $najnizsza['temp'] ?? "Brak danych",
+        'najwyzszaTemperatura' => $najwyzsza['temp'] ?? "Brak danych",
+        'sredniaTemperatura' => $srednia ?? "Brak danych",
+        'najnizszaTemperaturaCzujnik' => $nazwy_czujnikow[$pietro-1][$najnizsza['czujnik']] ?? "",
+        'najwyzszaTemperaturaCzujnik' => $nazwy_czujnikow[$pietro-1][$najwyzsza['czujnik']] ?? "",
+        'sredniaZewnetrzna' => $sredniaTempZewn ?? "Brak danych",
         'bledneDane' => !empty($bledneCzujniki),
         'czujnikBledneDane' => $bledneCzujniki
     ];

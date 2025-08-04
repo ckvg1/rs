@@ -9,55 +9,54 @@
     <script src="js/plotly.min.js" charset="utf-8"></script>
     <style>
       #formularz {
-  display: flex;
-  align-items: center;
-  gap: 7x; /* odstęp między elementami */
-  flex-wrap: wrap;
-}
+        display: flex;
+        align-items: center;
+        gap: 7x; /* odstęp między elementami */
+        flex-wrap: wrap;
+      }
 
       /* CSS tylko dla switcha - codepan */
-      input[type=checkbox] {
-          height: 0;
-          width: 0;
-          visibility: hidden;
+      input[type="checkbox"] {
+        height: 0;
+        width: 0;
+        visibility: hidden;
       }
 
       label {
-          cursor: pointer;
-          text-indent: -9999px;
-          width: 66px;           /* 200 / 3 */
-          height: 33px;          /* 100 / 3 */
-          background: grey;
-          display: block;
-          border-radius: 33px;   /* 100 / 3 */
-          position: relative;
+        cursor: pointer;
+        text-indent: -9999px;
+        width: 66px; /* 200 / 3 */
+        height: 33px; /* 100 / 3 */
+        background: grey;
+        display: block;
+        border-radius: 33px; /* 100 / 3 */
+        position: relative;
       }
 
       label:after {
-          content: '';
-          position: absolute;
-          top: 1.67px;           /* 5 / 3 */
-          left: 1.67px;          /* 5 / 3 */
-          width: 30px;           /* 90 / 3 */
-          height: 30px;          /* 90 / 3 */
-          background: #fff;
-          border-radius: 30px;   /* 90 / 3 */
-          transition: 0.3s;
+        content: "";
+        position: absolute;
+        top: 1.67px; /* 5 / 3 */
+        left: 1.67px; /* 5 / 3 */
+        width: 30px; /* 90 / 3 */
+        height: 30px; /* 90 / 3 */
+        background: #fff;
+        border-radius: 30px; /* 90 / 3 */
+        transition: 0.3s;
       }
 
       input:checked + label {
-          background: #2a80f9;
+        background: #2a80f9;
       }
 
       input:checked + label:after {
-          left: calc(100% - 1.67px);
-          transform: translateX(-100%);
+        left: calc(100% - 1.67px);
+        transform: translateX(-100%);
       }
 
       label:active:after {
-          width: 43.33px;        /* 130 / 3 */
+        width: 43.33px; /* 130 / 3 */
       }
-
     </style>
   </head>
   <body>
@@ -82,15 +81,11 @@
         <!-- <button id="markersBtn">Wykres kropkowy</button>
         <button id="linesBtn">Wykres liniowy</button> -->
         <input type="checkbox" id="switch" />
-        
+
         <label for="switch">Toggle</label>
-        
       </div>
       <!-- domyslnie ukryty, pokazuje sie jak nie bedzie danych -->
-      <div id="alertBox" class="oaerror danger" style="display: none">
-        <strong>Error</strong>- You need to remember your username/password.
-        Please try again.
-      </div>
+      <div id="alertBox" class="oaerror danger" style="display: none"></div>
 
       <div id="myPlot" style="width: 100%"></div>
     </div>
@@ -121,36 +116,28 @@
         return `${day}-${month}-${year} ${hours}:${minutes}`;
       }
       function getCookie(name) {
-          let cname = name + "=";
-          let decodedCookie = decodeURIComponent(document.cookie);
-          let ca = decodedCookie.split(';');
-          for(let i = 0; i < ca.length; i++) {
-            let c = ca[i].trim();
-            if (c.indexOf(cname) == 0) {
-              return c.substring(cname.length, c.length);
-            }
+        let cname = name + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i].trim();
+          if (c.indexOf(cname) == 0) {
+            return c.substring(cname.length, c.length);
           }
-          return "";
         }
+        return "";
+      }
 
-        let cookie = getCookie("pietro" + pietro);
-        let parsedCookie = JSON.parse(cookie);
-        const bazoweBiura = [
-          "1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-        ];
-        function generujNazwyBiur(pietro) {
-          return bazoweBiura.map((id) => `r${pietro}_${id}`);
-        }
+      let cookie = getCookie("pietro" + pietro);
+      let parsedCookie = JSON.parse(cookie);
+      const bazoweBiura = ["1", "2", "3", "4", "5", "6", "7"];
+      function generujNazwyBiur(pietro) {
+        return bazoweBiura.map((id) => `r${pietro}_${id}`);
+      }
       // Pobieranie danych i rysowanie wykresu
       function fetchAndPlot(url, layoutOverrides = {}) {
         const nazwyBiur = generujNazwyBiur(pietro);
-        
+
         fetch(url)
           .then((response) => {
             if (!response.ok) {
@@ -162,13 +149,12 @@
             //console.log("Dane do wykresu:", dane);
             const seriesData = [];
             //console.log("Parsed cookie:", parsedCookie);
-            const nazwy = nazwyBiur.map(key => parsedCookie[key] || key);
-            //console.log("Nazwy biur:", nazwyBiur); 
+            const nazwy = nazwyBiur.map((key) => parsedCookie[key] || key);
+            //console.log("Nazwy biur:", nazwyBiur);
             console.log("Nazwy biur pobrane z cookie:", nazwy);
             for (let i = 1; i <= 8; i++) {
               //lecimy do 7 bo tyle czujnikow
-              
-              
+
               const key = `Temp. ${pietro}_${i}`;
               if (dane[key]) {
                 seriesData.push({
@@ -271,7 +257,6 @@
         currentMode = e.target.checked ? "lines" : "markers";
         filtruj(); // Przeładuj wykres po zmianie trybu
       });
-      
 
       // Załaduj wykres domyślny
       fetchAndPlot(`odczytaj_dane.php?pietro=${pietro}`);
