@@ -144,13 +144,13 @@
         $czujnik = null;
         for ($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val !== 0 && $val !== 99 && $val >= 0);
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0);
                 if (!empty($filtered)) {
                     $min_local = min($filtered);
                 } else {
                     continue;
                 }
-                if (($najmniejsza === null || $min_local < $najmniejsza) && $min_local > 0)  {
+                if ($najmniejsza === null || $min_local < $najmniejsza)   {
                     $najmniejsza = $min_local;
                     $czujnik = $i;
                 }
@@ -163,7 +163,7 @@
         $czujnik = null;
         for ($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val !== 0 && $val !== 99 && $val >= 0);
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0);
                 if (!empty($filtered)) {
                     $max_local = max($filtered);
                 } else {
@@ -182,7 +182,7 @@
         $licznik = 0;
         for($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val !== 0 && $val !== 99 && $val >= 0);
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0);
                 $suma += array_sum($filtered);
                 $licznik += count($filtered);
             }
@@ -202,7 +202,7 @@
         $bledne = [];
         for ($i = 0; $i < count($tablica); $i++) {
             foreach ($tablica[$i] as $val) {
-                if (is_null($val) || $val === 0 || $val === 99 || $val < 0) {
+                if (is_null($val) || $val == 0 || $val == 99 || $val < 0) {
                     $bledne[] = $nazwy[$i]; //wpisanie nazw wszyztkich czujnikow z blednymi danymi
                 }
             }

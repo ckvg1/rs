@@ -6,6 +6,7 @@
     <link rel="icon" type="image/x-icon" href="wykresy/icon.png" />
     <link rel="stylesheet" href="./css/statystyki.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
+    <script src="../sterowanie/axios.min.js"></script>
   </head>
   <body>
     <div
@@ -129,7 +130,59 @@
         </div>
       </section>
 
-      <section>To jest sekcja 3</section>
+      <section>
+        <h1>Włącz wszystkie światła</h1>
+
+        <a
+          onmousedown="wlaczWszstkieSwiatla()"
+          style="cursor: pointer; text-align: center"
+        >
+          <img
+            style="margin-left: 5%"
+            id="all_l1"
+            class="wszystkieSwiatla"
+            src="../sterowanie/btn_on.png"
+          />
+
+          <!-- Przycisk do wszystkich świateł -->
+        </a>
+        <script>
+          let isFetchingLight = false;
+          let isFetchingTemp = false;
+          let fetchingBlinds = false;
+          let tempInterval, swiatloInterval;
+
+          function wlaczWszstkieSwiatla() {
+            //wyslijTrue("all_ON_l1");
+            wyslijTrue("all_ON_l2");
+            wyslijTrue("all_ON_l3");
+          }
+          async function wyslijTrue(swiatlo) {
+            if (isFetchingLight) return;
+            isFetchingLight = true;
+            try {
+              // Najpierw wł.
+              await axios.put(
+                `http://192.168.25.59:3000/swiatla/2/${swiatlo}`,
+                {
+                  wartosc: true,
+                }
+              );
+              // Następnie wył.
+              await axios.put(
+                `http://192.168.25.59:3000/swiatla/2/${swiatlo}`,
+                {
+                  wartosc: false,
+                }
+              );
+            } catch (err) {
+              console.error("Błąd wysyłania sygnału:", err);
+            } finally {
+              isFetchingLight = false;
+            }
+          }
+        </script>
+      </section>
       <section id="raporty">
         <h1>Raporty</h1>
         <select id="raportySelect" style="margin: 10px">
