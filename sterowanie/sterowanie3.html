@@ -142,6 +142,9 @@
     </div>
 
     <script>
+      function delay(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
       const alertBox = document.getElementById("alertBox");
 
       let isFetchingLight = false;
@@ -232,12 +235,13 @@
 
       async function wyslijTrue(swiatlo) {
         if (isFetchingLight) return;
-        isFetchingLight = false;
         try {
+          isFetchingLight = true;
           // Najpierw wł.
           await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
             wartosc: true,
           });
+
           // Potem false
           await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
             wartosc: false,

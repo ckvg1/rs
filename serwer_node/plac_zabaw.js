@@ -13,7 +13,7 @@ const readConn = new nodes7();
 const writeConn = new nodes7();
 const readMutex = new Mutex();
 const writeMutex = new Mutex();
-const cache = new NodeCache({ stdTTL: 0, checkperiod: 1 });
+const cache = new NodeCache({ stdTTL: 0, checkperiod: 0.2 });
 
 // 3 pietro
 const L3_in = require("./variables/floor3/L3_in");
@@ -110,8 +110,10 @@ function readAfterStartup() {
     readConn.addItems(LIGHT_KEYS);
     await new Promise((resolve) => {
       readConn.readAllItems((err, val) => {
-        if (!err) cache.set("swiatlaData", val, lights_ttl); //time to live
-        resolve();
+        if (!err) {
+          cache.set("swiatlaData", val, lights_ttl); //time to live
+          resolve();
+        }
       });
     });
   });
@@ -161,16 +163,27 @@ function connectedRead(err) {
   readConn.setTranslationCB((tag) => variables[tag]);
 
   // Cykliczne odczyty swiatel do cache co (lights_timeout) ms
+
   setInterval(() => {
+    let timestamp = new Date().toISOString();
+    console.log("zaczeto odczyt swiatla", timestamp);
     readMutex.runExclusive(async () => {
       // światła
       readConn.removeItems(); //usuwamy stare klucze
       readConn.addItems(LIGHT_KEYS); //dodajemy nowe klucze (światła)
+
       await new Promise((resolve) => {
         readConn.readAllItems((err, val) => {
-          if (!err) cache.set("swiatlaData", val, lights_ttl); //zapisujemy do cache, jeśli nie ma błędu
-          resolve();
+          if (!err) {
+            cache.set("swiatlaData", val, lights_ttl); //zapisujemy do cache, jeśli nie ma błędu
+            let timestamp = new Date().toISOString();
+            console.log("skonczono odczyt swiatel", timestamp);
+            return resolve();
+          } else {
+          }
         });
+
+        return resolve();
       });
     });
   }, lights_timeout);
