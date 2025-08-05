@@ -189,6 +189,7 @@
         }
         return $licznik > 0 ? round($suma / $licznik, 2) : null;
     }
+    
     function obliczSredniaTemperatureZewnetrzna($tablica){
         $suma = 0;
         $licznik = 0;

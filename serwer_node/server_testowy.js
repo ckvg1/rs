@@ -9,8 +9,10 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 
-const conn = new nodes7();
-const plcMutex = new Mutex();
+const readConn = new nodes7();
+const writeConn = new nodes7();
+const readMutex = new Mutex();
+const writeMutex = new Mutex();
 const cache = new NodeCache({ stdTTL: 0, checkperiod: 1 }); // TTL 2s, odczyt co 1s
 
 // 3 pietro
@@ -78,7 +80,7 @@ const server = app.listen(port, "0.0.0.0", () => {
 });
 
 // Inicjalizacja połączenia z PLC
-conn.initiateConnection(
+readConn.initiateConnection(
   {
     port: 102,
     host: "192.168.25.1",
@@ -87,7 +89,7 @@ conn.initiateConnection(
     debug: false,
     doNotOptimize: true, // Wyłączamy optymalizacje, żeby mieć pełną kontrolę nad odczytami/zapisami
   },
-  connected
+  connectedRead
 );
 
 /* 
@@ -100,59 +102,69 @@ conn.initiateConnection(
   Następnie cyklicznie odczytuje dane co 200ms dla świateł i co 10s dla temperatury.
  */
 function readAfterStartup() {
-  plcMutex.runExclusive(async () => {
-    conn.removeItems();
-    conn.addItems(LIGHT_KEYS);
+  readMutex.runExclusive(async () => {
+    readConn.removeItems();
+    readConn.addItems(LIGHT_KEYS);
     await new Promise((resolve) => {
-      conn.readAllItems((err, val) => {
+      readConn.readAllItems((err, val) => {
         if (!err) cache.set("swiatlaData", val, lights_ttl); //time to live
         resolve();
       });
     });
   });
 
-  plcMutex.runExclusive(async () => {
-    conn.removeItems();
-    conn.addItems(TEMPERATURE_KEYS);
+  readMutex.runExclusive(async () => {
+    readConn.removeItems();
+    readConn.addItems(TEMPERATURE_KEYS);
     await new Promise((resolve) => {
-      conn.readAllItems((err, val) => {
+      readConn.readAllItems((err, val) => {
         if (!err) cache.set("temperaturaData", val, temperature_ttl); //time to live
         resolve();
       });
     });
   });
 
-  plcMutex.runExclusive(async () => {
-    conn.removeItems();
-    conn.addItems(BLINDS_KEYS);
+  readMutex.runExclusive(async () => {
+    readConn.removeItems();
+    readConn.addItems(BLINDS_KEYS);
     await new Promise((resolve) => {
-      conn.readAllItems((err, val) => {
+      readConn.readAllItems((err, val) => {
         if (!err) cache.set("roletyData", val, blinds_ttl); //time to live
         resolve();
       });
     });
   });
 }
-function connected(err) {
+function connectedRead(err) {
   if (err) {
     console.error("Błąd połączenia z PLC:", err);
     return;
   }
-
+  writeConn.initiateConnection(
+    {
+      port: 102,
+      host: "192.168.25.1",
+      rack: 0,
+      slot: 1,
+      debug: false,
+      doNotOptimize: true,
+    },
+    connectedWrite
+  );
   readAfterStartup();
 
   // Ustawienie callbacka do tłumaczenia tagów na zmienne
   // https://github.com/plcpeople/nodeS7/tree/master?tab=readme-ov-file#nodes7settranslationcbtranslator
-  conn.setTranslationCB((tag) => variables[tag]);
+  readConn.setTranslationCB((tag) => variables[tag]);
 
   // Cykliczne odczyty swiatel do cache co (lights_timeout) ms
   setInterval(() => {
-    plcMutex.runExclusive(async () => {
+    readMutex.runExclusive(async () => {
       // światła
-      conn.removeItems(); //usuwamy stare klucze
-      conn.addItems(LIGHT_KEYS); //dodajemy nowe klucze (światła)
+      readConn.removeItems(); //usuwamy stare klucze
+      readConn.addItems(LIGHT_KEYS); //dodajemy nowe klucze (światła)
       await new Promise((resolve) => {
-        conn.readAllItems((err, val) => {
+        readConn.readAllItems((err, val) => {
           if (!err) cache.set("swiatlaData", val, lights_ttl); //zapisujemy do cache, jeśli nie ma błędu
           resolve();
         });
@@ -162,11 +174,11 @@ function connected(err) {
 
   // Cykliczne odczyty temperatury do cache co (temperature_timeout) ms
   setInterval(() => {
-    plcMutex.runExclusive(async () => {
-      conn.removeItems(); // usuwamy stare klucze
-      conn.addItems(TEMPERATURE_KEYS); //dodajemy nowe klucze (temperatura)
+    readMutex.runExclusive(async () => {
+      readConn.removeItems(); // usuwamy stare klucze
+      readConn.addItems(TEMPERATURE_KEYS); //dodajemy nowe klucze (temperatura)
       await new Promise((resolve) => {
-        conn.readAllItems((err, val) => {
+        readConn.readAllItems((err, val) => {
           if (!err) cache.set("temperaturaData", val, temperature_ttl); //zapisujemy do cache, jeśli nie ma błędu
           resolve();
         });
@@ -176,49 +188,41 @@ function connected(err) {
 
   // Cykliczne odczyty rolet co (blinds_timeout) ms
   setInterval(() => {
-    plcMutex.runExclusive(async () => {
-      conn.removeItems(); // usuwamy stare klucze
-      conn.addItems(BLINDS_KEYS); //dodajemy nowe klucze (rolety)
+    readMutex.runExclusive(async () => {
+      readConn.removeItems(); // usuwamy stare klucze
+      readConn.addItems(BLINDS_KEYS); //dodajemy nowe klucze (rolety)
       await new Promise((resolve) => {
-        conn.readAllItems((err, val) => {
+        readConn.readAllItems((err, val) => {
           if (!err) cache.set("roletyData", val, blinds_ttl); //zapisujemy do cache, jeśli nie ma błędu
           resolve();
         });
       });
     });
   }, blinds_timeout);
+}
+
+function connectedWrite(err) {
+  if (err) {
+    console.error("Błąd połączenia z PLC:", err);
+    return;
+  }
+
+  // Ustawienie callbacka do tłumaczenia tagów na zmienne
+  writeConn.setTranslationCB((tag) => variables[tag]);
 
   // GET: ping
   app.get("/", (req, res) => {
     res.send("Serwer działa");
   });
 
-  /*
-    !!!
-    WSZYSTKIE endpointy GET OPRÓCZ /stream/* nie są używane do odczytu danych z PLC przez przeglądarkę.
-    Służą one TYLKO do debugowania i testowania.
-    Zamiast tego, dane są wysyłane przez SSE (Server-Sent Events), co określoną ilość czasu.
-    !!!
-  */
-
-  // GET: temperatura z cache
-  app.get("/temperatura/3", (req, res) => {
-    const data = cache.get("temperaturaData");
-    if (!data) return res.status(503).json({ error: "Dane niedostępne" });
-
-    const temp = {};
-    for (let k of T3_keys) temp[k] = data[k];
-    res.json(temp);
-  });
-
-  // GET: swiatla z cache
-  app.get("/swiatla/3/wyjscia", (req, res) => {
-    const data = cache.get("swiatlaData");
-    if (!data) return res.status(503).json({ error: "Dane niedostępne" });
-
-    const lights = {};
-    for (let k of L3_out_keys) lights[k] = data[k];
-    res.json(lights);
+  //debug
+  app.get("/debug/cache", (req, res) => {
+    res.json(
+      cache.keys().reduce((out, k) => {
+        out[k] = cache.get(k);
+        return out;
+      }, {})
+    );
   });
 
   // PUT: sterowanie światłem
@@ -228,18 +232,13 @@ function connected(err) {
     const { swiatlo } = req.params;
     const { wartosc } = req.body;
 
-    await plcMutex.runExclusive(async () => {
+    await writeMutex.runExclusive(async () => {
       await new Promise((resolve) => {
-        conn.writeItems(`wej_${swiatlo}`, wartosc, (err) => {
+        writeConn.writeItems(`wej_${swiatlo}`, wartosc, (err) => {
           if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
 
-          conn.removeItems();
-          conn.addItems(L3_out_keys);
-          conn.readAllItems((err, val) => {
-            if (!err) cache.set("swiatlaData", val, lights_ttl);
-            res.json({ status: "zapisano", wartosc });
-            resolve();
-          });
+          res.json({ status: "zapisano", wartosc });
+          return resolve();
         });
       });
     });
@@ -250,18 +249,13 @@ function connected(err) {
     const { swiatlo } = req.params;
     const { wartosc } = req.body;
 
-    await plcMutex.runExclusive(async () => {
+    await writeMutex.runExclusive(async () => {
       await new Promise((resolve) => {
-        conn.writeItems(`wej_${swiatlo}`, wartosc, (err) => {
+        writeConn.writeItems(`wej_${swiatlo}`, wartosc, (err) => {
           if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
 
-          conn.removeItems();
-          conn.addItems(L2_out_keys);
-          conn.readAllItems((err, val) => {
-            if (!err) cache.set("swiatlaData", val, lights_ttl);
-            res.json({ status: "zapisano", wartosc });
-            resolve();
-          });
+          res.json({ status: "zapisano", wartosc });
+          return resolve();
         });
       });
     });
@@ -274,18 +268,13 @@ function connected(err) {
     const { roleta } = req.params;
     const { wartosc } = req.body;
 
-    await plcMutex.runExclusive(async () => {
+    await writeMutex.runExclusive(async () => {
       await new Promise((resolve) => {
-        conn.writeItems(`wej_${roleta}`, wartosc, (err) => {
+        writeConn.writeItems(`wej_${roleta}`, wartosc, (err) => {
           if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
 
-          conn.removeItems();
-          conn.addItems(B3_out_keys);
-          conn.readAllItems((err, val) => {
-            if (!err) cache.set("roletyData", val, blinds_ttl);
-            res.json({ status: "zapisano", wartosc });
-            resolve();
-          });
+          res.json({ status: "zapisano", wartosc });
+          return resolve();
         });
       });
     });
@@ -296,18 +285,13 @@ function connected(err) {
     const { roleta } = req.params;
     const { wartosc } = req.body;
 
-    await plcMutex.runExclusive(async () => {
+    await writeMutex.runExclusive(async () => {
       await new Promise((resolve) => {
-        conn.writeItems(`wej_${roleta}`, wartosc, (err) => {
+        writeConn.writeItems(`wej_${roleta}`, wartosc, (err) => {
           if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
 
-          conn.removeItems();
-          conn.addItems(B2_out_keys);
-          conn.readAllItems((err, val) => {
-            if (!err) cache.set("roletyData", val, blinds_ttl);
-            res.json({ status: "zapisano", wartosc });
-            resolve();
-          });
+          res.json({ status: "zapisano", wartosc });
+          return resolve();
         });
       });
     });
