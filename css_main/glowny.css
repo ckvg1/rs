@@ -16,13 +16,13 @@ header {
   flex-wrap: wrap;
   background-color: #f4f7f9;
   border-image: linear-gradient(180deg, #333 95%, #f4f7f9) 1;
-  border-bottom: 10px solid;
+  border-bottom: 5px solid;
 }
 
 header.ciemny{
-    background-color: #012253;
-    border-image: linear-gradient(180deg, #ffffff 98%, #011532) 1;
-    border-bottom: 5px solid;
+  background-color: #012253;
+  border-image: linear-gradient(180deg, #ffffff 98%, #011532) 1;
+  border-bottom: 5px solid;
 }
 
 .przycisk {

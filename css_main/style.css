@@ -24,8 +24,8 @@ iframe {
   width: 32px;
   cursor: pointer;
   position: absolute;
-  left: 450px;
-  top: 43px;
+  top: 50px;
+  left: 40px;
 }
 
 .tabs {
@@ -228,22 +228,12 @@ input:focus{
     flex-direction: column;
     align-items: center;
   }
-  #dark-mode{
-    right: 30px;
-    top: 30px;
-    left: auto;
-  }
 }
 
 @media only screen and (max-width: 810px) {
    
   main {
     height: calc(100vh - 90px);
-  }
-  #dark-mode{
-    right: 65px;
-    top: 29px;
-    left: auto;
   }
   .tabs-list {
     list-style: none;

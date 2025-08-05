@@ -9,7 +9,19 @@ if(local === "ciemny-motyw"){
 
   document.getElementById("settings_icon").src = "./img_main/settings-dark.png";
   document.getElementById("dark-mode").src = "img_main/dark-mode-dark.png";
-  document.getElementById("main_image").src = "./img_main/swiatla-bg-dark2.png";
+
+  ramka = document.getElementById("ramka");
+  doc = ramka.contentWindow.document;
+  img = doc.getElementById("light_off");
+  // img.style.width = "1000px"
+  if(img.src == 'img/light_off.png'){
+    img.src = 'img/light_off-dark.png'
+  }
+  else{
+    img.src ='img/light_off-dark.png'
+  }
+  // document.getElementById("light_off").src = "img/light_off-dark.png"
+  // document.getElementById("main_image").src = "./img_main/swiatla-bg-dark2.png";
 }
 
 function darkMode(){
@@ -18,6 +30,8 @@ function darkMode(){
   body.forEach((el) => {
     el.classList.toggle("ciemny");
   });
+
+
   if (document.body.classList.contains("ciemny")){
       localStorage.setItem("theme", "ciemny-motyw");
   }
