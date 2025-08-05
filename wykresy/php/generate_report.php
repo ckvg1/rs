@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: text/xls; charset=utf-8');
+header('Content-Type: text/csv; charset=utf-8');
 $dozwoloneTabele = ["temperatura", "light"];
 $tabela = isset($_GET["tabela"]) && in_array($_GET["tabela"], $dozwoloneTabele)
           ? $_GET["tabela"] 
@@ -10,9 +10,9 @@ $pietro = isset($_GET["pietro"]) ? intval($_GET["pietro"]) : 1;
 // dynamiczna kolumna czasu
 $czasDodaniaKlauzula = $tabela === "light" ? "data" : "czas_dodania";
 $month = date('m');
-$filename = $pietro . $tabela . $month . ".xls";
+$filename = $pietro . $tabela . $month . ".csv";
 if($pietro === 4) {
-    $filename = "wszystkie" . $tabela . $month . ".xls";
+    $filename = "wszystkie" . $tabela . $month . ".csv";
 }
 
 header("Content-Disposition: attachment; filename=\"$filename\"");
@@ -88,7 +88,7 @@ if ($pietro === 4) {
     }
 }
 
-// --- nagłówki xlsx ---
+// --- nagłówki csv ---
 if ($result->num_rows > 0) {
     $firstRow = $result->fetch_assoc();
     $columns = array_keys($firstRow);

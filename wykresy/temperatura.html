@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="css/temperatura.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="js/plotly.min.js" charset="utf-8"></script>
+    <script src="../js/translations.js"></script>
+    <script src="../js/load_translation.js"></script>
   </head>
   <body>
     <div class="container">
@@ -28,8 +30,8 @@
           <option value="3" selected>Piętro 3</option>
         </select>
         <button class="przycisk" id="filtrujBtn">Filtruj</button>
-        
-        <input type="checkbox" id="switch" /> 
+
+        <input type="checkbox" id="switch" />
         <label for="switch">Toggle</label>
         <!-- <button id="markersBtn">Wykres kropkowy</button>
         <button id="linesBtn">Wykres liniowy</button> -->
@@ -199,6 +201,7 @@
         } else {
           alert("Wybierz obie daty pomiaru!");
         }
+        translatePage(getCookie("lang") || "pl");
       }
 
       // Zdarzenia

@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="./css_main/glowny.css" />
     <link rel="stylesheet" href="./css_main/style.css" />
     <link rel="stylesheet" href="./css_main/czcionka.css" />
+    <script src="./js/translations.js"></script>
+    <script src="./js/load_translation.js"></script>
   </head>
   <body class="jasny">
     <header id="header">
@@ -123,7 +125,37 @@
 
     <div id="settingsModal" class="modal">
       <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: flex-end;
+            gap: 10px;
+          "
+        >
+          <img
+            id="poland_flag"
+            onclick="zmienJezyk('pl')"
+            style="width: 40px"
+            src="./img_main/poland.png"
+            alt="Polish Flag"
+          />
+          <img
+            id="germany_flag"
+            onclick="zmienJezyk('de')"
+            style="width: 40px"
+            src="./img_main/germany.png"
+            alt="German Flag"
+          />
+
+          <span
+            style="position: inherit"
+            class="close-btn"
+            onclick="closeModal()"
+            >&times;</span
+          >
+        </div>
         <h2>Ustawienia</h2>
         <p>Zmieniaj nazwy czujników i pomieszczeń.</p>
         <select id="pietro_settings_select" onchange="zmienPietroUstawienia()">
@@ -484,8 +516,25 @@
               pietro = 3;
             }
           }
+          let langluage = "pl"; // domyślny język
+
+          function zmienJezyk(lang) {
+            language = lang;
+            console.log("Zmieniono język na:", lang);
+            if (lang == "pl") {
+              document.getElementById("poland_flag").style.border =
+                "2px solid red";
+              document.getElementById("germany_flag").style.border = "none";
+            } else if (lang == "de") {
+              document.getElementById("germany_flag").style.border =
+                "2px solid red";
+              document.getElementById("poland_flag").style.border = "none";
+            }
+          }
           //funkcja po nacisnieciu przycisku zapisz
           function zapiszUstawienia() {
+            document.cookie = `lang=${language}; path=/; max-age=31536000`; // ustawienie ciasteczka z jezykiem na rok
+
             const pietro1 = document.getElementById("pietro1_urzadzenia");
             const pietro2 = document.getElementById("pietro2_urzadzenia");
             const pietro3 = document.getElementById("pietro3_urzadzenia");
