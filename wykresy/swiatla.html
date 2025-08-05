@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="css/swiatla.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
   </head>
-  <body>
-    <!-- <header><img src="../logo.svg" /></header> !-->
+  <body class="jasny">
+    <!-- <header><img src="../logo.svg" /></header> ! -->
     <h1 id="dataInfoText">Data wykonania pomiaru (od-do):</h1>
     <h4 id="zakresDat">Używam danych z: Ostatnie 24 godziny</h4>
     <div id="formularz">
@@ -39,9 +39,9 @@
     <!-- Heatmap and Plotly Divs 
   myDiv is for the heatmap, myDiv2 is for additional content if needed (for mobile screen resolutions), and myPlot is for the Plotly graphs. 
  -->
-   <div id="alertBox" class="oaerror danger" style="display: none"></div>
+    <div id="alertBox" class="oaerror danger" style="display: none"></div>
     <div id="myDiv" class="heatmap">
-      <img src="img/swiatla-bg.png" />
+      <img id="mapa-swiatla" src="../wykresy/img/swiatla-bg.png">
     </div>
     <div id="myDiv2"></div>
     <div id="myPlot"></div>
@@ -368,5 +368,6 @@
           });
       }
     </script>
+    <script src="../js/dark_mode.js"></script>
   </body>
 </html>

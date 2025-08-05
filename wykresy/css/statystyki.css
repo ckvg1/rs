@@ -6,6 +6,7 @@ body{
     gap: 35px;
     padding-top: 30px;
     font-family: 'Ubuntu';
+    overflow-x: hidden;
 }
 section{
     margin-bottom: 30px;
@@ -20,14 +21,29 @@ section{
 }
 
 section:hover{
-    scale: 1.05;
+    scale: 1.02;
     box-shadow: rgba(14, 110, 182, 0.3) 5px 5px 15px ;
+}
+
+section.ciemny{
+    background-color: #012253;
+    box-shadow: rgba(255, 255, 255, 0.6) 5px 5px 15px;
+    color: #ffffff;
+}
+
+section.ciemny:hover{
+    scale: 1.02;
+    box-shadow: rgba(255, 255, 255, 0.7) 5px 5px 20px;
 }
 
 section h1{
     text-align: center;
     font-size: 25px;
     color: black;
+}
+
+section.ciemny h1{
+    color: #ffffff;
 }
 section div{
     text-align: center;
@@ -68,17 +84,6 @@ button {
     align-items: center;
     width: 50%;
     
-}
-.oaerror {
-  width: 80%;
-  background-color: #ffffff;
-  padding: 20px;
-  border: 1px solid #eee;
-  border-left-width: 5px;
-  border-radius: 3px;
-  margin: 10px auto;
-  font-family: "Open Sans", sans-serif;
-  font-size: 16px;
 }
 .stats_div p{
     text-align: left;

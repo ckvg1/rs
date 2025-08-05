@@ -6,6 +6,7 @@ body {
   flex-direction: column;
   gap: 10px;
 }
+
 form {
   padding: 5px;
 }
