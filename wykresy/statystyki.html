@@ -155,15 +155,15 @@
         <script>
           let isFetchingLight = false;
 
-          function wlaczWszstkieSwiatla() {
+          async function wlaczWszstkieSwiatla() {
             //wyslijTrue("all_ON_l1");
-            wyslijTrue("all_ON_l2");
-            wyslijTrue("all_ON_l3");
+            await wyslijTrue("all_ON_l2");
+            await wyslijTrue("all_ON_l3");
           }
-          function wylaczWszystkieSwiatla() {
+          async function wylaczWszystkieSwiatla() {
             //wyslijTrue("all_OFF_l1");
-            wyslijTrue("all_OFF_l2");
-            wyslijTrue("all_OFF_l3");
+            await wyslijTrue("all_OFF_l2");
+            await wyslijTrue("all_OFF_l3");
           }
           function ustawHarmonogram(swiatlo, all) {
             const godzinaInput = document.getElementById(
