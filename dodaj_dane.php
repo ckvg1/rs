@@ -7,6 +7,17 @@ t2_7=99.0&l2=11111111111111&t3_1=27.3&t3_2=99.0&t3_3=99.0&
 t3_4=99.0&t3_5=99.0&t3_6=99.0&t3_7=99.0&t_zewn=0.0&l3=11111111111111
 */
 
+/*
+
+http://localhost/rs/dodaj_dane.php?
+t1=3.5,24.0,5.1,22.2,2.5,20.8,19.9&
+t2=21.0,21.5,21.9,23.0,21.1,20.9,20.5&
+t3=27.0,26.9,27.1,27.3,27.4,27.5,27.6&
+l1=10101010101010&
+l2=11111111111111&
+l3=00001111101100&
+t_zewn=9.5
+*/
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -22,22 +33,14 @@ if (!$connect) {
 
 
 function parse_temperatures($key) {
-    $raw = isset($_GET[$key]) ? trim($_GET[$key]) : str_repeat("990", 7); // np. "990990990990990990990"
-    
-    if (strlen($raw) !== 21 || !ctype_digit($raw)) {
-        // Niepoprawna długość lub zawiera niecyfry
-        return array_fill(0, 7, 99.0);
-    }
+    $raw = $_GET[$key] ?? "";
+    $parts = explode(",", $raw);
 
-    $temperatures = [];
-    for ($i = 0; $i < 7; $i++) {
-        $segment = substr($raw, $i * 3, 3); // 3 cyfry
-        $int_part = substr($segment, 0, 2); // np. "23"
-        $decimal_part = substr($segment, 2, 1); // np. "5"
-        $temperatures[] = floatval($int_part . "." . $decimal_part); // np. "23.5"
-    }
+    //if (count($parts) !== 7) {
+    //   return array_fill(0, 7, -99.0);
+    //}
 
-    return $temperatures;
+    return array_map('floatval', $parts);
 }
 
 // Pobieranie danych l1-l3 jako ciągi bitów
@@ -47,7 +50,7 @@ function get_light_array($key) {
     return count($arr) === 14 ? $arr : array_fill(0, 14, 0);
 }
 $t_zewn = $_GET['t_zewn'] ?? 99.0;
-$t1 = parse_temperatures("t1");
+
 $t2 = parse_temperatures("t2");
 $t3 = parse_temperatures("t3");
 
@@ -59,12 +62,12 @@ $l3 = get_light_array("l3");
 $sql = "INSERT INTO temperatura (
     t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7,
     t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7,
-    t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7,
+
     t_zewn
 ) VALUES (
     $t3[0], $t3[1], $t3[2], $t3[3], $t3[4], $t3[5], $t3[6], 
     $t2[0], $t2[1], $t2[2], $t2[3], $t2[4], $t2[5], $t2[6], 
-    $t1[0], $t1[1], $t1[2], $t1[3], $t1[4], $t1[5], $t1[6], 
+    
     $t_zewn
 );";
 

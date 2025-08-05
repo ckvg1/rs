@@ -35,7 +35,8 @@ button {
   margin: auto;
 }
 
-.zarowka,
+.zarowka {
+}
 .wszystkieSwiatla {
   position: absolute;
   width: 4%;

@@ -18,13 +18,18 @@
     ></div>
     <div id="myDiv" class="main_image">
       <img src="swiatla-bg.png" id="main_image" />
-      <a onmousedown="wyslijTrue('all_ON_l3')" style="cursor: pointer">
+      <a onmousedown="wyslijTrue('all_OFF_l3')" style="cursor: pointer">
         <img id="all_l3" class="wszystkieSwiatla" src="btn_of.png" />
 
         <!-- Przycisk do wszystkich świateł -->
       </a>
-      <a onmousedown="wyslijTrue('all_OFF_l3')" style="cursor: pointer">
-        <img style="margin-left: 5%" id="all_l3" class="wszystkieSwiatla" src="btn_on.png" />
+      <a onmousedown="wyslijTrue('all_ON_l3')" style="cursor: pointer">
+        <img
+          style="margin-left: 5%"
+          id="all_l3"
+          class="wszystkieSwiatla"
+          src="btn_on.png"
+        />
 
         <!-- Przycisk do wszystkich świateł -->
       </a>
@@ -171,7 +176,6 @@
             }
           });
         };
-
         const temperaturaStream = new EventSource(
           "http://192.168.25.59:3000/stream/temperatura"
         );
@@ -226,14 +230,13 @@
 
       async function wyslijTrue(swiatlo) {
         if (isFetchingLight) return;
-        isFetchingLight = true;
+        isFetchingLight = false;
         try {
           // Najpierw wł.
           await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
             wartosc: true,
           });
-          // Następnie wył.
-
+          // Potem false
           await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
             wartosc: false,
           });
@@ -247,7 +250,7 @@
 
       async function roletaWlacz(roleta) {
         if (isFetchingBlinds) return;
-        isFetchingBlinds = true;
+        isFetchingBlinds = false;
         try {
           await axios.put(`http://192.168.25.59:3000/rolety/3/${roleta}`, {
             wartosc: true,

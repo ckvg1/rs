@@ -11,19 +11,24 @@
   </head>
   <body>
     <h1 style="font-size: 18pt">Sterowanie urządzeniami - 2 piętro</h1>
-
+    <div id="alertBox" class="oaerror danger" style="display: none"></div>
     <div
       style="display: flex; flex-direction: row; gap: 15px; align-items: center"
     ></div>
     <div id="myDiv" class="main_image">
       <img src="swiatla-bg.png" id="main_image" />
-      <a onmousedown="wyslijTrue('all_ON_l2')" style="cursor: pointer">
+      <a onmousedown="wyslijTrue('all_OFF_l2')" style="cursor: pointer">
         <img id="all_l2" class="wszystkieSwiatla" src="btn_of.png" />
 
         <!-- Przycisk do wszystkich świateł -->
       </a>
-      <a onmousedown="wyslijTrue('all_OFF_l2')" style="cursor: pointer">
-        <img style="margin-left: 5%" id="all_l2" class="wszystkieSwiatla" src="btn_on.png" />
+      <a onmousedown="wyslijTrue('all_ON_l2')" style="cursor: pointer">
+        <img
+          style="margin-left: 5%"
+          id="all_l2"
+          class="wszystkieSwiatla"
+          src="btn_on.png"
+        />
 
         <!-- Przycisk do wszystkich świateł -->
       </a>
@@ -133,12 +138,28 @@
     </div>
 
     <script>
-      let isFetchingLight = false;
-      let isFetchingTemp = false;
-      let fetchingBlinds = false;
-      let tempInterval, swiatloInterval;
+      const alertBox = document.getElementById("alertBox");
 
+      let isFetchingLight = false;
+      let isFetchingBlinds = false;
+
+      function reconnectStreams() {
+        location.reload(); // odświeżenie strony w celu ponownego nawiązania połączenia z serwerem
+      }
+
+      function showAlert(
+        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong style='color: black'> spróbuj ponownie </strong> </a>"
+      ) {
+        alertBox.style.display = "block";
+        document.querySelector(".oaerror").innerHTML = message;
+      }
+      function hideAlert() {
+        alertBox.style.display = "none";
+      }
       addEventListener("DOMContentLoaded", () => {
+        showAlert(
+          " Trwa łączenie z PLC. <img src='loading.gif' style='width: 30px; height: 30px; vertical-align: middle; margin-left: 10px' />"
+        );
         const swiatlaStream = new EventSource(
           "http://192.168.25.59:3000/stream/swiatla"
         );
@@ -153,7 +174,6 @@
             }
           });
         };
-
         const temperaturaStream = new EventSource(
           "http://192.168.25.59:3000/stream/temperatura"
         );
@@ -162,7 +182,6 @@
           console.log(dane);
           Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(id);
-
             if (el) el.innerText = `${wartosc.toFixed(1)} °C`;
           });
         };
@@ -181,6 +200,30 @@
             }
           });
         };
+        roletyStream.onerror = (err) => {
+          showAlert();
+          console.error("Błąd połączenia z serwerem rolety:", err);
+        };
+        temperaturaStream.onerror = (err) => {
+          showAlert();
+          console.error("Błąd połączenia z serwerem temperatury:", err);
+        };
+        swiatlaStream.onerror = (err) => {
+          showAlert();
+          console.error("Błąd połączenia z serwerem świateł:", err);
+        };
+        roletyStream.onopen = () => {
+          hideAlert();
+          console.log("Połączono z serwerem rolety");
+        };
+        temperaturaStream.onopen = () => {
+          hideAlert();
+          console.log("Połączono z serwerem temperatury");
+        };
+        swiatlaStream.onopen = () => {
+          hideAlert();
+          console.log("Połączono z serwerem świateł");
+        };
       });
 
       async function wyslijTrue(swiatlo) {
@@ -192,19 +235,21 @@
             wartosc: true,
           });
           // Następnie wył.
+
           await axios.put(`http://192.168.25.59:3000/swiatla/2/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
-          console.error("Błąd wysyłania sygnału:", err);
+          alertBox.style.display = "block";
+          showAlert();
         } finally {
           isFetchingLight = false;
         }
       }
 
       async function roletaWlacz(roleta) {
-        if (fetchingBlinds) return;
-        fetchingBlinds = true;
+        if (isFetchingBlinds) return;
+        isFetchingBlinds = true;
         try {
           await axios.put(`http://192.168.25.59:3000/rolety/2/${roleta}`, {
             wartosc: true,
@@ -213,9 +258,10 @@
             wartosc: false,
           });
         } catch (err) {
+          showAlert();
           console.error("Błąd wysyłania sygnału do rolet:", err);
         } finally {
-          fetchingBlinds = false;
+          isFetchingBlinds = false;
         }
       }
     </script>
