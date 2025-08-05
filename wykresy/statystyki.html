@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Statystyki</title>
     <link rel="icon" type="image/x-icon" href="wykresy/icon.png" />
+    <link rel="stylesheet" href="../css_main/glowny.css" />
     <link rel="stylesheet" href="./css/statystyki.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="../sterowanie/axios.min.js"></script>
@@ -132,7 +133,7 @@
 
       <section>
         <h1>Włącz wszystkie światła</h1>
-
+        <h1>w firmie</h1>
         <a
           onmousedown="wlaczWszstkieSwiatla()"
           style="cursor: pointer; margin: 25%"
@@ -158,6 +159,15 @@
             //wyslijTrue("all_OFF_l1");
             await wyslijTrue("all_OFF_l2");
             await wyslijTrue("all_OFF_l3");
+          }
+          function ustawHarmonogram(swiatlo, all) {
+            const godzinaInput = document.getElementById(
+              "harmonogramGodzinaInput"
+            );
+            const godzina = godzinaInput.value;
+            if (all) {
+              //Tutaj logika harmonogramu dla wszystkich swiatel naraz
+            }
           }
           async function wyslijTrue(swiatlo) {
             if (isFetchingLight) return;
@@ -193,10 +203,10 @@
           <option value="3">3 piętro</option>
           <option selected value="4">Wszystkie piętra</option>
         </select>
-        <button id="pobierzRaportTemperaturyButton">
+        <button class="przycisk" id="pobierzRaportTemperaturyButton">
           Pobierz miesięczny raport temperatury
         </button>
-        <button id="pobierzRaportSwiatlaButton">
+        <button class="przycisk" id="pobierzRaportSwiatlaButton">
           Pobierz miesięczny raport światła
         </button>
 
@@ -238,13 +248,13 @@
       </section>
       <section>
         <h1>Wyłącz wszystkie światła</h1>
-
+        <h1>w firmie</h1>
         <a
           onmousedown="wylaczWszystkieSwiatla()"
-          style="cursor: pointer; text-align: center"
+          style="cursor: pointer; margin: 25%"
         >
           <img
-            style="margin-left: 5%; height: 50%"
+            style="height: 50%"
             id="all_l1"
             class="wszystkieSwiatla"
             src="../sterowanie/btn_of.png"
@@ -253,7 +263,19 @@
           <!-- Przycisk do wszystkich świateł -->
         </a>
       </section>
-      <section>To jest sekcja 6</section>
+      <section id="harmonogram">
+        <h1>Harmonogram</h1>
+        <div>
+          <p>Wyłącz automatycznie wszystkie światła o:</p>
+          <input id="harmonogramGodzinaInput" type="time" />
+
+          <br />
+          <br />
+          <button type="button" onclick="ustawHarmonogram()" class="przycisk">
+            Zapisz
+          </button>
+        </div>
+      </section>
     </div>
 
     <script>

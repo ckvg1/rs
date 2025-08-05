@@ -1,10 +1,8 @@
 body {
-  font-family: "Ubuntu", sans-serif;
   margin: 0;
   padding: 0;
   background: #f4f7f9;
   color: #333;
-  height: 100%;
   overflow: hidden;
 }
 iframe {
@@ -66,12 +64,7 @@ header {
   padding: 0px;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
+
 
 main {
   padding: 0px;
@@ -163,25 +156,6 @@ iframe {
   text-align: center; 
   margin-top: 5px;
 }
-#divZapisz button{
-  background-color: #2a80f9;
-  color: white;
-  padding: 12px 24px;
-  font-size: 16px;
-  border: 2px #2a80f9 solid;
-  border-radius: 6px;
-  cursor: pointer;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.1s;
-}
-#divZapisz button:hover {
-  background-color: white;
-  color: #2a80f9;
-}
-#divZapisz button:active {
-  background-color: #2a80f9;
-  color: white;
-}
 
 #reset{
   background-color: #fc1212;
@@ -202,37 +176,19 @@ iframe {
   background-color: #fc1212;
   color: white;
 }
-
-select {
-  padding: 8px 12px;
-  margin: 10px 10%;
-  width: 80%;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f5f5f5;
-  color: #333;
-  appearance: none;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
 input {
   margin: 1px;
   padding: 5px 10px;
-  transition: all 0.2s;
+  text-align: left;
+  transition: all 0.3s;
 }
 
-input:hover, select:hover{
-  border-color: #007bff;
-  background-color: #d3e2ec;
+select:focus{
+  padding: 10px 24px;
 }
 
-input:focus, select:focus {
-  border-color: #007bff;
-  background-color: #e6f0ff;
-  outline: none;
-  background-color: #d3e2ec;
+input:focus{
+  padding: 5px 10px;
 }
 
 

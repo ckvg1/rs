@@ -144,7 +144,7 @@
         $czujnik = null;
         for ($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0);
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0 && $val <70);
                 if (!empty($filtered)) {
                     $min_local = min($filtered);
                 } else {
@@ -163,7 +163,7 @@
         $czujnik = null;
         for ($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0);
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0 && $val <70);
                 if (!empty($filtered)) {
                     $max_local = max($filtered);
                 } else {
@@ -182,13 +182,14 @@
         $licznik = 0;
         for($i = 0; $i < count($tablica); $i++) {
             if (!empty($tablica[$i])) {
-                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0);
+                $filtered = array_filter($tablica[$i], fn($val) => !is_null($val) && $val != 0 && $val != 99 && $val > 0 && $val <70);
                 $suma += array_sum($filtered);
                 $licznik += count($filtered);
             }
         }
         return $licznik > 0 ? round($suma / $licznik, 2) : null;
     }
+    
     function obliczSredniaTemperatureZewnetrzna($tablica){
         $suma = 0;
         $licznik = 0;
@@ -202,7 +203,7 @@
         $bledne = [];
         for ($i = 0; $i < count($tablica); $i++) {
             foreach ($tablica[$i] as $val) {
-                if (is_null($val) || $val == 0 || $val == 99 || $val < 0) {
+                if (is_null($val) || $val == 0 || $val == 99 || $val < 0 || $val > 70) {
                     $bledne[] = $nazwy[$i]; //wpisanie nazw wszyztkich czujnikow z blednymi danymi
                 }
             }

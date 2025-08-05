@@ -1,0 +1,68 @@
+body {
+  font-family: "Ubuntu", Courier, monospace;
+  background-color: #f4f7f9;
+}
+
+.przycisk {
+  background-color: #6ea0e6;
+  color: white;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: 2px #7faeef solid;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+.przycisk:hover {
+  background-color: white;
+  color: #2a80f9;
+}
+
+.przycisk:active {
+  background-color: #2a80f9;
+  color: white;
+}
+
+input,
+select {
+  padding: 10px 24px;
+  margin: 0 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  color: #333;
+  appearance: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+input:hover,
+select:hover {
+  border-color: #007bff;
+  background-color: #d3e2ec;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  background-color: #e6f0ff;
+  outline: none;
+  background-color: #d3e2ec;
+  padding: 10px 30px;
+}
+
+.oaerror {
+  width: 80%;
+  background-color: #ffffff;
+  padding: 20px;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-radius: 3px;
+  margin: 10px auto;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  text-align: left;
+}
