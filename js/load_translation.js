@@ -5,10 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     ?.split("=")[1];
   if (lang) {
     translatePage(lang);
-    document.getElementById("poland_flag").style.border =
-      lang === "pl" ? "2px solid red" : "none";
-    document.getElementById("germany_flag").style.border =
-      lang === "de" ? "2px solid red" : "none";
+    const flagaPolski = document.getElementById("poland_flag");
+    const flagaNiemiec = document.getElementById("germany_flag");
+
+    if (flagaPolski)
+      flagaPolski.style.border = lang === "pl" ? "2px solid red" : "none";
+    if (flagaNiemiec)
+      flagaNiemiec.style.border = lang === "de" ? "2px solid red" : "none";
   } else {
     translatePage("pl"); // domyślny język
   }

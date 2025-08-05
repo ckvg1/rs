@@ -5,6 +5,12 @@ body {
   flex-direction: column;
   gap: 0px;
 }
+a {
+  background-color: "red";
+}
+.temperatura {
+  font-size: 14pt;
+}
 
 .main_image {
   position: relative;
@@ -30,6 +36,7 @@ body {
   width: 3%;
   position: absolute;
   top: 90%;
+  cursor: pointer;
 }
 .odwrot {
   transform: rotate(180deg);
