@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="../sterowanie/axios.min.js"></script>
     <script src="../js/translations.js"></script>
+    <script src="../js/load_translation.js"></script>
   </head>
   <body>
     <div
@@ -234,6 +235,7 @@
                 id
               ).innerText = `Pobierz miesięczny raport ${label}${postfix}`;
             });
+            translatePage(getCookie("lang") || "pl");
           });
 
           // pobieranie raportów
