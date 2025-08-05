@@ -6,10 +6,6 @@ body {
   gap: 0px;
 }
 
-.temperatura {
-  font-size: 14pt;
-}
-
 .main_image {
   position: relative;
   margin: auto;
@@ -19,8 +15,7 @@ body {
   margin: auto;
 }
 
-.zarowka {
-}
+.zarowka,
 .wszystkieSwiatla {
   position: absolute;
   width: 4%;
@@ -28,6 +23,7 @@ body {
 
 .temperatura {
   position: absolute;
+  font-size: 14pt;
 }
 
 .strzalka {

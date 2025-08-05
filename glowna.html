@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="./css_main/czcionka.css" />
   </head>
   <body class="jasny">
-    <header class="jasny" id="header">
+    <header id="header">
       <!-- div tylko dla lepszego ustawienia na stronie (logo i ikona obok siebie)-->
       <div id="logo_settings">
         <img
@@ -28,7 +28,7 @@
           class="jasny"
         />
       </div>
-        <img src="img_main/dark-mode.png" id="dark-mode" onclick="darkMode()" class="jasny">
+        <img src="img_main/dark-mode.png" id="dark-mode" onclick="darkMode(), window.location.reload()" class="jasny">
       <script>
         function hover(element) {
           if(element.classList == "jasny"){
@@ -705,7 +705,7 @@
       </section>
     </main>
 
-    <script src="./js/tabs.js"></script>
+    
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const modal = document.getElementById("settingsModal");
@@ -730,5 +730,7 @@
         modal.style.display = "none";
       }
     </script>
+    <script src="./js/tabs.js"></script>
+    <script src="/js/dark_mode.js"></script>
   </body>
 </html>

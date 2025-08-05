@@ -1,7 +1,5 @@
 body{
     font-family: "Ubuntu", Courier, monospace;
-}
-body.jasny{
     background-color: #f4f7f9;
     color: #000000;
 }
@@ -10,23 +8,21 @@ body.ciemny{
     color: #ffffff;
 }
 
-header.jasny{
-    background-color: #f4f7f9;
-    border-image: linear-gradient(180deg, #333 95%, #f4f7f9) 1;
-    border-bottom: 10px solid;
-}
-
-header.ciemny{
-    background-color: #012253;
-    border-image: linear-gradient(180deg, #ffffff 95%, #011532) 1;
-    border-bottom: 5px solid;
-}
 header {
   padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  background-color: #f4f7f9;
+  border-image: linear-gradient(180deg, #333 95%, #f4f7f9) 1;
+  border-bottom: 10px solid;
+}
+
+header.ciemny{
+    background-color: #012253;
+    border-image: linear-gradient(180deg, #ffffff 98%, #011532) 1;
+    border-bottom: 5px solid;
 }
 
 .przycisk {
@@ -82,13 +78,23 @@ select:focus {
 
 .oaerror {
   width: 80%;
-  background-color: #012253;
+  background-color: #ffffff;
   padding: 20px;
-  border: 1px solid #2a80f9;
+  border: 1px solid #eee;
   border-left-width: 5px;
   border-radius: 3px;
   margin: 10px auto;
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   text-align: left;
+}
+
+.oaerror.ciemny{
+  background-color: #012253;
+  border: 1px solid #2a80f9;
+  border-left-width: 5px;
+}
+
+.oaerror.ciemny strong{
+  color: #ffffff;
 }
