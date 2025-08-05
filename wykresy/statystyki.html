@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="./css/statystyki.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="../sterowanie/axios.min.js"></script>
+    <script src="../js/translations.js"></script>
   </head>
   <body>
     <div
       id="alertBox"
       class="oaerror danger"
-      style="display: none"
+      style="
+        display: none;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px;
+      "
       title="Za błędne dane skrypt uznaje czujniki, które wpisują do bazy wartość 0, 99, mniejszą niż 0 lub NULL."
     >
       <!-- text ustawiam w js. alertbox domyslnie schowany pokazuje sie jak skrypt wysle ze sa bledne dane w bazie -->
@@ -302,6 +308,28 @@
       pietroTemperatura.addEventListener("change", fetchTemperaturaData);
       temperaturaCzasSelect.addEventListener("change", fetchTemperaturaData);
 
+      //button do zamykania alertBox
+      const button = document.createElement("button");
+      button.innerText = "X";
+      button.style.padding = "5px";
+      button.title = "Zamknij";
+      button.style.backgroundColor = "white";
+      Object.assign(button.style, {
+        color: "red",
+        border: "none",
+        cursor: "pointer",
+      });
+
+      button.onclick = () => {
+        const date = new Date();
+        date.setTime(date.getTime() + 24 * 60 * 60 * 1000); // dzisiaj + 1 dzien
+        const expires = "expires=" + date.toUTCString();
+        const alertBox = document.getElementById("alertBox");
+        alertBox.style.display = "none";
+        // ciasteczko zeby przegladarka pamietala ze alertbox wylaczony
+        document.cookie = "alertBoxClosed=true; " + expires + "; path=/";
+      };
+
       function fetchTemperaturaData() {
         pietroTemperaturaValue = pietroTemperatura.value;
         const czasTemperatura = document.getElementById(
@@ -327,14 +355,19 @@
             document.getElementById("sredniaTemperaturaZewnetrzna").innerHTML =
               data.sredniaZewnetrzna + "℃";
 
-            if (data.bledneDane) {
+            if (
+              data.bledneDane &&
+              document.cookie.indexOf("alertBoxClosed=true") === -1
+            ) {
               console.log("Błędne dane w bazie:", data.czujnikBledneDane);
               const alertBox = document.getElementById("alertBox");
-              alertBox.style.display = "block";
+
               alertBox.innerHTML =
                 "Prawdopodobne błędne dane w bazie. Czujniki: " +
                 data.czujnikBledneDane.join(", ") +
                 ". Błędne odczyty są ingorowane w statystykach.";
+              alertBox.appendChild(button);
+              alertBox.style.display = "flex";
             } else {
               const alertBox = document.getElementById("alertBox");
               alertBox.style.display = "none";
