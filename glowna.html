@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="./css_main/style.css" />
     <link rel="stylesheet" href="./css_main/czcionka.css" />
   </head>
-  <body>
-    <header>
+  <body class="jasny">
+    <header class="jasny" id="header">
       <!-- div tylko dla lepszego ustawienia na stronie (logo i ikona obok siebie)-->
       <div id="logo_settings">
         <img
@@ -25,14 +25,27 @@
           src="./img_main/settings.png"
           alt="Settings"
           id="settings_icon"
+          class="jasny"
         />
       </div>
+        <img src="img_main/dark-mode.png" id="dark-mode" onclick="darkMode()" class="jasny">
       <script>
         function hover(element) {
-          element.setAttribute("src", "./img_main/settings-move.gif");
+          if(element.classList == "jasny"){
+            element.setAttribute("src", "./img_main/settings-move.gif");
+          }
+          else{
+            element.setAttribute("src", "./img_main/settings-move-dark.gif");
+          }
+          
         }
         function unhover(element) {
-          element.setAttribute("src", "./img_main/settings.png");
+          if(element.classList == "jasny"){
+            element.setAttribute("src", "./img_main/settings.png");
+          }
+          else{
+            element.setAttribute("src", "./img_main/settings-dark.png");
+          }
         }
       </script>
 

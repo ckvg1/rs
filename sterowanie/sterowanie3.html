@@ -18,7 +18,7 @@
       style="display: flex; flex-direction: row; gap: 15px; align-items: center"
     ></div>
     <div id="myDiv" class="main_image">
-      <img src="swiatla-bg.png" id="main_image" />
+      <img src="swiatla-bg-dark2.png" id="main_image" />
       <a onmousedown="wyslijTrue('all_ON_l3')" style="cursor: pointer">
         <img id="all_l3" class="wszystkieSwiatla" src="btn_of.png" />
 
@@ -146,7 +146,7 @@
       }
 
       function showAlert(
-        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong style='color: black'> spróbuj ponownie </strong> </a>"
+        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
       ) {
         alertBox.style.display = "block";
         document.querySelector(".oaerror").innerHTML = message;

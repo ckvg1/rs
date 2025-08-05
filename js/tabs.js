@@ -52,3 +52,47 @@ function znikanie(){
     tabsList.style.right = "-300px";
   }
 }
+
+function darkMode(){
+  body = document.body;
+  header = document.querySelector("header");
+  settings = document.getElementById("settings_icon");
+  dark_mode = document.getElementById("dark-mode");
+  if(body.classList == "jasny"){
+    body.classList.remove("jasny");
+    body.classList.add("ciemny");
+  }
+  else if(body.classList == "ciemny"){
+    body.classList.remove("ciemny");
+    body.classList.add("jasny");
+  }
+  if(header.classList == "jasny"){
+    header.classList.remove("jasny");
+    header.classList.add("ciemny");
+  }
+  else if(header.classList == "ciemny"){
+    header.classList.remove("ciemny");
+    header.classList.add("jasny");
+  }
+  if(settings.classList == "jasny"){
+    settings.src = "./img_main/settings-dark.png"
+    settings.classList.remove("jasny");
+    settings.classList.add("ciemny");
+  }
+  else if(settings.classList == "ciemny"){
+    settings.src = "./img_main/settings.png"
+    settings.classList.remove("ciemny");
+    settings.classList.add("jasny");
+  }
+  if(dark_mode.classList == "jasny"){
+    dark_mode.src = "img_main/dark-mode-dark.png"
+    dark_mode.classList.remove("jasny");
+    dark_mode.classList.add("ciemny");
+  }
+  else if(dark_mode.classList == "ciemny"){
+    dark_mode.src = "img_main/dark-mode.png"
+    dark_mode.classList.remove("ciemny");
+    dark_mode.classList.add("jasny");
+  }
+
+}

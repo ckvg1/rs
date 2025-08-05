@@ -1,7 +1,6 @@
 body {
   margin: 0;
   padding: 0;
-  background: #f4f7f9;
   color: #333;
   overflow: hidden;
 }
@@ -10,18 +9,23 @@ iframe {
   height: 100%;
   border: none;
 }
-header {
-  padding: 1rem;
+.logo {
+  height: 50px;
+}
+#logo_settings {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
-  border-bottom: 10px solid;
-  border-image: linear-gradient(180deg, #333 95%, #f4f7f9) 1;
+  gap: 20px;
 }
-.logo {
-  height: 50px;
-  margin-right: 10px;
+
+
+#dark-mode{
+  width: 32px;
+  cursor: pointer;
+  position: absolute;
+  left: 450px;
+  top: 43px;
 }
 
 .tabs {
@@ -40,6 +44,7 @@ header {
 }
 
 .tab-button {
+  /* color: #ffffff; */
   background: none;
   border: none;
   cursor: pointer;
@@ -82,12 +87,6 @@ main {
   padding: 0;
 }
 
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
 #settings_icon {
   width: 45px;
   height: 45px;
@@ -101,13 +100,6 @@ iframe {
   background-size: cover;
 }
 
-#logo_settings {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  
-}
 
 .modal {
   position: absolute;
@@ -123,10 +115,20 @@ iframe {
 }
 
 .modal-content {
+  width: 1000px;
   background: #fff;
   padding: 40px;
   border-radius: 8px;
   position: relative;
+}
+.modal select{
+  margin: 15px;
+}
+
+.modal input{
+  padding: 5px 7px;
+  margin: 2px 4px;
+  /* height: 40px; */
 }
 
 .close-btn {
@@ -214,10 +216,15 @@ input:focus{
     }
 }
 
-@media (min-width:810px) and (max-width: 1235px){
+@media (min-width:810px) and (max-width: 1280px){
   header {
     flex-direction: column;
     align-items: center;
+  }
+  #dark-mode{
+    right: 30px;
+    top: 30px;
+    left: auto;
   }
 }
 
@@ -225,6 +232,11 @@ input:focus{
    
   main {
     height: calc(100vh - 90px);
+  }
+  #dark-mode{
+    right: 65px;
+    top: 29px;
+    left: auto;
   }
   .tabs-list {
     list-style: none;
