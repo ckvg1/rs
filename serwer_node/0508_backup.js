@@ -281,34 +281,22 @@ function connectedWrite(err) {
     const { swiatlo } = req.params;
     const { wartosc } = req.body;
 
-    await writeMutex.runExclusive(
-      () =>
-        new Promise((resolve) => {
-          const result = writeConn.writeItems(
-            `wej_${swiatlo}`,
-            wartosc,
-            (err) => {
-              if (err) {
-                console.error("Błąd przy zapisie:", err);
-                res.status(500).json({ error: "Błąd przy zapisie" });
-              } else {
-                res.json({ status: "zapisano", wartosc });
-                var godzina = new Date().toISOString();
-                console.info(swiatlo, wartosc, godzina, req.ip);
-              }
-              resolve(); // mutex zostanie zwolniony dopiero po zakończeniu callbacka
-            }
-          );
-
-          if (result != 0) {
-            console.error("writeItems odrzucone: zapis już trwa");
-            res
-              .status(409)
-              .json({ error: "Zapis w trakcie, spróbuj ponownie" });
-            resolve(); // zwalniamy mutex nawet jeśli writeItems nie zadziałał
-          }
-        })
-    );
+    await writeMutex.runExclusive(async () => {
+      await new Promise((resolve) => {
+        let result = writeConn.writeItems(`wej_${swiatlo}`, wartosc, (err) => {
+          if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
+          var godzina = new Date().toISOString();
+          console.info(swiatlo, wartosc, godzina, req.ip);
+          res.json({ status: "zapisano", wartosc });
+          return resolve();
+        });
+        if (result != 0) {
+          res.json({ status: "blad przy zapisie" });
+          console.error("Błąd przy zapisie światła!");
+          return resolve();
+        }
+      });
+    });
   });
 
   // PUT: sterowanie roletami
