@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>Hub</title>
     <link rel="icon" type="image/x-icon" href="wykresy/img/icon.png" />
-    <link rel="stylesheet" href="./css_main/glowny.css">
+    <link rel="stylesheet" href="./css_main/glowny.css" />
     <link rel="stylesheet" href="./css_main/style.css" />
     <link rel="stylesheet" href="./css_main/czcionka.css" />
   </head>
@@ -73,16 +73,7 @@
               Temperatura
             </button>
           </li>
-          <li>
-            <button
-              onclick="znikanie()"
-              class="tab-button"
-              data-tab="pietro0"
-              data-src="sterowanie/sterowanie0.html"
-            >
-              Parter
-            </button>
-          </li>
+
           <li>
             <button
               onclick="znikanie()"
@@ -221,11 +212,17 @@
                 <br />
               </div>
             </div>
-          <!-- DIV do srodkowania-->
-          <div id="divZapisz">
-            <button type="button" class="przycisk" onclick="zapiszUstawienia()">Zapisz</button>
-          </div>
-        </form>
+            <!-- DIV do srodkowania-->
+            <div id="divZapisz">
+              <button
+                type="button"
+                class="przycisk"
+                onclick="zapiszUstawienia()"
+              >
+                Zapisz
+              </button>
+            </div>
+          </form>
         </div>
 
         <div id="pietro2_urzadzenia" style="display: none">
@@ -323,7 +320,13 @@
               </div>
             </div>
             <div id="divZapisz">
-              <button type="button" class="przycisk" onclick="zapiszUstawienia()">Zapisz</button>
+              <button
+                type="button"
+                class="przycisk"
+                onclick="zapiszUstawienia()"
+              >
+                Zapisz
+              </button>
             </div>
           </form>
         </div>
@@ -423,11 +426,21 @@
               </div>
             </div>
             <div id="divZapisz">
-              <button type="button" class="przycisk" onclick="zapiszUstawienia()">Zapisz</button>
+              <button
+                type="button"
+                class="przycisk"
+                onclick="zapiszUstawienia()"
+              >
+                Zapisz
+              </button>
             </div>
           </form>
         </div>
-        <button id="reset" title="Naciśnij dwukrotnie aby zresetowac nazwy" ondblclick="resetujNazwy()">
+        <button
+          id="reset"
+          title="Naciśnij dwukrotnie aby zresetowac nazwy"
+          ondblclick="resetujNazwy()"
+        >
           Reset
         </button>
         <script>
