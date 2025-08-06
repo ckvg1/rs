@@ -28,6 +28,10 @@ iframe {
   left: 40px;
 }
 
+.flagi{
+  width: 40px;
+}
+
 .tabs {
   gap: 1rem;
   padding: 10px 0 0 10px;
