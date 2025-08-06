@@ -1,6 +1,6 @@
 const local = localStorage.getItem("theme");
 if(local === "ciemny-motyw"){
-  document.querySelectorAll("body, header, .modal-content, .hamburger, .tab-button, .oaerror, section, .przycisk, input, select, .icons_div, .bar1, .bar2, .bar3").forEach((el) => {
+  document.querySelectorAll("body, header, .modal-content, .hamburger, .tab-button, .oaerror, section, .przycisk, input, select, .icons_div, .bar1, .bar2, .bar3, .main_image").forEach((el) => {
     el.classList.add("ciemny");
   });
 
@@ -19,11 +19,15 @@ function darkMode(){
     el.classList.toggle("ciemny");
   });
 
+
+
+
+
   if (document.body.classList.contains("ciemny")){
-      localStorage.setItem("theme", "ciemny-motyw");
+    localStorage.setItem("theme", "ciemny-motyw");
   }
   else if(document.body.classList.contains("jasny")){
-      localStorage.setItem("theme", "jasny-motyw");
+    localStorage.setItem("theme", "jasny-motyw");
   }
 }
 

@@ -216,7 +216,7 @@ a {
 }
 
 @media (max-width: 900px) {
-  .main_image #main_image {
+  .main_image #main_image1, .main_image #main_image2, .main_image #main_image3 {
     margin: auto;
     width: 100%;
   }

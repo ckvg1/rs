@@ -117,10 +117,12 @@
             <img
               title="Najczęściej wyłączone światło"
               src="img/light_off.png"
+              id="light_off"
             />
             <img
               title="Godzina o której świeci się najwięcej świateł"
               src="img/clock.png"
+              id="clock"
             />
             <img
               title="Czas, w którym światło było włączone"
@@ -432,6 +434,16 @@
               data.godzina;
           })
           .catch((error) => console.error("Błąd:", error));
+      }
+    </script>
+    <script src="../js/dark_mode.js"></script>
+    <script>
+      light_off = document.getElementById("light_off");
+      clock = document.getElementById("clock");
+
+      if(document.body.classList.contains("ciemny")){
+          light_off.src = "img/light_off-dark.png";
+          clock.src = "img/clock-dark.png";
       }
     </script>
   </body>
