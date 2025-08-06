@@ -562,7 +562,8 @@
               pietro = 3;
             }
           }
-          let langluage = "pl"; // domyślny język
+
+          let language = "pl"; // domyślny język
 
           function zmienJezyk(lang) {
             language = lang;
@@ -579,7 +580,7 @@
           }
           //funkcja po nacisnieciu przycisku zapisz
           function zapiszUstawienia() {
-            document.cookie = `lang=${langluage}; path=/; max-age=31536000`; // ustawienie ciasteczka z jezykiem na rok
+            document.cookie = `lang=${language}; path=/; max-age=31536000`; // ustawienie ciasteczka z jezykiem na rok
 
             const pietro1 = document.getElementById("pietro1_urzadzenia");
             const pietro2 = document.getElementById("pietro2_urzadzenia");
@@ -826,6 +827,6 @@
       }
     </script>
     <script src="./js/tabs.js"></script>
-    <script src="js/dark_mode.js"></script>
+    <!--<script src="js/dark_mode.js"></script> -->
   </body>
 </html>
