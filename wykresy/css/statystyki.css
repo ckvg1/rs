@@ -27,7 +27,8 @@ section:hover{
 
 section.ciemny{
     background-color: #00152c;
-    box-shadow: rgba(0, 0, 0, 0.6) 5px 5px 15px;
+    border: 3px #012e5e solid;
+    box-shadow: none;
     color: #ffffff;
 }
 
