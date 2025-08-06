@@ -147,16 +147,16 @@
         }
         return false;
       }
-
+      const alertBox = document.getElementById("alertBox");
       function generujWykresKolowy(endpoint) {
         fetch(endpoint)
           .then((res) => res.json())
           .then((dane) => {
             if (!sprawdzCzySaDane(Object.values(dane))) {
-              alertBox = document.getElementById("alertBox");
               alertBox.style.display = "block";
               document.querySelector(".oaerror").innerHTML =
                 "<strong>Uwaga</strong> - Brak danych do wyświetlenia wykresu. Proszę podać daty pomiaru.";
+              translatePage(getCookie("lang") || "pl");
               return;
             } else {
               alertBox.style.display = "none";
