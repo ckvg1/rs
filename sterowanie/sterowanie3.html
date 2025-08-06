@@ -159,6 +159,7 @@
       ) {
         alertBox.style.display = "block";
         document.querySelector(".oaerror").innerHTML = message;
+        translatePage(getCookie("lang") || "pl");
       }
       function hideAlert() {
         alertBox.style.display = "none";

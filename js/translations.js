@@ -1,26 +1,29 @@
-//tlumaczenia
 const dictionary = {
   de: {
-    "Wyłącz automatycznie wszystkie swiatła o:":
+    "Wyłącz automatycznie wszystkie światła o:":
       "Schalte alle Lichter automatisch aus um:",
+    "Błąd połączenia z PLC": "Verbindungsfehler zum PLC",
+    "Błąd połączenia z bazą danych": "Verbindungsfehler zur Datenbank",
     "Zmieniaj nazwy czujników i pomieszczeń":
       "Ändere die Namen von Sensoren und Räumen",
-
     "Wyłącz wszystkie światła": "Schalte alle Lichter ",
     "Włącz wszystkie światła": "Schalte alle Lichter ein",
     "w firmie": "im Unternehmen aus",
     "w mieszkaniu": "in der Wohnung",
     "Pobierz miesięczny raport temperatury":
       "Lade den monatlichen Temperaturbericht herunter",
-
     "Pobierz miesięczny raport światła":
       "Lade den monatlichen Lichtbericht herunter",
-
     "używam danych z: ": "Ich verwende Daten von: ",
-
+    "Brak danych do wyświetlenia wykresu. Proszę podać daty pomiaru.":
+      "Keine Daten zum Anzeigen des Diagramms. Bitte geben Sie die Messdaten an.",
+    "Wybierz daty pomiaru": "Wählen Sie die Messdaten aus",
     "wybierz zakres dat": "Wählen Sie den Datumsbereich",
     "od-do": "von-bis",
     "wykonania pomiaru": "Messung durchgeführt am",
+    "Trwa łączenie z PLC.": "Verbindung zum PLC wird hergestellt.",
+    "Sterowanie urządzeniami": "Steuerung von Geräten",
+    "spróbuj ponownie": "Versuchen Sie es erneut",
     Ustawienia: "Einstellungen",
     Temperatura: "Temperatur",
     Światło: "Licht",
@@ -31,74 +34,87 @@ const dictionary = {
     raporty: "Berichte",
     filtruj: "Filter",
     Wszystkie: "alle",
-    pietra: "Etagen",
+    piętra: "Etagen",
     ostatnie: "Letzte",
     godziny: "Stunden",
+    "brak danych": "Keine Daten",
     Data: "Datum",
     Zapisz: "Speichern",
     dni: "tagen",
+    uwaga: "Achtung",
   },
 };
 
-function translatePage(lang) {
-  // przechodzimy po wszystkich elementach na stronie
-  console.log("Przetłumaczono na:", lang);
+function preserveCase(match, val) {
+  // Cały tekst wielkimi literami?
+  if (match === match.toUpperCase()) {
+    return val.toUpperCase();
+  }
+  // Tylko pierwsza litera wielka?
+  if (match[0] === match[0].toUpperCase()) {
+    return val.charAt(0).toUpperCase() + val.slice(1);
+  }
+  // Pozostaw w oryginalnym kształcie
+  return val;
+}
 
+function translatePage(lang) {
   if (lang === "pl") {
-    return; // język bazowy - nic nie tłumaczymy
+    return; // język bazowy
   }
 
   document.querySelectorAll("body *:not(script):not(style)").forEach((el) => {
-    if (el.childNodes.length > 0) {
-      el.childNodes.forEach((node) => {
-        if (node.nodeType === Node.TEXT_NODE) {
-          let text = node.nodeValue;
+    el.childNodes.forEach((node) => {
+      if (node.nodeType !== Node.TEXT_NODE) return;
 
-          for (const [key, val] of Object.entries(dictionary[lang])) {
-            // Normalizacja: usuwamy znaki diakrytyczne i ignorujemy wielkość liter
-            let normalizedKey = key
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "");
-            let normalizedText = text
-              .toLowerCase()
-              .normalize("NFD")
-              .replace(/[\u0300-\u036f]/g, "");
+      let originalText = node.nodeValue;
+      let normalized = originalText
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
 
-            // szukamy dopasowania po znormalizowanym tekście
-            if (normalizedText.includes(normalizedKey)) {
-              // prostsze podejście: zamiana "surowa"
-              let regex = new RegExp(normalizedKey, "gi");
-              text = normalizedText.replace(regex, val);
-            }
-          }
-          node.nodeValue = text;
-        }
-      });
-    }
+      for (const [key, val] of Object.entries(dictionary[lang])) {
+        const normalizedKey = key
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+
+        if (!normalized.includes(normalizedKey)) continue;
+
+        // Escape znaków specjalnych w kluczu
+        const escKey = key.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&");
+        const regex = new RegExp(escKey, "gi");
+
+        originalText = originalText.replace(regex, (match) =>
+          preserveCase(match, val)
+        );
+      }
+
+      node.nodeValue = originalText;
+    });
   });
 }
+
 function getCookie(cname) {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
   let ca = decodedCookie.split(";");
   for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == " ") {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
+    let c = ca[i].trim();
+    if (c.indexOf(name) === 0) {
+      return c.substring(name.length);
     }
   }
   return "";
 }
+
 document.addEventListener("DOMContentLoaded", function () {
   console.log("DOM załadowany, tłumaczenie strony");
-  const lang = getCookie("lang") || "pl"; // domyślny język to polski
+  const lang = getCookie("lang") || "pl";
   translatePage(lang);
 });
-//obsluga zmiany języka
+
+// Obsługa przycisków zmiany języka
 document.querySelectorAll(".language-button").forEach((button) => {
   button.addEventListener("click", () => {
     const lang = button.getAttribute("data-lang");

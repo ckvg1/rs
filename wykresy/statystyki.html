@@ -113,27 +113,32 @@
         >
           <div class="icons_div">
             <img title="Najczęściej włączane światło" src="img/light_on.png" />
-            <span>max</span>
+
             <img
               title="Najczęściej wyłączone światło"
               src="img/light_off.png"
             />
-            <span>min</span>
+            <img
+              title="Godzina o której świeci się najwięcej świateł"
+              src="img/clock.png"
+            />
             <img
               title="Czas, w którym światło było włączone"
-              src="img/clock.png"
+              src="img/hourglass.png"
             />
           </div>
           <div class="stats_div">
             <p title="Najczęściej włączane światło" id="najwyzszeSwiatlo"></p>
-            <span><p></p></span>
+
             <p title="Najczęściej wyłączone światło" id="najnizszeSwiatlo"></p>
-            <span><p></p></span>
+            <p
+              title="Godzina o której świeci się najwięcej świateł"
+              id="godzinaNajwiecejSwiatla"
+            ></p>
             <p
               title="Czas, w którym światło było włączone"
               id="swiatloWlaczoneCzas"
             ></p>
-            <span><p></p></span>
           </div>
         </div>
       </section>
@@ -332,6 +337,19 @@
         document.cookie = "alertBoxClosed=true; " + expires + "; path=/";
       };
 
+      function getCookie(name) {
+        let cname = name + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i].trim();
+          if (c.indexOf(cname) == 0) {
+            return c.substring(cname.length, c.length);
+          }
+        }
+        return "";
+      }
+
       function fetchTemperaturaData() {
         pietroTemperaturaValue = pietroTemperatura.value;
         const czasTemperatura = document.getElementById(
@@ -374,6 +392,7 @@
               const alertBox = document.getElementById("alertBox");
               alertBox.style.display = "none";
             }
+            translatePage(getCookie("lang") || "pl");
           })
           .catch((error) => console.error("Błąd:", error));
       }
@@ -400,6 +419,17 @@
               "</span>";
             document.getElementById("swiatloWlaczoneCzas").innerHTML =
               data.czasWlaczoneSwiatlo + " godz.";
+            translatePage(getCookie("lang") || "pl");
+          })
+          .catch((error) => console.error("Błąd:", error));
+
+        fetch(
+          `./php/odczytaj_godzine.php?pietro=${pietroSwiatlaValue}&czas=${czasSwiatlo}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("godzinaNajwiecejSwiatla").innerHTML =
+              data.godzina;
           })
           .catch((error) => console.error("Błąd:", error));
       }

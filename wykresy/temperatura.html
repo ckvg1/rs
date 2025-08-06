@@ -155,6 +155,7 @@
               alertBox.style.display = "block";
               alertBox.innerHTML =
                 "<strong>Uwaga</strong> - Brak danych do wyświetlenia wykresu. Proszę podać daty pomiaru.";
+              translatePage(getCookie("lang") || "pl");
             } else {
               alertBox.style.display = "none";
             }
