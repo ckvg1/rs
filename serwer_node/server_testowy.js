@@ -89,7 +89,7 @@ readConn.initiateConnection(
     host: "192.168.25.1",
     rack: 0,
     slot: 1,
-    debug: false,
+    debug: true,
     doNotOptimize: true, // Wyłączamy optymalizacje, żeby mieć pełną kontrolę nad odczytami/zapisami
   },
   connectedRead

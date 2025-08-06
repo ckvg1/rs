@@ -9,8 +9,8 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 const fs = require("fs");
-const readConn = new nodes7();
 const writeConn = new nodes7();
+
 const readMutex = new Mutex();
 const writeMutex = new Mutex();
 const cache = new NodeCache({ stdTTL: 0, checkperiod: 1 });
@@ -83,16 +83,16 @@ const server = app.listen(port, "0.0.0.0", () => {
 });
 
 // Inicjalizacja połączenia z PLC
-readConn.initiateConnection(
+writeConn.initiateConnection(
   {
     port: 102,
     host: "192.168.25.1",
     rack: 0,
     slot: 1,
-    debug: false,
+    debug: true,
     doNotOptimize: true, // Wyłączamy optymalizacje, żeby mieć pełną kontrolę nad odczytami/zapisami
   },
-  connectedRead
+  connectedWrite
 );
 
 /* 
@@ -106,10 +106,10 @@ readConn.initiateConnection(
  */
 function readAfterStartup() {
   readMutex.runExclusive(async () => {
-    readConn.removeItems();
-    readConn.addItems(LIGHT_KEYS);
+    writeConn.removeItems();
+    writeConn.addItems(LIGHT_KEYS);
     await new Promise((resolve) => {
-      readConn.readAllItems((err, val) => {
+      writeConn.readAllItems((err, val) => {
         if (!err) cache.set("swiatlaData", val, lights_ttl); //time to live
         resolve();
       });
@@ -117,10 +117,10 @@ function readAfterStartup() {
   });
 
   readMutex.runExclusive(async () => {
-    readConn.removeItems();
-    readConn.addItems(TEMPERATURE_KEYS);
+    writeConn.removeItems();
+    writeConn.addItems(TEMPERATURE_KEYS);
     await new Promise((resolve) => {
-      readConn.readAllItems((err, val) => {
+      writeConn.readAllItems((err, val) => {
         if (!err) cache.set("temperaturaData", val, temperature_ttl); //time to live
         resolve();
       });
@@ -128,89 +128,65 @@ function readAfterStartup() {
   });
 
   readMutex.runExclusive(async () => {
-    readConn.removeItems();
-    readConn.addItems(BLINDS_KEYS);
+    writeConn.removeItems();
+    writeConn.addItems(BLINDS_KEYS);
     await new Promise((resolve) => {
-      readConn.readAllItems((err, val) => {
+      writeConn.readAllItems((err, val) => {
         if (!err) cache.set("roletyData", val, blinds_ttl); //time to live
         resolve();
       });
     });
   });
 }
-function connectedRead(err) {
-  if (err) {
-    console.error("Błąd połączenia z PLC:", err);
-    return;
-  }
-  writeConn.initiateConnection(
-    {
-      port: 102,
-      host: "192.168.25.1",
-      rack: 0,
-      slot: 1,
-      debug: false,
-      doNotOptimize: true,
-    },
-    connectedWrite
-  );
-  readAfterStartup();
-
-  // Ustawienie callbacka do tłumaczenia tagów na zmienne
-  // https://github.com/plcpeople/nodeS7/tree/master?tab=readme-ov-file#nodes7settranslationcbtranslator
-  readConn.setTranslationCB((tag) => variables[tag]);
-
-  function odczytajSwiatla() {
-    readMutex.runExclusive(async () => {
-      readConn.removeItems();
-      readConn.addItems(LIGHT_KEYS);
-      await new Promise((resolve) => {
-        readConn.readAllItems((err, val) => {
-          if (!err) cache.set("swiatlaData", val, lights_ttl);
-          resolve();
-        });
-      });
-      setTimeout(odczytajSwiatla, lights_timeout);
-    });
-  }
-
-  function odczytajTemperature() {
-    readMutex.runExclusive(async () => {
-      readConn.removeItems();
-      readConn.addItems(TEMPERATURE_KEYS);
-      await new Promise((resolve) => {
-        readConn.readAllItems((err, val) => {
-          if (!err) cache.set("temperaturaData", val, temperature_ttl);
-          resolve();
-        });
-      });
-      setTimeout(odczytajTemperature, temperature_timeout);
-    });
-  }
-
-  function odczytajRolety() {
-    readMutex.runExclusive(async () => {
-      readConn.removeItems();
-      readConn.addItems(BLINDS_KEYS);
-      await new Promise((resolve) => {
-        readConn.readAllItems((err, val) => {
-          if (!err) cache.set("roletyData", val, blinds_ttl);
-          resolve();
-        });
-      });
-      setTimeout(odczytajRolety, blinds_timeout);
-    });
-  }
-}
 
 function connectedWrite(err) {
+  readAfterStartup();
   if (err) {
     console.error("Błąd połączenia z PLC:", err);
     return;
   }
-  odczytajSwiatla();
-  odczytajTemperature();
-  odczytajRolety();
+
+  setInterval(() => {
+    readMutex.runExclusive(async () => {
+      // światła
+      writeConn.removeItems(); //usuwamy stare klucze
+      writeConn.addItems(LIGHT_KEYS); //dodajemy nowe klucze (światła)
+      await new Promise((resolve) => {
+        writeConn.readAllItems((err, val) => {
+          if (!err) cache.set("swiatlaData", val, lights_ttl); //zapisujemy do cache, jeśli nie ma błędu
+          resolve();
+        });
+      });
+    });
+  }, lights_timeout);
+
+  // Cykliczne odczyty temperatury do cache co (temperature_timeout) ms
+  setInterval(() => {
+    readMutex.runExclusive(async () => {
+      writeConn.removeItems(); // usuwamy stare klucze
+      writeConn.addItems(TEMPERATURE_KEYS); //dodajemy nowe klucze (temperatura)
+      await new Promise((resolve) => {
+        writeConn.readAllItems((err, val) => {
+          if (!err) cache.set("temperaturaData", val, temperature_ttl); //zapisujemy do cache, jeśli nie ma błędu
+          resolve();
+        });
+      });
+    });
+  }, temperature_timeout);
+
+  // Cykliczne odczyty rolet co (blinds_timeout) ms
+  setInterval(() => {
+    readMutex.runExclusive(async () => {
+      writeConn.removeItems(); // usuwamy stare klucze
+      writeConn.addItems(BLINDS_KEYS); //dodajemy nowe klucze (rolety)
+      await new Promise((resolve) => {
+        writeConn.readAllItems((err, val) => {
+          if (!err) cache.set("roletyData", val, blinds_ttl); //zapisujemy do cache, jeśli nie ma błędu
+          resolve();
+        });
+      });
+    });
+  }, blinds_timeout);
   // Ustawienie callbacka do tłumaczenia tagów na zmienne
   writeConn.setTranslationCB((tag) => variables[tag]);
 
@@ -230,10 +206,10 @@ function connectedWrite(err) {
   });
   app.get("/debug/swiatla/wejscia", (req, res) => {
     readMutex.runExclusive(async () => {
-      readConn.removeItems(); // usuwamy stare klucze
-      readConn.addItems(debug_light); //dodajemy nowe klucze (rolety)
+      writeConn.removeItems(); // usuwamy stare klucze
+      writeConn.addItems(debug_light); //dodajemy nowe klucze (rolety)
       await new Promise((resolve) => {
-        readConn.readAllItems((err, val) => {
+        writeConn.readAllItems((err, val) => {
           res.json(val);
           resolve();
         });
@@ -288,7 +264,7 @@ function connectedWrite(err) {
 
           res.json({ status: "zapisano", wartosc });
           var godzina = new Date().toISOString();
-          console.info(swiatlo, wartosc, godzina, req.ip);
+          console.info(roleta, wartosc, godzina, req.ip);
           return resolve();
         });
         if (result != 0) {
@@ -345,32 +321,29 @@ function connectedWrite(err) {
     req.on("close", () => clearInterval(interval));
   });
 
-  const fs = require("fs");
-  const express = require("express");
-  const app = express();
-
-  app.use(express.json()); // konieczne do odczytu req.body
-
   // PUT: ustawianie harmonogramu
-  app.put("/harmonogram", (req, res) => {
-    const godzinaOFF = req.body.godzinaOFF;
+  app.put("/harmonogram/:swiatlo", (req, res) => {
+    const godzinaOFF = req.body.godzina;
+    const swiatlo = req.params.swiatlo;
 
     fs.readFile("harmonogram.json", "utf8", (err, data) => {
-      if (err) {
-        console.error("Błąd odczytu pliku harmonogram.json:", err);
-        return res
-          .status(500)
-          .json({ error: "Błąd odczytu pliku harmonogramu" });
+      let harmonogram = {};
+
+      if (!err) {
+        try {
+          harmonogram = JSON.parse(data);
+        } catch (parseErr) {
+          console.error("Błąd parsowania pliku harmonogram.json:", parseErr);
+          // Jeśli błąd parsowania — zachowujemy pusty obiekt
+        }
       }
 
-      const poprzedniaGodzinaOFF = JSON.parse(data).godzinaOFF;
-      console.log("Poprzednia godzina OFF:", poprzedniaGodzinaOFF);
-
-      // Teraz dopiero zapis
+      // Aktualizujemy tylko jeden klucz
+      harmonogram[swiatlo] = godzinaOFF;
 
       fs.writeFile(
         "harmonogram.json",
-        JSON.stringify({ godzinaOFF }),
+        JSON.stringify(harmonogram, null, 2),
         (err) => {
           if (err) {
             console.error("Błąd zapisu pliku harmonogram.json:", err);
@@ -379,10 +352,69 @@ function connectedWrite(err) {
               .json({ error: "Błąd zapisu pliku harmonogramu" });
           }
 
-          console.log("Harmonogram zapisany:", godzinaOFF);
-          res.json({ status: "harmonogram ustawiony", godzinaOFF });
+          console.log(
+            `Harmonogram zaktualizowany: ${swiatlo} => ${godzinaOFF}`
+          );
+          res.json({ status: "harmonogram ustawiony", swiatlo, godzinaOFF });
         }
       );
     });
   });
+  app.get("/harmonogram/:swiatlo", (req, res) => {
+    const swiatlo = req.params.swiatlo;
+    fs.readFile("harmonogram.json", "utf8", (err, data) => {
+      if (err) {
+        console.error("Błąd odczytu pliku harmonogram.json:", err);
+        return res
+          .status(500)
+          .json({ error: "Błąd odczytu pliku harmonogramu" });
+      }
+
+      try {
+        const harmonogram = JSON.parse(data);
+        res.json(harmonogram[swiatlo]);
+      } catch (parseError) {
+        console.error("Błąd parsowania JSON:", parseError);
+        res.status(500).json({ error: "Błąd parsowania danych harmonogramu" });
+      }
+    });
+  });
+  // Cykliczne sprawdzanie harmonogramu i wwylaczanie swiatel.
+  // Automatyczne wyłączanie świateł na podstawie harmonogramu
+  setInterval(() => {
+    console.log("Próba odczytu harmonogramu");
+    fs.readFile("harmonogram.json", "utf8", (err, data) => {
+      if (err) {
+        console.error("Błąd odczytu pliku harmonogram.json:", err);
+        return;
+      }
+
+      const harmonogram = JSON.parse(data);
+      console.log("Godzina z harmonogramu: ", harmonogram);
+      const currentHour = new Date().toLocaleTimeString().slice(0, 5);
+      console.log("Aktualna godzina: ", currentHour);
+      Object.entries(harmonogram).forEach(([key, value]) => {
+        if (value === currentHour) {
+          console.log("Aktualna godzina taka sama jak w harmonogramie.");
+          writeMutex.runExclusive(async () => {
+            console.log(`Wyłączam ${key} według harmonogramu`);
+
+            // l3
+            await new Promise((resolve) => {
+              writeConn.writeItems(`wej_${key}`, true, (err) => {
+                if (err) console.error(`Blad wej_${key} na true:`, err);
+                setTimeout(() => {
+                  writeConn.writeItems(`wej_${key}`, false, (err) => {
+                    if (err) console.error(`Blad wej_${key} na false:`, err);
+                    console.log(`Wyłaczenie swiatla ${key} powiodlo sie. `);
+                    resolve();
+                  });
+                }, 100);
+              });
+            });
+          });
+        }
+      });
+    });
+  }, 60000);
 }
