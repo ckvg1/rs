@@ -111,12 +111,17 @@
             margin-top: 20px;
           "
         >
-          <div class="icons_div" id="aserehe">
-            <img title="Najczęściej włączane światło" src="img/light_on.png" id="light_on"/>
+          <div class="icons_div">
+            <img
+              title="Najczęściej włączane światło"
+              src="img/light_on.png"
+              id="light_on"
+            />
             <span>max</span>
             <img
               title="Najczęściej wyłączone światło"
-              src="img/light_off.png" id="light_off"
+              src="img/light_off.png"
+              id="light_off"
             />
             <span>min</span>
             <img
@@ -167,11 +172,16 @@
             await wyslijTrue("all_OFF_l2");
             await wyslijTrue("all_OFF_l3");
           }
-          function ustawHarmonogram(swiatlo, all) {
+          async function ustawHarmonogram(swiatlo, all) {
             const godzinaInput = document.getElementById(
               "harmonogramGodzinaInput"
             );
+
             const godzina = godzinaInput.value;
+            console.log("Ustawiam harmonogram na godzinę:", godzina);
+            await axios.put(`http://192.168.25.59:3000/harmonogram/`, {
+              godzinaOFF: godzina,
+            });
             if (all) {
               //Tutaj logika harmonogramu dla wszystkich swiatel naraz
             }
@@ -303,10 +313,21 @@
       addEventListener("DOMContentLoaded", fetchStartData);
 
       function fetchStartData() {
+        fetchHarmonogramData();
         fetchTemperaturaData();
         fetchSwiatloData();
       }
-
+      function fetchHarmonogramData() {
+        axios.get("http://localhost:3000/harmonogram").then((response) => {
+          const harmonogram = response.data;
+          const godzinaInput = document.getElementById(
+            "harmonogramGodzinaInput"
+          );
+          if (!harmonogram.godzinaOFF.isNaN()) {
+            godzinaInput.value = harmonogram.godzinaOFF;
+          }
+        });
+      }
       pietroTemperatura.addEventListener("change", fetchTemperaturaData);
       temperaturaCzasSelect.addEventListener("change", fetchTemperaturaData);
 

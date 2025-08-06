@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 app.use(cors());
 app.use(express.json());
-
+const fs = require("fs");
 const readConn = new nodes7();
 const writeConn = new nodes7();
 const readMutex = new Mutex();
@@ -239,45 +239,9 @@ function connectedWrite(err) {
       });
     });
   });
+
   // PUT: sterowanie światłem
-
-  //3 piętro
-  app.put("/swiatla/3/:swiatlo", async (req, res) => {
-    const { swiatlo } = req.params;
-    const { wartosc } = req.body;
-
-    await writeMutex.runExclusive(
-      () =>
-        new Promise((resolve) => {
-          const result = writeConn.writeItems(
-            `wej_${swiatlo}`,
-            wartosc,
-            (err) => {
-              if (err) {
-                console.error("Błąd przy zapisie:", err);
-                res.status(500).json({ error: "Błąd przy zapisie" });
-              } else {
-                res.json({ status: "zapisano", wartosc });
-                var godzina = new Date().toISOString();
-                console.info(swiatlo, wartosc, godzina, req.ip);
-              }
-              resolve(); // mutex zostanie zwolniony dopiero po zakończeniu callbacka
-            }
-          );
-
-          if (result != 0) {
-            console.error("writeItems odrzucone: zapis już trwa");
-            res
-              .status(409)
-              .json({ error: "Zapis w trakcie, spróbuj ponownie" });
-            resolve(); // zwalniamy mutex nawet jeśli writeItems nie zadziałał
-          }
-        })
-    );
-  });
-
-  //2 piętro
-  app.put("/swiatla/2/:swiatlo", async (req, res) => {
+  app.put("/swiatla/:swiatlo", async (req, res) => {
     const { swiatlo } = req.params;
     const { wartosc } = req.body;
 
@@ -312,9 +276,7 @@ function connectedWrite(err) {
   });
 
   // PUT: sterowanie roletami
-
-  //3 piętro
-  app.put("/rolety/3/:roleta", async (req, res) => {
+  app.put("/rolety/:roleta", async (req, res) => {
     const { roleta } = req.params;
     const { wartosc } = req.body;
 
@@ -324,28 +286,8 @@ function connectedWrite(err) {
           if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
 
           res.json({ status: "zapisano", wartosc });
-          return resolve();
-        });
-        if (result != 0) {
-          res.json({ status: "blad przy zapisie" });
-          console.error("Błąd przy zapisie rolety!");
-          return resolve();
-        }
-      });
-    });
-  });
-
-  //2 piętro
-  app.put("/rolety/2/:roleta", async (req, res) => {
-    const { roleta } = req.params;
-    const { wartosc } = req.body;
-
-    await writeMutex.runExclusive(async () => {
-      await new Promise((resolve) => {
-        let result = writeConn.writeItems(`wej_${roleta}`, wartosc, (err) => {
-          if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
-
-          res.json({ status: "zapisano", wartosc });
+          var godzina = new Date().toISOString();
+          console.info(roleta, wartosc, godzina, req.ip);
           return resolve();
         });
         if (result != 0) {
@@ -401,4 +343,74 @@ function connectedWrite(err) {
     const interval = setInterval(sendBlinds, blinds_timeout);
     req.on("close", () => clearInterval(interval));
   });
+
+  // PUT: ustawianie harmonogramu
+  app.put("/harmonogram", (req, res) => {
+    const godzinaOFF = req.body.godzinaOFF;
+
+    // Teraz dopiero zapis
+
+    fs.writeFile("harmonogram.json", JSON.stringify({ godzinaOFF }), (err) => {
+      if (err) {
+        console.error("Błąd zapisu pliku harmonogram.json:", err);
+        return res
+          .status(500)
+          .json({ error: "Błąd zapisu pliku harmonogramu" });
+      }
+
+      console.log("Harmonogram zapisany:", godzinaOFF);
+      res.json({ status: "harmonogram ustawiony", godzinaOFF });
+    });
+  });
+
+  // Cykliczne sprawdzanie harmonogramu i wwylaczanie swiatel.
+  // Automatyczne wyłączanie świateł na podstawie harmonogramu
+  setInterval(() => {
+    console.log("Próba odczytu harmonogramu");
+    fs.readFile("harmonogram.json", "utf8", (err, data) => {
+      if (err) {
+        console.error("Błąd odczytu pliku harmonogram.json:", err);
+        return;
+      }
+
+      const harmonogram = JSON.parse(data);
+      console.log("Godzina z harmonogramu: ", harmonogram);
+      const currentHour = new Date().toLocaleTimeString().slice(0, 5);
+      console.log("Aktualna godzina: ", currentHour);
+      if (harmonogram.godzinaOFF === currentHour) {
+        console.log("Aktualna godzina taka sama jak w harmonogramie.");
+        writeMutex.runExclusive(async () => {
+          console.log("Wyłączam wszystkie światła według harmonogramu");
+
+          // l3
+          await new Promise((resolve) => {
+            writeConn.writeItems("wej_all_OFF_l3", true, (err) => {
+              if (err) console.error("Błąd L3 ON:", err);
+              setTimeout(() => {
+                writeConn.writeItems("wej_all_OFF_l3", false, (err) => {
+                  if (err) console.error("Błąd L3 OFF:", err);
+                  console.log("Wyłaczenie swiatel z 3 pietra powiodlo sie. ");
+                  resolve();
+                });
+              }, 100);
+            });
+          });
+
+          // l2
+          await new Promise((resolve) => {
+            writeConn.writeItems("wej_all_OFF_l2", true, (err) => {
+              if (err) console.error("Błąd L2 ON:", err);
+              setTimeout(() => {
+                writeConn.writeItems("wej_all_OFF_l2", false, (err) => {
+                  if (err) console.error("Błąd L2 OFF:", err);
+                  console.log("Wyłaczenie swiatel z 2 pietra powiodlo sie. ");
+                  resolve();
+                });
+              }, 100);
+            });
+          });
+        });
+      }
+    });
+  }, 60000);
 }
