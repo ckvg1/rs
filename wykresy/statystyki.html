@@ -178,30 +178,31 @@
             await wyslijTrue("all_OFF_l3");
           }
           async function ustawHarmonogram(swiatlo = null) {
-            const godzinaInput = document.getElementById(
-              "harmonogramGodzinaInput"
-            );
-
-            const godzina = godzinaInput.value;
             if (swiatlo === null) {
+              const godzinaInput = document.getElementById(
+                `harmonogramGodzinaInput`
+              );
+              const godzina = godzinaInput.value;
               await axios.put(
                 `http://192.168.25.59:3000/harmonogram/all_OFF_l3`,
                 {
-                  all_OFF_l3: godzina,
+                  godzina,
                 }
               );
               await axios.put(
                 `http://192.168.25.59:3000/harmonogram/all_OFF_l2`,
                 {
-                  all_OFF_l2: godzina,
+                  godzina,
                 }
               );
             } else {
+              const godzinaInput = document.getElementById(`${swiatlo}_time`);
               console.log("Ustawiam harmonogram na godzinę:", godzina);
+              const godzina = godzinaInput.value;
               await axios.put(
                 `http://192.168.25.59:3000/harmonogram/${swiatlo}`,
                 {
-                  swiatlo: godzina,
+                  godzina,
                 }
               );
             }
@@ -327,7 +328,7 @@
       addEventListener("DOMContentLoaded", fetchStartData);
 
       function fetchStartData() {
-        fetchHarmonogramData();
+        //fetchHarmonogramData();
         fetchTemperaturaData();
         fetchSwiatloData();
       }

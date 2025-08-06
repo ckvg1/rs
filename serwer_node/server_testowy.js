@@ -346,7 +346,7 @@ function connectedWrite(err) {
 
   // PUT: ustawianie harmonogramu
   app.put("/harmonogram/:swiatlo", (req, res) => {
-    const godzinaOFF = req.body.godzinaOFF;
+    const godzinaOFF = req.body.godzina;
     const swiatlo = req.params.swiatlo;
 
     fs.readFile("harmonogram.json", "utf8", (err, data) => {
@@ -395,7 +395,7 @@ function connectedWrite(err) {
 
       try {
         const harmonogram = JSON.parse(data);
-        res.json(harmonogram[swiatlo] || "Brak harmonogramu dla tego światła");
+        res.json(harmonogram[swiatlo]);
       } catch (parseError) {
         console.error("Błąd parsowania JSON:", parseError);
         res.status(500).json({ error: "Błąd parsowania danych harmonogramu" });
