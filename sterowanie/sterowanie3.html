@@ -12,6 +12,7 @@
     <script src="../js/translations.js"></script>
   </head>
   <body>
+    
     <h1 style="font-size: 18pt">Sterowanie urządzeniami - 3 piętro</h1>
     <div id="alertBox" class="oaerror danger" style="display: none"></div>
 
@@ -155,7 +156,7 @@
       }
 
       function showAlert(
-        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong style='color: black'> spróbuj ponownie </strong> </a>"
+        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
       ) {
         alertBox.style.display = "block";
         document.querySelector(".oaerror").innerHTML = message;
@@ -272,5 +273,6 @@
         }
       }
     </script>
+    <script src="../js/dark_mode.js"></script>
   </body>
 </html>

@@ -1,9 +1,30 @@
 //tlumaczenia
 const dictionary = {
   de: {
+    "Wyłącz automatycznie wszystkie swiatła o:":
+      "Schalte alle Lichter automatisch aus um:",
+    "Zmieniaj nazwy czujników i pomieszczeń":
+      "Ändere die Namen von Sensoren und Räumen",
+
+    "Wyłącz wszystkie światła": "Schalte alle Lichter ",
+    "Włącz wszystkie światła": "Schalte alle Lichter ein",
+    "w firmie": "im Unternehmen aus",
+    "w mieszkaniu": "in der Wohnung",
+    "Pobierz miesięczny raport temperatury":
+      "Lade den monatlichen Temperaturbericht herunter",
+
+    "Pobierz miesięczny raport światła":
+      "Lade den monatlichen Lichtbericht herunter",
+
+    "używam danych z: ": "Ich verwende Daten von: ",
+
+    "wybierz zakres dat": "Wählen Sie den Datumsbereich",
+    "od-do": "von-bis",
+    "wykonania pomiaru": "Messung durchgeführt am",
     Ustawienia: "Einstellungen",
     Temperatura: "Temperatur",
     Światło: "Licht",
+    Biuro: "Büro",
     Statystyki: "Statistiken",
     piętro: "Stock",
     harmonogram: "Zeitplan",
@@ -11,17 +32,11 @@ const dictionary = {
     filtruj: "Filter",
     Wszystkie: "alle",
     pietra: "Etagen",
-    "pobierz miesięczny raport temperatury":
-      "Lade den monatlichen Temperaturbericht herunter",
-    "pobierz miesięczny raport światła":
-      "Lade den monatlichen Lichtbericht herunter",
-    "używam danych z: ": "Ich verwende Daten von: ",
-    "wybierz zakres dat": "Wählen Sie den Datumsbereich",
     ostatnie: "Letzte",
     godziny: "Stunden",
     Data: "Datum",
-    "od-do": "von-bis",
-    "wykonania pomiaru": "Messung durchgeführt am",
+    Zapisz: "Speichern",
+    dni: "tagen",
   },
 };
 

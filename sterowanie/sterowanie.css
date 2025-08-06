@@ -29,6 +29,7 @@ a {
 
 .temperatura {
   position: absolute;
+  font-size: 14pt;
 }
 
 .strzalka {
