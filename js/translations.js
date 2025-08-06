@@ -114,7 +114,7 @@ const dictionary = {
     Temperatura: "Tymperatura",
     Światło: "Światło",
     Biuro: "Biōro",
-    Statystyki: "Statistiken",
+    Statystyki: "Statystyki",
     piętro: "piyntro",
     harmonogram: "ôrganizacja",
     raporty: "raporty",
