@@ -140,18 +140,31 @@
           <img
             id="poland_flag"
             onclick="zmienJezyk('pl')"
-            style="width: 40px"
+            class="flagi"
             src="./img_main/poland.png"
             alt="Polish Flag"
           />
           <img
             id="germany_flag"
             onclick="zmienJezyk('de')"
-            style="width: 40px"
+            class="flagi"
             src="./img_main/germany.png"
             alt="German Flag"
           />
-
+          <img 
+            id="uk_flag"
+            onclick="zmienJezyk('uk')"
+            class="flagi"
+            src="./img_main/uk.png" 
+            alt="United Kingdom Flag"
+          />
+          <img 
+            id="silesia_flag"
+            onclick="zmienJezyk('si')"
+            class="flagi"
+            src="./img_main/silesia.png" 
+            alt="Silesia Flag"
+          />
           <span
             style="position: inherit"
             class="close-btn"
@@ -572,10 +585,26 @@
               document.getElementById("poland_flag").style.border =
                 "2px solid red";
               document.getElementById("germany_flag").style.border = "none";
+              document.getElementById("uk_flag").style.border = "none";
+              document.getElementById("silesia_flag").style.border = "none";
             } else if (lang == "de") {
               document.getElementById("germany_flag").style.border =
                 "2px solid red";
               document.getElementById("poland_flag").style.border = "none";
+              document.getElementById("uk_flag").style.border = "none";
+              document.getElementById("silesia_flag").style.border = "none";
+            } else if (lang == "uk") {
+              document.getElementById("uk_flag").style.border =
+                "2px solid red";
+              document.getElementById("poland_flag").style.border = "none";
+              document.getElementById("germany_flag").style.border = "none";
+              document.getElementById("silesia_flag").style.border = "none";
+            } else if (lang == "si") {
+              document.getElementById("silesia_flag").style.border =
+                "2px solid red";
+              document.getElementById("poland_flag").style.border = "none";
+              document.getElementById("germany_flag").style.border = "none";
+              document.getElementById("uk_flag").style.border = "none";
             }
           }
           //funkcja po nacisnieciu przycisku zapisz
