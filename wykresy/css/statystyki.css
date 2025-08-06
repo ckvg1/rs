@@ -26,14 +26,14 @@ section:hover{
 }
 
 section.ciemny{
-    background-color: #012253;
-    box-shadow: rgba(255, 255, 255, 0.6) 5px 5px 15px;
+    background-color: #00152c;
+    box-shadow: rgba(0, 0, 0, 0.6) 5px 5px 15px;
     color: #ffffff;
 }
 
 section.ciemny:hover{
     scale: 1.02;
-    box-shadow: rgba(255, 255, 255, 0.7) 5px 5px 20px;
+    box-shadow: rgba(32, 32, 32, 0.7) 5px 5px 20px;
 }
 
 section h1{

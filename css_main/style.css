@@ -126,7 +126,7 @@ main {
 }
 
 .modal-content.ciemny {
-  background: #012253;
+  background: #00152c;
 }
 .modal select{
   margin: 15px;
@@ -196,9 +196,9 @@ select:focus{
   padding: 10px 24px;
 }
 
-input:focus{
+/* input:focus{
   padding: 5px 10px;
-}
+} */
 
 
 @media(max-width:1200px){

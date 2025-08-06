@@ -4,7 +4,7 @@ body{
     color: #000000;
 }
 body.ciemny{
-    background-color: #011532;
+    background-color: #06111b;
     color: #ffffff;
 }
 
@@ -20,8 +20,8 @@ header {
 }
 
 header.ciemny{
-  background-color: #012253;
-  border-image: linear-gradient(180deg, #ffffff 98%, #011532) 1;
+  background-color: #00152c;
+  border-image: linear-gradient(180deg, #00152c 98%, #06111b) 1;
   border-bottom: 5px solid;
 }
 
@@ -42,6 +42,21 @@ header.ciemny{
 }
 
 .przycisk:active {
+  background-color: #2a80f9;
+  color: white;
+}
+
+.przycisk.ciemny {
+  background-color: #2a80f9;
+  border: 2px solid #012253;
+}
+
+.przycisk.ciemny:hover {
+  background-color: white;
+  color: #2a80f9;
+}
+
+.przycisk.ciemny:active {
   background-color: #2a80f9;
   color: white;
 }
@@ -72,6 +87,24 @@ select:focus {
   border-color: #007bff;
   background-color: #e6f0ff;
   outline: none;
+  background-color: #d3e2ec;
+  padding: 10px 30px;
+}
+
+input.ciemny,
+select.ciemny {
+  background-color: #cbcccc;
+}
+input:hover,
+select:hover {
+  border-color: #007bff;
+  background-color: #d3e2ec;
+}
+
+input:focus,
+select:focus {
+  border-color: #007bff;
+  background-color: #e6f0ff;
   background-color: #d3e2ec;
   padding: 10px 30px;
 }
