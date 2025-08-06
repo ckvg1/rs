@@ -13,7 +13,7 @@ const readConn = new nodes7();
 const writeConn = new nodes7();
 const readMutex = new Mutex();
 const writeMutex = new Mutex();
-const cache = new NodeCache({ stdTTL: 0, checkperiod: 0.2 });
+const cache = new NodeCache({ stdTTL: 0, checkperiod: 1 });
 
 // 3 pietro
 const L3_in = require("./variables/floor3/L3_in");
@@ -110,10 +110,8 @@ function readAfterStartup() {
     readConn.addItems(LIGHT_KEYS);
     await new Promise((resolve) => {
       readConn.readAllItems((err, val) => {
-        if (!err) {
-          cache.set("swiatlaData", val, lights_ttl); //time to live
-          resolve();
-        }
+        if (!err) cache.set("swiatlaData", val, lights_ttl); //time to live
+        resolve();
       });
     });
   });
@@ -163,27 +161,16 @@ function connectedRead(err) {
   readConn.setTranslationCB((tag) => variables[tag]);
 
   // Cykliczne odczyty swiatel do cache co (lights_timeout) ms
-
   setInterval(() => {
-    let timestamp = new Date().toISOString();
-    console.log("zaczeto odczyt swiatla", timestamp);
     readMutex.runExclusive(async () => {
       // światła
       readConn.removeItems(); //usuwamy stare klucze
       readConn.addItems(LIGHT_KEYS); //dodajemy nowe klucze (światła)
-
       await new Promise((resolve) => {
         readConn.readAllItems((err, val) => {
-          if (!err) {
-            cache.set("swiatlaData", val, lights_ttl); //zapisujemy do cache, jeśli nie ma błędu
-            let timestamp = new Date().toISOString();
-            console.log("skonczono odczyt swiatel", timestamp);
-            return resolve();
-          } else {
-          }
+          if (!err) cache.set("swiatlaData", val, lights_ttl); //zapisujemy do cache, jeśli nie ma błędu
+          resolve();
         });
-
-        return resolve();
       });
     });
   }, lights_timeout);
@@ -270,9 +257,23 @@ function connectedWrite(err) {
                 console.error("Błąd przy zapisie:", err);
                 res.status(500).json({ error: "Błąd przy zapisie" });
               } else {
-                res.json({ status: "zapisano", wartosc });
                 var godzina = new Date().toISOString();
                 console.info(swiatlo, wartosc, godzina, req.ip);
+                setTimeout(() => {
+                  writeMutex.runExclusive(() => {
+                    return new Promise((resolve) => {
+                      writeConn.writeItems(`wej_${swiatlo}`, false, (err2) => {
+                        if (err2) {
+                          console.error("Błąd przy auto-false:", err2);
+                        } else {
+                          res.json({ status: "zapisanolololo", wartosc });
+                          console.log(`Auto-false wykonano dla ${swiatlo}`);
+                        }
+                        resolve();
+                      });
+                    });
+                  });
+                }, 1000);
               }
               resolve(); // mutex zostanie zwolniony dopiero po zakończeniu callbacka
             }
@@ -305,9 +306,24 @@ function connectedWrite(err) {
                 console.error("Błąd przy zapisie:", err);
                 res.status(500).json({ error: "Błąd przy zapisie" });
               } else {
-                res.json({ status: "zapisano", wartosc });
                 var godzina = new Date().toISOString();
                 console.info(swiatlo, wartosc, godzina, req.ip);
+                setTimeout(() => {
+                  writeMutex.runExclusive(() => {
+                    return new Promise((resolve) => {
+                      writeConn.writeItems(`wej_${swiatlo}`, false, (err2) => {
+                        if (err2) {
+                          res.json({ status: "błąd", wartosc });
+                          console.error("Błąd przy auto-false:", err2);
+                        } else {
+                          res.json({ status: "zapisanooooooooo", wartosc });
+                          console.log(`Auto-false wykonano dla ${swiatlo}`);
+                        }
+                        resolve();
+                      });
+                    });
+                  });
+                }, 10000);
               }
               resolve(); // mutex zostanie zwolniony dopiero po zakończeniu callbacka
             }
