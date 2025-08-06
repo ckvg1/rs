@@ -6,9 +6,9 @@ const dictionary = {
     "Błąd połączenia z bazą danych": "Verbindungsfehler zur Datenbank",
     "Zmieniaj nazwy czujników i pomieszczeń":
       "Ändere die Namen von Sensoren und Räumen",
-    "Wyłącz wszystkie światła": "Schalte alle Lichter ",
+    "Wyłącz wszystkie światła": "Schalte alle Lichter aus ",
     "Włącz wszystkie światła": "Schalte alle Lichter ein",
-    "w firmie": "im Unternehmen aus",
+    "w firmie": "im Unternehmen",
     "w mieszkaniu": "in der Wohnung",
     "Pobierz miesięczny raport temperatury":
       "Lade den monatlichen Temperaturbericht herunter",

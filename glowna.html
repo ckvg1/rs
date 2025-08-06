@@ -562,7 +562,8 @@
               pietro = 3;
             }
           }
-          let langluage = "pl"; // domyślny język
+
+          let language = "pl"; // domyślny język
 
           function zmienJezyk(lang) {
             language = lang;
@@ -579,51 +580,7 @@
           }
           //funkcja po nacisnieciu przycisku zapisz
           function zapiszUstawienia() {
-            const allLights = [
-              l1_1_1,
-              l1_1_2,
-              l1_2_1,
-              l1_2_2,
-              l1_3_1,
-              l1_3_2,
-              l1_4_1,
-              l1_4_2,
-              l1_5_1,
-              l1_5_2,
-              l1_6_1,
-              l1_6_2,
-              l1_7_1,
-              l1_7_2,
-              l2_1_1,
-              l2_1_2,
-              l2_2_1,
-              l2_2_2,
-              l2_3_1,
-              l2_3_2,
-              l2_4_1,
-              l2_4_2,
-              l2_5_1,
-              l2_5_2,
-              l2_6_1,
-              l2_6_2,
-              l2_7_1,
-              l2_7_2,
-              l3_1_1,
-              l3_1_2,
-              l3_2_1,
-              l3_2_2,
-              l3_3_1,
-              l3_3_2,
-              l3_4_1,
-              l3_4_2,
-              l3_5_1,
-              l3_5_2,
-              l3_6_1,
-              l3_6_2,
-              l3_7_1,
-              l3_7_2,
-            ];
-            document.cookie = `lang=${langluage}; path=/; max-age=31536000`; // ustawienie ciasteczka z jezykiem na rok
+            document.cookie = `lang=${language}; path=/; max-age=31536000`; // ustawienie ciasteczka z jezykiem na rok
 
             const pietro1 = document.getElementById("pietro1_urzadzenia");
             const pietro2 = document.getElementById("pietro2_urzadzenia");
