@@ -8,12 +8,12 @@ const app = express();
 const port = 3000;
 app.use(cors());
 app.use(express.json());
-
+const fs = require("fs");
 const readConn = new nodes7();
 const writeConn = new nodes7();
 const readMutex = new Mutex();
 const writeMutex = new Mutex();
-const cache = new NodeCache({ stdTTL: 0, checkperiod: 0.2 });
+const cache = new NodeCache({ stdTTL: 0, checkperiod: 1 });
 
 // 3 pietro
 const L3_in = require("./variables/floor3/L3_in");
@@ -110,10 +110,8 @@ function readAfterStartup() {
     readConn.addItems(LIGHT_KEYS);
     await new Promise((resolve) => {
       readConn.readAllItems((err, val) => {
-        if (!err) {
-          cache.set("swiatlaData", val, lights_ttl); //time to live
-          resolve();
-        }
+        if (!err) cache.set("swiatlaData", val, lights_ttl); //time to live
+        resolve();
       });
     });
   });
@@ -162,59 +160,47 @@ function connectedRead(err) {
   // https://github.com/plcpeople/nodeS7/tree/master?tab=readme-ov-file#nodes7settranslationcbtranslator
   readConn.setTranslationCB((tag) => variables[tag]);
 
-  // Cykliczne odczyty swiatel do cache co (lights_timeout) ms
-
-  setInterval(() => {
-    let timestamp = new Date().toISOString();
-    console.log("zaczeto odczyt swiatla", timestamp);
+  function odczytajSwiatla() {
     readMutex.runExclusive(async () => {
-      // światła
-      readConn.removeItems(); //usuwamy stare klucze
-      readConn.addItems(LIGHT_KEYS); //dodajemy nowe klucze (światła)
-
+      readConn.removeItems();
+      readConn.addItems(LIGHT_KEYS);
       await new Promise((resolve) => {
         readConn.readAllItems((err, val) => {
-          if (!err) {
-            cache.set("swiatlaData", val, lights_ttl); //zapisujemy do cache, jeśli nie ma błędu
-            let timestamp = new Date().toISOString();
-            console.log("skonczono odczyt swiatel", timestamp);
-            return resolve();
-          } else {
-          }
-        });
-
-        return resolve();
-      });
-    });
-  }, lights_timeout);
-
-  // Cykliczne odczyty temperatury do cache co (temperature_timeout) ms
-  setInterval(() => {
-    readMutex.runExclusive(async () => {
-      readConn.removeItems(); // usuwamy stare klucze
-      readConn.addItems(TEMPERATURE_KEYS); //dodajemy nowe klucze (temperatura)
-      await new Promise((resolve) => {
-        readConn.readAllItems((err, val) => {
-          if (!err) cache.set("temperaturaData", val, temperature_ttl); //zapisujemy do cache, jeśli nie ma błędu
+          if (!err) cache.set("swiatlaData", val, lights_ttl);
           resolve();
         });
       });
+      setTimeout(odczytajSwiatla, lights_timeout);
     });
-  }, temperature_timeout);
+  }
 
-  // Cykliczne odczyty rolet co (blinds_timeout) ms
-  setInterval(() => {
+  function odczytajTemperature() {
     readMutex.runExclusive(async () => {
-      readConn.removeItems(); // usuwamy stare klucze
-      readConn.addItems(BLINDS_KEYS); //dodajemy nowe klucze (rolety)
+      readConn.removeItems();
+      readConn.addItems(TEMPERATURE_KEYS);
       await new Promise((resolve) => {
         readConn.readAllItems((err, val) => {
-          if (!err) cache.set("roletyData", val, blinds_ttl); //zapisujemy do cache, jeśli nie ma błędu
+          if (!err) cache.set("temperaturaData", val, temperature_ttl);
           resolve();
         });
       });
+      setTimeout(odczytajTemperature, temperature_timeout);
     });
-  }, blinds_timeout);
+  }
+
+  function odczytajRolety() {
+    readMutex.runExclusive(async () => {
+      readConn.removeItems();
+      readConn.addItems(BLINDS_KEYS);
+      await new Promise((resolve) => {
+        readConn.readAllItems((err, val) => {
+          if (!err) cache.set("roletyData", val, blinds_ttl);
+          resolve();
+        });
+      });
+      setTimeout(odczytajRolety, blinds_timeout);
+    });
+  }
 }
 
 function connectedWrite(err) {
@@ -222,7 +208,9 @@ function connectedWrite(err) {
     console.error("Błąd połączenia z PLC:", err);
     return;
   }
-
+  odczytajSwiatla();
+  odczytajTemperature();
+  odczytajRolety();
   // Ustawienie callbacka do tłumaczenia tagów na zmienne
   writeConn.setTranslationCB((tag) => variables[tag]);
 
@@ -252,45 +240,9 @@ function connectedWrite(err) {
       });
     });
   });
+
   // PUT: sterowanie światłem
-
-  //3 piętro
-  app.put("/swiatla/3/:swiatlo", async (req, res) => {
-    const { swiatlo } = req.params;
-    const { wartosc } = req.body;
-
-    await writeMutex.runExclusive(
-      () =>
-        new Promise((resolve) => {
-          const result = writeConn.writeItems(
-            `wej_${swiatlo}`,
-            wartosc,
-            (err) => {
-              if (err) {
-                console.error("Błąd przy zapisie:", err);
-                res.status(500).json({ error: "Błąd przy zapisie" });
-              } else {
-                res.json({ status: "zapisano", wartosc });
-                var godzina = new Date().toISOString();
-                console.info(swiatlo, wartosc, godzina, req.ip);
-              }
-              resolve(); // mutex zostanie zwolniony dopiero po zakończeniu callbacka
-            }
-          );
-
-          if (result != 0) {
-            console.error("writeItems odrzucone: zapis już trwa");
-            res
-              .status(409)
-              .json({ error: "Zapis w trakcie, spróbuj ponownie" });
-            resolve(); // zwalniamy mutex nawet jeśli writeItems nie zadziałał
-          }
-        })
-    );
-  });
-
-  //2 piętro
-  app.put("/swiatla/2/:swiatlo", async (req, res) => {
+  app.put("/swiatla/:swiatlo", async (req, res) => {
     const { swiatlo } = req.params;
     const { wartosc } = req.body;
 
@@ -325,9 +277,7 @@ function connectedWrite(err) {
   });
 
   // PUT: sterowanie roletami
-
-  //3 piętro
-  app.put("/rolety/3/:roleta", async (req, res) => {
+  app.put("/rolety/:roleta", async (req, res) => {
     const { roleta } = req.params;
     const { wartosc } = req.body;
 
@@ -337,28 +287,8 @@ function connectedWrite(err) {
           if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
 
           res.json({ status: "zapisano", wartosc });
-          return resolve();
-        });
-        if (result != 0) {
-          res.json({ status: "blad przy zapisie" });
-          console.error("Błąd przy zapisie rolety!");
-          return resolve();
-        }
-      });
-    });
-  });
-
-  //2 piętro
-  app.put("/rolety/2/:roleta", async (req, res) => {
-    const { roleta } = req.params;
-    const { wartosc } = req.body;
-
-    await writeMutex.runExclusive(async () => {
-      await new Promise((resolve) => {
-        let result = writeConn.writeItems(`wej_${roleta}`, wartosc, (err) => {
-          if (err) return res.status(500).json({ error: "Błąd przy zapisie" });
-
-          res.json({ status: "zapisano", wartosc });
+          var godzina = new Date().toISOString();
+          console.info(swiatlo, wartosc, godzina, req.ip);
           return resolve();
         });
         if (result != 0) {
@@ -413,5 +343,46 @@ function connectedWrite(err) {
     sendBlinds(); // Wywołujemy od razu, żeby wysłać aktualne dane
     const interval = setInterval(sendBlinds, blinds_timeout);
     req.on("close", () => clearInterval(interval));
+  });
+
+  const fs = require("fs");
+  const express = require("express");
+  const app = express();
+
+  app.use(express.json()); // konieczne do odczytu req.body
+
+  // PUT: ustawianie harmonogramu
+  app.put("/harmonogram", (req, res) => {
+    const godzinaOFF = req.body.godzinaOFF;
+
+    fs.readFile("harmonogram.json", "utf8", (err, data) => {
+      if (err) {
+        console.error("Błąd odczytu pliku harmonogram.json:", err);
+        return res
+          .status(500)
+          .json({ error: "Błąd odczytu pliku harmonogramu" });
+      }
+
+      const poprzedniaGodzinaOFF = JSON.parse(data).godzinaOFF;
+      console.log("Poprzednia godzina OFF:", poprzedniaGodzinaOFF);
+
+      // Teraz dopiero zapis
+
+      fs.writeFile(
+        "harmonogram.json",
+        JSON.stringify({ godzinaOFF }),
+        (err) => {
+          if (err) {
+            console.error("Błąd zapisu pliku harmonogram.json:", err);
+            return res
+              .status(500)
+              .json({ error: "Błąd zapisu pliku harmonogramu" });
+          }
+
+          console.log("Harmonogram zapisany:", godzinaOFF);
+          res.json({ status: "harmonogram ustawiony", godzinaOFF });
+        }
+      );
+    });
   });
 }

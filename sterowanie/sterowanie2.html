@@ -234,12 +234,12 @@
         isFetchingLight = true;
         try {
           // Najpierw wł.
-          await axios.put(`http://192.168.25.59:3000/swiatla/2/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
             wartosc: true,
           });
           // Następnie wył.
 
-          await axios.put(`http://192.168.25.59:3000/swiatla/2/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -254,10 +254,10 @@
         if (isFetchingBlinds) return;
         isFetchingBlinds = true;
         try {
-          await axios.put(`http://192.168.25.59:3000/rolety/2/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
             wartosc: true,
           });
-          await axios.put(`http://192.168.25.59:3000/rolety/2/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -268,5 +268,6 @@
         }
       }
     </script>
+    <script src="../js/dark_mode.js"></script>
   </body>
 </html>

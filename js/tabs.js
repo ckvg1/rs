@@ -52,3 +52,6 @@ function znikanie(){
     tabsList.style.right = "-300px";
   }
 }
+
+
+

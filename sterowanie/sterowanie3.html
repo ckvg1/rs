@@ -155,7 +155,7 @@
       }
 
       function showAlert(
-        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong style='color: black'> spróbuj ponownie </strong> </a>"
+        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
       ) {
         alertBox.style.display = "block";
         document.querySelector(".oaerror").innerHTML = message;
@@ -239,12 +239,12 @@
         try {
           isFetchingLight = true;
           // Najpierw wł.
-          await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
             wartosc: true,
           });
 
-          // Potem false
-          await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
+          //Potem false
+          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -259,10 +259,10 @@
         if (isFetchingBlinds) return;
         isFetchingBlinds = false;
         try {
-          await axios.put(`http://192.168.25.59:3000/rolety/3/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
             wartosc: true,
           });
-          await axios.put(`http://192.168.25.59:3000/rolety/3/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -273,5 +273,6 @@
         }
       }
     </script>
+    <script src="../js/dark_mode.js"></script>
   </body>
 </html>

@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="../js/translations.js"></script>
   </head>
-  <body>
-    <!-- <header><img src="../logo.svg" /></header> !-->
+  <body class="jasny">
+    <!-- <header><img src="../logo.svg" /></header> ! -->
     <h1 id="dataInfoText">Data wykonania pomiaru (od-do):</h1>
     <h4 id="zakresDat">Używam danych z: Ostatnie 24 godziny</h4>
     <div id="formularz">
@@ -42,7 +42,7 @@
  -->
     <div id="alertBox" class="oaerror danger" style="display: none"></div>
     <div id="myDiv" class="heatmap">
-      <img src="img/swiatla-bg.png" />
+      <img id="mapa-swiatla" src="../wykresy/img/swiatla-bg.png">
     </div>
     <div id="myDiv2"></div>
     <div id="myPlot"></div>
@@ -359,5 +359,6 @@
           });
       }
     </script>
+    <script src="../js/dark_mode.js"></script>
   </body>
 </html>

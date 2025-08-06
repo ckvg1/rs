@@ -8,9 +8,6 @@ body {
 a {
   background-color: "red";
 }
-.temperatura {
-  font-size: 14pt;
-}
 
 .main_image {
   position: relative;
@@ -29,6 +26,7 @@ a {
 
 .temperatura {
   position: absolute;
+  font-size: 14pt;
 }
 
 .strzalka {
