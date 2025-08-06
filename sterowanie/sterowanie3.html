@@ -12,7 +12,6 @@
     <script src="../js/translations.js"></script>
   </head>
   <body>
-    
     <h1 style="font-size: 18pt">Sterowanie urządzeniami - 3 piętro</h1>
     <div id="alertBox" class="oaerror danger" style="display: none"></div>
 
@@ -239,12 +238,12 @@
         try {
           isFetchingLight = true;
           // Najpierw wł.
-          await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
             wartosc: true,
           });
 
           //Potem false
-          await axios.put(`http://192.168.25.59:3000/swiatla/3/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -259,10 +258,10 @@
         if (isFetchingBlinds) return;
         isFetchingBlinds = false;
         try {
-          await axios.put(`http://192.168.25.59:3000/rolety/3/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
             wartosc: true,
           });
-          await axios.put(`http://192.168.25.59:3000/rolety/3/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
             wartosc: false,
           });
         } catch (err) {
