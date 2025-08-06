@@ -345,24 +345,63 @@ function connectedWrite(err) {
   });
 
   // PUT: ustawianie harmonogramu
-  app.put("/harmonogram", (req, res) => {
+  app.put("/harmonogram/:swiatlo", (req, res) => {
     const godzinaOFF = req.body.godzinaOFF;
+    const swiatlo = req.params.swiatlo;
 
-    // Teraz dopiero zapis
+    fs.readFile("harmonogram.json", "utf8", (err, data) => {
+      let harmonogram = {};
 
-    fs.writeFile("harmonogram.json", JSON.stringify({ godzinaOFF }), (err) => {
-      if (err) {
-        console.error("Błąd zapisu pliku harmonogram.json:", err);
-        return res
-          .status(500)
-          .json({ error: "Błąd zapisu pliku harmonogramu" });
+      if (!err) {
+        try {
+          harmonogram = JSON.parse(data);
+        } catch (parseErr) {
+          console.error("Błąd parsowania pliku harmonogram.json:", parseErr);
+          // Jeśli błąd parsowania — zachowujemy pusty obiekt
+        }
       }
 
-      console.log("Harmonogram zapisany:", godzinaOFF);
-      res.json({ status: "harmonogram ustawiony", godzinaOFF });
+      // Aktualizujemy tylko jeden klucz
+      harmonogram[swiatlo] = godzinaOFF;
+
+      fs.writeFile(
+        "harmonogram.json",
+        JSON.stringify(harmonogram, null, 2),
+        (err) => {
+          if (err) {
+            console.error("Błąd zapisu pliku harmonogram.json:", err);
+            return res
+              .status(500)
+              .json({ error: "Błąd zapisu pliku harmonogramu" });
+          }
+
+          console.log(
+            `Harmonogram zaktualizowany: ${swiatlo} => ${godzinaOFF}`
+          );
+          res.json({ status: "harmonogram ustawiony", swiatlo, godzinaOFF });
+        }
+      );
     });
   });
+  app.get("/harmonogram/:swiatlo", (req, res) => {
+    const swiatlo = req.params.swiatlo;
+    fs.readFile("harmonogram.json", "utf8", (err, data) => {
+      if (err) {
+        console.error("Błąd odczytu pliku harmonogram.json:", err);
+        return res
+          .status(500)
+          .json({ error: "Błąd odczytu pliku harmonogramu" });
+      }
 
+      try {
+        const harmonogram = JSON.parse(data);
+        res.json(harmonogram[swiatlo] || "Brak harmonogramu dla tego światła");
+      } catch (parseError) {
+        console.error("Błąd parsowania JSON:", parseError);
+        res.status(500).json({ error: "Błąd parsowania danych harmonogramu" });
+      }
+    });
+  });
   // Cykliczne sprawdzanie harmonogramu i wwylaczanie swiatel.
   // Automatyczne wyłączanie świateł na podstawie harmonogramu
   setInterval(() => {
@@ -377,40 +416,28 @@ function connectedWrite(err) {
       console.log("Godzina z harmonogramu: ", harmonogram);
       const currentHour = new Date().toLocaleTimeString().slice(0, 5);
       console.log("Aktualna godzina: ", currentHour);
-      if (harmonogram.godzinaOFF === currentHour) {
-        console.log("Aktualna godzina taka sama jak w harmonogramie.");
-        writeMutex.runExclusive(async () => {
-          console.log("Wyłączam wszystkie światła według harmonogramu");
+      Object.entries(harmonogram).forEach(([key, value]) => {
+        if (value === currentHour) {
+          console.log("Aktualna godzina taka sama jak w harmonogramie.");
+          writeMutex.runExclusive(async () => {
+            console.log(`Wyłączam ${key} według harmonogramu`);
 
-          // l3
-          await new Promise((resolve) => {
-            writeConn.writeItems("wej_all_OFF_l3", true, (err) => {
-              if (err) console.error("Błąd L3 ON:", err);
-              setTimeout(() => {
-                writeConn.writeItems("wej_all_OFF_l3", false, (err) => {
-                  if (err) console.error("Błąd L3 OFF:", err);
-                  console.log("Wyłaczenie swiatel z 3 pietra powiodlo sie. ");
-                  resolve();
-                });
-              }, 100);
+            // l3
+            await new Promise((resolve) => {
+              writeConn.writeItems(`wej_${key}`, true, (err) => {
+                if (err) console.error(`Blad wej_${key} na true:`, err);
+                setTimeout(() => {
+                  writeConn.writeItems(`wej_${key}`, false, (err) => {
+                    if (err) console.error(`Blad wej_${key} na false:`, err);
+                    console.log(`Wyłaczenie swiatla ${key} powiodlo sie. `);
+                    resolve();
+                  });
+                }, 100);
+              });
             });
           });
-
-          // l2
-          await new Promise((resolve) => {
-            writeConn.writeItems("wej_all_OFF_l2", true, (err) => {
-              if (err) console.error("Błąd L2 ON:", err);
-              setTimeout(() => {
-                writeConn.writeItems("wej_all_OFF_l2", false, (err) => {
-                  if (err) console.error("Błąd L2 OFF:", err);
-                  console.log("Wyłaczenie swiatel z 2 pietra powiodlo sie. ");
-                  resolve();
-                });
-              }, 100);
-            });
-          });
-        });
-      }
+        }
+      });
     });
   }, 60000);
 }

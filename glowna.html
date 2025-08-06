@@ -30,22 +30,19 @@
           class="jasny"
         />
       </div>
-        
+
       <script>
         function hover(element) {
-          if(element.classList == "jasny"){
+          if (element.classList == "jasny") {
             element.setAttribute("src", "./img_main/settings-move.gif");
-          }
-          else{
+          } else {
             element.setAttribute("src", "./img_main/settings-move-dark.gif");
           }
-          
         }
         function unhover(element) {
-          if(element.classList == "jasny"){
+          if (element.classList == "jasny") {
             element.setAttribute("src", "./img_main/settings.png");
-          }
-          else{
+          } else {
             element.setAttribute("src", "./img_main/settings-dark.png");
           }
         }
@@ -134,7 +131,12 @@
             gap: 10px;
           "
         >
-          <img src="img_main/dark-mode.png" id="dark-mode" onclick="darkMode(), window.location.reload()" class="jasny">
+          <img
+            src="img_main/dark-mode.png"
+            id="dark-mode"
+            onclick="darkMode(), window.location.reload()"
+            class="jasny"
+          />
           <img
             id="poland_flag"
             onclick="zmienJezyk('pl')"
@@ -756,7 +758,6 @@
       </section>
     </main>
 
-    
     <script>
       document.addEventListener("DOMContentLoaded", () => {
         const modal = document.getElementById("settingsModal");
@@ -782,6 +783,6 @@
       }
     </script>
     <script src="./js/tabs.js"></script>
-    <script src="/js/dark_mode.js"></script>
+    <script src="js/dark_mode.js"></script>
   </body>
 </html>
