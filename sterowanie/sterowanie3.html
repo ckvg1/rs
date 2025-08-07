@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css_main/sterowanie.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <link rel="icon" type="image/x-icon" href="../img_main/icon.png" />
+    <script src="axios.min.js"></script>
     <script src="../js/translations.js"></script>
   </head>
   <body>
@@ -39,166 +40,195 @@
 
         <!-- Przycisk do wszystkich świateł -->
       </a>
-
-      <a onmousedown="wyslijTrue('l3_1_1')" style="cursor: pointer">
-        <img
+      <div class="blokZarowki" id="blokZarowki3_1">
+        <a onmousedown="wyslijTrue('l3_1_1')" style="cursor: pointer">
+          <img
           id="wyj_l3_1_1"
           class="zarowka"
           src="../img_main/icony/bulb_on.png "
-        />
-      </a>
-      <div class="temperatura" id="t3_1">Błąd odczytu</div>
-      <a onmousedown="wyslijTrue('l3_1_2')" style="cursor: pointer">
-        <img
+          />
+        </a>
+        <a onmousedown="wyslijTrue('l3_1_2')" style="cursor: pointer">
+          <img
           id="wyj_l3_1_2"
           class="zarowka"
           src="../img_main/icony/bulb_on.png "
-        />
-      </a>
+          />
+        </a>
+      </div>
+      <div class="temperatura" id="t3_1">Błąd odczytu</div>
+      <div class="nazwaBiura" id="nazwa3_1"></div>
 
-      <a onmousedown="wyslijTrue('l3_2_1')" style="cursor: pointer">
-        <img
-          id="wyj_l3_2_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
-        />
-      </a>
+      <div class="blokZarowki" id="blokZarowki3_2">
+        <a onmousedown="wyslijTrue('l3_2_1')" style="cursor: pointer">
+          <img
+            id="wyj_l3_2_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+
+        <a onmousedown="wyslijTrue('l3_2_2')" style="cursor: pointer">
+          <img
+            id="wyj_l3_2_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+      </div>
       <div class="temperatura" id="t3_2">Błąd odczytu</div>
-      <a onmousedown="wyslijTrue('l3_2_2')" style="cursor: pointer">
-        <img
-          id="wyj_l3_2_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
-        />
-      </a>
+      <div class="nazwaBiura" id="nazwa3_2"></div>
 
-      <a onmousedown="wyslijTrue('l3_3_1')" style="cursor: pointer">
-        <img
-          id="wyj_l3_3_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
-        />
-      </a>
+      <div class="blokZarowki" id="blokZarowki3_3">
+        <a onmousedown="wyslijTrue('l3_3_1')" style="cursor: pointer">
+          <img
+            id="wyj_l3_3_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+        <a onmousedown="wyslijTrue('l3_3_2')" style="cursor: pointer">
+          <img
+            id="wyj_l3_3_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+      </div>
       <div class="temperatura" id="t3_3">Błąd odczytu</div>
-      <a onmousedown="wyslijTrue('l3_3_2')" style="cursor: pointer">
-        <img
-          id="wyj_l3_3_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
-        />
-      </a>
+      <div class="nazwaBiura" id="nazwa3_3"></div>
 
-      <a onmousedown="wyslijTrue('l3_4_1')" style="cursor: pointer">
+      <div class="blokZarowki" id="blokZarowki3_4">      
+        <a onmousedown="wyslijTrue('l3_4_1')" style="cursor: pointer">
+          <img
+            id="wyj_l3_4_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+        <a onmousedown="wyslijTrue('l3_4_2')" style="cursor: pointer">
+          <img
+            id="wyj_l3_4_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+      </div>
+      <div class="blokRolety" id="blokRolety3_4">  
         <img
-          id="wyj_l3_4_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+          id="b3_r4_1"
+          class="strzalka"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b3_r4_1')"
         />
-      </a>
+        <img
+          id="b3_r4_2"
+          class="strzalka odwrot"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b3_r4_2')"
+        />
+      </div>
       <div class="temperatura" id="t3_4">Błąd odczytu</div>
-      <img
-        id="b3_r4_1"
-        class="strzalka"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b3_r4_1')"
-      />
-      <img
-        id="b3_r4_2"
-        class="strzalka odwrot"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b3_r4_2')"
-      />
-      <a onmousedown="wyslijTrue('l3_4_2')" style="cursor: pointer">
-        <img
-          id="wyj_l3_4_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
-        />
-      </a>
+      <div class="nazwaBiura" id="nazwa3_4"></div>
 
-      <a onmousedown="wyslijTrue('l3_5_1')" style="cursor: pointer">
+      <div class="blokZarowki" id="blokZarowki3_5">
+        <a onmousedown="wyslijTrue('l3_5_1')" style="cursor: pointer">
+          <img
+            id="wyj_l3_5_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+        <a onmousedown="wyslijTrue('l3_5_2')" style="cursor: pointer">
+          <img
+            id="wyj_l3_5_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+      </div>
+      <div class="blokRolety" id="blokRolety3_5"> 
         <img
-          id="wyj_l3_5_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+          id="b3_r5_1"
+          class="strzalka"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b3_r5_1')"
         />
-      </a>
+        <img
+          id="b3_r5_2"
+          class="strzalka odwrot"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b3_r5_2')"
+        />
+      </div>
       <div class="temperatura" id="t3_5">Błąd odczytu</div>
-      <img
-        id="b3_r5_1"
-        class="strzalka"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b3_r5_1')"
-      />
-      <img
-        id="b3_r5_2"
-        class="strzalka odwrot"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b3_r5_2')"
-      />
-      <a onmousedown="wyslijTrue('l3_5_2')" style="cursor: pointer">
+      <div class="nazwaBiura" id="nazwa3_5"></div>
+      
+      <div class="blokZarowki" id="blokZarowki3_6">
+        <a onmousedown="wyslijTrue('l3_6_1')" style="cursor: pointer">
+          <img
+            id="wyj_l3_6_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+        <a onmousedown="wyslijTrue('l3_6_2')" style="cursor: pointer">
+          <img
+            id="wyj_l3_6_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
+          />
+        </a>
+      </div>
+      <div class="blokRolety" id="blokRolety3_6"> 
         <img
-          id="wyj_l3_5_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+          id="b3_r6_1"
+          class="strzalka"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b3_r6_1')"
         />
-      </a>
-
-      <a onmousedown="wyslijTrue('l3_6_1')" style="cursor: pointer">
         <img
-          id="wyj_l3_6_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+          id="b3_r6_2"
+          class="strzalka odwrot"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b3_r6_2')"
         />
-      </a>
+      </div>
       <div class="temperatura" id="t3_6">Błąd odczytu</div>
-      <img
-        id="b3_r6_1"
-        class="strzalka"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b3_r6_1')"
-      />
-      <img
-        id="b3_r6_2"
-        class="strzalka odwrot"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b3_r6_2')"
-      />
-      <a onmousedown="wyslijTrue('l3_6_2')" style="cursor: pointer">
-        <img
-          id="wyj_l3_6_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
-        />
-      </a>
+      <div class="nazwaBiura" id="nazwa3_6"></div>
 
-      <a onmousedown="wyslijTrue('l3_7_1')" style="cursor: pointer">
-        <img
+      <div class="blokZarowki" id="blokZarowki3_7">
+        <a onmousedown="wyslijTrue('l3_7_1')" style="cursor: pointer">
+          <img
           id="wyj_l3_7_1"
           class="zarowka"
           src="../img_main/icony/bulb_on.png "
-        />
-      </a>
-      <a onmousedown="wyslijTrue('l3_7_2')" style="cursor: pointer">
-        <img
+          />
+        </a>
+        <a onmousedown="wyslijTrue('l3_7_2')" style="cursor: pointer">
+          <img
           id="wyj_l3_7_2"
           class="zarowka"
           src="../img_main/icony/bulb_on.png "
-        />
-      </a>
-      <div class="temperatura" id="t3_7">Błąd odczytu</div>
-      <img
+          />
+        </a>
+      </div>
+      <div class="blokRolety" id="blokRolety3_7"> 
+        <img
         id="b3_r7_1"
         class="strzalka"
         src="../img_main/icony/arrow.png"
         onmousedown="roletaWlacz('b3_r7_1')"
-      />
-      <img
+        />
+        <img
         id="b3_r7_2"
         class="strzalka odwrot"
         src="../img_main/icony/arrow.png"
         onmousedown="roletaWlacz('b3_r7_2')"
-      />
+        />
+      </div>
+      <div class="temperatura" id="t3_7">Błąd odczytu</div>
+      <div class="nazwaBiura" id="nazwa3_7"></div>
     </div>
 
     <script>

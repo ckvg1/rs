@@ -92,6 +92,14 @@
 
           <li>
             <button
+              disabled
+              style="
+                color: grey;
+                border: none;
+                cursor: not-allowed;
+                padding: 0p;
+              "
+              title="Pierwsze piętro jeszcze nie jest zrobione."
               onclick="znikanie()"
               class="tab-button"
               data-tab="pietro1"
@@ -179,7 +187,7 @@
         <h2>Ustawienia</h2>
         <p>Zmieniaj nazwy czujników i pomieszczeń.</p>
         <select id="pietro_settings_select" onchange="zmienPietroUstawienia()">
-          <option value="pietro1">Piętro 1</option>
+          <option disabled value="pietro1">Piętro 1</option>
           <option value="pietro2">Piętro 2</option>
           <option value="pietro3">Piętro 3</option>
         </select>

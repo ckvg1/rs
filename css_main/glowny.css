@@ -1,11 +1,11 @@
-body{
-    font-family: "Ubuntu", Courier, monospace;
-    background-color: #f4f7f9;
-    color: #000000;
+body {
+  font-family: "Ubuntu", Courier, monospace;
+  background-color: #f4f7f9;
+  color: #000000;
 }
-body.ciemny{
-    background-color: #06111b;
-    color: #ffffff;
+body.ciemny {
+  background-color: #06111b;
+  color: #ffffff;
 }
 
 header {
@@ -19,7 +19,7 @@ header {
   border-bottom: 5px solid;
 }
 
-header.ciemny{
+header.ciemny {
   background-color: #00152c;
   border-image: linear-gradient(180deg, #00152c 98%, #06111b) 1;
   border-bottom: 5px solid;
@@ -122,12 +122,12 @@ select:focus {
   text-align: left;
 }
 
-.oaerror.ciemny{
+.oaerror.ciemny {
   background-color: #012253;
   border: 1px solid #2a80f9;
   border-left-width: 5px;
 }
 
-.oaerror.ciemny strong{
+.oaerror.ciemny strong.ciemny{
   color: #ffffff;
 }
