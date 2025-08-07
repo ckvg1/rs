@@ -155,7 +155,7 @@
       }
 
       function showAlert(
-        message = "<strong>Uwaga</strong> - Nie udało się połączyć z serwerem. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
+        message = "<strong>Uwaga</strong> - Nie udało się połączyć z serwerem. <img src='" + no_internet + "' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
       ) {
         if(document.body.classList.contains("ciemny")){
           no_internet = "../img_main/icony/no-internet-dark.png";
