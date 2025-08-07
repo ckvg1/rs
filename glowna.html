@@ -140,18 +140,31 @@
           <img
             id="poland_flag"
             onclick="zmienJezyk('pl')"
-            style="width: 40px"
+            class="flagi"
             src="./img_main/poland.png"
             alt="Polish Flag"
           />
           <img
             id="germany_flag"
             onclick="zmienJezyk('de')"
-            style="width: 40px"
+            class="flagi"
             src="./img_main/germany.png"
             alt="German Flag"
           />
-
+          <img
+            id="uk_flag"
+            onclick="zmienJezyk('uk')"
+            class="flagi"
+            src="./img_main/uk.png"
+            alt="United Kingdom Flag"
+          />
+          <img
+            id="silesia_flag"
+            onclick="zmienJezyk('si')"
+            class="flagi"
+            src="./img_main/silesia.png"
+            alt="Silesia Flag"
+          />
           <span
             style="position: inherit"
             class="close-btn"
@@ -572,10 +585,25 @@
               document.getElementById("poland_flag").style.border =
                 "2px solid red";
               document.getElementById("germany_flag").style.border = "none";
+              document.getElementById("uk_flag").style.border = "none";
+              document.getElementById("silesia_flag").style.border = "none";
             } else if (lang == "de") {
               document.getElementById("germany_flag").style.border =
                 "2px solid red";
               document.getElementById("poland_flag").style.border = "none";
+              document.getElementById("uk_flag").style.border = "none";
+              document.getElementById("silesia_flag").style.border = "none";
+            } else if (lang == "uk") {
+              document.getElementById("uk_flag").style.border = "2px solid red";
+              document.getElementById("poland_flag").style.border = "none";
+              document.getElementById("germany_flag").style.border = "none";
+              document.getElementById("silesia_flag").style.border = "none";
+            } else if (lang == "si") {
+              document.getElementById("silesia_flag").style.border =
+                "2px solid red";
+              document.getElementById("poland_flag").style.border = "none";
+              document.getElementById("germany_flag").style.border = "none";
+              document.getElementById("uk_flag").style.border = "none";
             }
           }
           //funkcja po nacisnieciu przycisku zapisz
@@ -612,8 +640,49 @@
               );
               setCookie("pietro3", JSON.stringify(Object.fromEntries(data3)));
             }
+            //allLights.forEach(async (light) => {
+            // const el = document.getElementById(`${light}_time`);
+            // if (el) {
+            //   if (el.value !== null) {
+            //     await ustawHarmonogram(light);
+            //   }
+            // }
+            //});
+
             modal.style.display = "none"; // zamknij modal po zapisaniu
             window.location.reload(); // odśwież stronę, aby zastosować zmiany
+          }
+          async function ustawHarmonogram(swiatlo = null) {
+            if (swiatlo === null) {
+              const godzinaInput = document.getElementById(
+                `harmonogramGodzinaInput`
+              );
+              const godzina = godzinaInput.value;
+              await axios.put(
+                `http://192.168.25.59:3000/harmonogram/all_OFF_l3`,
+                {
+                  godzina,
+                }
+              );
+              await axios.put(
+                `http://192.168.25.59:3000/harmonogram/all_OFF_l2`,
+                {
+                  godzina,
+                }
+              );
+            } else {
+              const godzinaInput = document.getElementById(`${swiatlo}_time`);
+              console.log("Ustawiam harmonogram na godzinę:", godzina);
+              const godzina = godzinaInput.value;
+              if (!godzina.isNaN()) {
+                await axios.put(
+                  `http://192.168.25.59:3000/harmonogram/${swiatlo}`,
+                  {
+                    godzina,
+                  }
+                );
+              }
+            }
           }
           function setCookie(name, value) {
             const d = new Date();
@@ -629,6 +698,7 @@
               expires +
               ";path=/";
           }
+
           //deafulowe wartosci zeby utworzyc ciasteczka
           const default1 = {
             l1_1_1: "1_1_1",
