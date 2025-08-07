@@ -151,18 +151,18 @@
             src="./img_main/germany.png"
             alt="German Flag"
           />
-          <img 
+          <img
             id="uk_flag"
             onclick="zmienJezyk('uk')"
             class="flagi"
-            src="./img_main/uk.png" 
+            src="./img_main/uk.png"
             alt="United Kingdom Flag"
           />
-          <img 
+          <img
             id="silesia_flag"
             onclick="zmienJezyk('si')"
             class="flagi"
-            src="./img_main/silesia.png" 
+            src="./img_main/silesia.png"
             alt="Silesia Flag"
           />
           <span
@@ -594,8 +594,7 @@
               document.getElementById("uk_flag").style.border = "none";
               document.getElementById("silesia_flag").style.border = "none";
             } else if (lang == "uk") {
-              document.getElementById("uk_flag").style.border =
-                "2px solid red";
+              document.getElementById("uk_flag").style.border = "2px solid red";
               document.getElementById("poland_flag").style.border = "none";
               document.getElementById("germany_flag").style.border = "none";
               document.getElementById("silesia_flag").style.border = "none";
@@ -641,14 +640,14 @@
               );
               setCookie("pietro3", JSON.stringify(Object.fromEntries(data3)));
             }
-            allLights.forEach(async (light) => {
-              const el = document.getElementById(`${light}_time`);
-              if (el) {
-                if (el.value !== null) {
-                  await ustawHarmonogram(light);
-                }
-              }
-            });
+            //allLights.forEach(async (light) => {
+            // const el = document.getElementById(`${light}_time`);
+            // if (el) {
+            //   if (el.value !== null) {
+            //     await ustawHarmonogram(light);
+            //   }
+            // }
+            //});
 
             modal.style.display = "none"; // zamknij modal po zapisaniu
             window.location.reload(); // odśwież stronę, aby zastosować zmiany
