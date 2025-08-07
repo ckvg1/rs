@@ -177,33 +177,25 @@
             await wyslijTrue("all_OFF_l2");
             await wyslijTrue("all_OFF_l3");
           }
-          async function ustawHarmonogram(swiatlo = null) {
-            if (swiatlo === null) {
+          async function ustawHarmonogram(harmonogram = null) {
+            if (harmonogram === null) {
               const godzinaInput = document.getElementById(
                 `harmonogramGodzinaInput`
               );
               const godzina = godzinaInput.value;
+              harmonogram = {
+                all_OFF_l3: `${godzina}`,
+                all_OFF_l2: `${godzina}`,
+              };
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/all_OFF_l3`,
-                {
-                  godzina,
-                }
-              );
-              await axios.put(
-                `http://192.168.25.59:3000/harmonogram/all_OFF_l2`,
-                {
-                  godzina,
-                }
+                `http://192.168.25.59:3000/harmonogram/add`,
+                harmonogram
               );
             } else {
-              const godzinaInput = document.getElementById(`${swiatlo}_time`);
-              console.log("Ustawiam harmonogram na godzinę:", godzina);
-              const godzina = godzinaInput.value;
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/${swiatlo}`,
-                {
-                  godzina,
-                }
+                `http://192.168.25.59:3000/harmonogram/add`,
+
+                harmonogram
               );
             }
           }

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="./css_main/czcionka.css" />
     <script src="./js/translations.js"></script>
     <script src="./js/load_translation.js"></script>
+    <script src="sterowanie/axios.min.js"></script>
   </head>
   <body class="jasny">
     <header id="header">
@@ -579,7 +580,51 @@
             }
           }
           //funkcja po nacisnieciu przycisku zapisz
-          function zapiszUstawienia() {
+          async function zapiszUstawienia() {
+            const allLights = [
+              "l1_1_1",
+              "l1_1_2",
+              "l1_2_1",
+              "l1_2_2",
+              "l1_3_1",
+              "l1_3_2",
+              "l1_4_1",
+              "l1_4_2",
+              "l1_5_1",
+              "l1_5_2",
+              "l1_6_1",
+              "l1_6_2",
+              "l1_7_1",
+              "l1_7_2",
+              "l2_1_1",
+              "l2_1_2",
+              "l2_2_1",
+              "l2_2_2",
+              "l2_3_1",
+              "l2_3_2",
+              "l2_4_1",
+              "l2_4_2",
+              "l2_5_1",
+              "l2_5_2",
+              "l2_6_1",
+              "l2_6_2",
+              "l2_7_1",
+              "l2_7_2",
+              "l3_1_1",
+              "l3_1_2",
+              "l3_2_1",
+              "l3_2_2",
+              "l3_3_1",
+              "l3_3_2",
+              "l3_4_1",
+              "l3_4_2",
+              "l3_5_1",
+              "l3_5_2",
+              "l3_6_1",
+              "l3_6_2",
+              "l3_7_1",
+              "l3_7_2",
+            ];
             document.cookie = `lang=${language}; path=/; max-age=31536000`; // ustawienie ciasteczka z jezykiem na rok
 
             const pietro1 = document.getElementById("pietro1_urzadzenia");
@@ -612,48 +657,49 @@
               );
               setCookie("pietro3", JSON.stringify(Object.fromEntries(data3)));
             }
-            allLights.forEach(async (light) => {
+
+            let harmonogram = {};
+            for (let i = 0; i < allLights.length; i++) {
+              const light = allLights[i];
+              console.log("Sprawdzam światło:", light);
               const el = document.getElementById(`${light}_time`);
               if (el) {
-                if (el.value !== null) {
-                  await ustawHarmonogram(light);
+                const time = el.value;
+                if (time) {
+                  harmonogram[light] = time;
                 }
               }
-            });
+            }
 
+            console.log("Harmonogram:", harmonogram);
+            if (Object.keys(harmonogram).length > 0) {
+              await ustawHarmonogram(harmonogram);
+            } else {
+              console.log("Brak harmonogramu do ustawienia.");
+            }
             modal.style.display = "none"; // zamknij modal po zapisaniu
-            window.location.reload(); // odśwież stronę, aby zastosować zmiany
+            //window.location.reload(); // odśwież stronę, aby zastosować zmiany
           }
-          async function ustawHarmonogram(swiatlo = null) {
-            if (swiatlo === null) {
+          async function ustawHarmonogram(harmonogram = null) {
+            if (harmonogram === null) {
               const godzinaInput = document.getElementById(
                 `harmonogramGodzinaInput`
               );
               const godzina = godzinaInput.value;
+              harmonogram = {
+                all_OFF_l3: `${godzina}`,
+                all_OFF_l2: `${godzina}`,
+              };
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/all_OFF_l3`,
-                {
-                  godzina,
-                }
-              );
-              await axios.put(
-                `http://192.168.25.59:3000/harmonogram/all_OFF_l2`,
-                {
-                  godzina,
-                }
+                `http://192.168.25.59:3000/harmonogram/add`,
+                harmonogram
               );
             } else {
-              const godzinaInput = document.getElementById(`${swiatlo}_time`);
-              console.log("Ustawiam harmonogram na godzinę:", godzina);
-              const godzina = godzinaInput.value;
-              if (!godzina.isNaN()) {
-                await axios.put(
-                  `http://192.168.25.59:3000/harmonogram/${swiatlo}`,
-                  {
-                    godzina,
-                  }
-                );
-              }
+              await axios.put(
+                `http://192.168.25.59:3000/harmonogram/add`,
+
+                harmonogram
+              );
             }
           }
           function setCookie(name, value) {

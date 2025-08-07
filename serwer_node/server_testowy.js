@@ -345,9 +345,9 @@ function connectedWrite(err) {
   });
 
   // PUT: ustawianie harmonogramu
-  app.put("/harmonogram/:swiatlo", (req, res) => {
-    const godzinaOFF = req.body.godzina;
-    const swiatlo = req.params.swiatlo;
+  // PUT: aktualizacja/dodanie wpisów w harmonogramie
+  app.put("/harmonogram", (req, res) => {
+    const noweWartosci = req.body; // np. { "all_OFF_l2": "17:30", "all_OFF_l3": "18:00" }
 
     fs.readFile("harmonogram.json", "utf8", (err, data) => {
       let harmonogram = {};
@@ -357,12 +357,13 @@ function connectedWrite(err) {
           harmonogram = JSON.parse(data);
         } catch (parseErr) {
           console.error("Błąd parsowania pliku harmonogram.json:", parseErr);
-          // Jeśli błąd parsowania — zachowujemy pusty obiekt
         }
       }
 
-      // Aktualizujemy tylko jeden klucz
-      harmonogram[swiatlo] = godzinaOFF;
+      // Nadpisz lub dodaj nowe wartości
+      Object.entries(noweWartosci).forEach(([key, value]) => {
+        harmonogram[key] = value;
+      });
 
       fs.writeFile(
         "harmonogram.json",
@@ -375,16 +376,15 @@ function connectedWrite(err) {
               .json({ error: "Błąd zapisu pliku harmonogramu" });
           }
 
-          console.log(
-            `Harmonogram zaktualizowany: ${swiatlo} => ${godzinaOFF}`
-          );
-          res.json({ status: "harmonogram ustawiony", swiatlo, godzinaOFF });
+          console.log("Harmonogram zaktualizowany:", noweWartosci);
+          res.json({ status: "harmonogram ustawiony", harmonogram });
         }
       );
     });
   });
-  app.get("/harmonogram/:swiatlo", (req, res) => {
-    const swiatlo = req.params.swiatlo;
+
+  // GET: pełny harmonogram
+  app.get("/harmonogram", (req, res) => {
     fs.readFile("harmonogram.json", "utf8", (err, data) => {
       if (err) {
         console.error("Błąd odczytu pliku harmonogram.json:", err);
@@ -395,7 +395,7 @@ function connectedWrite(err) {
 
       try {
         const harmonogram = JSON.parse(data);
-        res.json(harmonogram[swiatlo]);
+        res.json(harmonogram);
       } catch (parseError) {
         console.error("Błąd parsowania JSON:", parseError);
         res.status(500).json({ error: "Błąd parsowania danych harmonogramu" });

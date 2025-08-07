@@ -155,7 +155,7 @@
       }
 
       function showAlert(
-        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
+        message = "<strong>Uwaga</strong> - Nie udało się połączyć z serwerem. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
       ) {
         alertBox.style.display = "block";
         document.querySelector(".oaerror").innerHTML = message;
@@ -168,10 +168,14 @@
         showAlert(
           " Trwa łączenie z PLC. <img src='loading.gif' style='width: 30px; height: 30px; vertical-align: middle; margin-left: 10px' />"
         );
+        const connectionTimeout = setTimeout(() => {
+          showAlert();
+        }, 10000);
         const swiatlaStream = new EventSource(
           "http://192.168.25.59:3000/stream/swiatla"
         );
         swiatlaStream.onmessage = (event) => {
+          clearTimeout(connectionTimeout);
           const dane = JSON.parse(event.data);
           Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(id);
@@ -186,6 +190,7 @@
           "http://192.168.25.59:3000/stream/temperatura"
         );
         temperaturaStream.onmessage = (event) => {
+          clearTimeout(connectionTimeout);
           const dane = JSON.parse(event.data);
           console.log(dane);
           Object.entries(dane).forEach(([id, wartosc]) => {
@@ -198,6 +203,7 @@
           "http://192.168.25.59:3000/stream/rolety"
         );
         roletyStream.onmessage = (event) => {
+          clearTimeout(connectionTimeout);
           const dane = JSON.parse(event.data);
           Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(
