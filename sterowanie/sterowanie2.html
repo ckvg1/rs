@@ -20,7 +20,11 @@
     <div id="myDiv" class="main_image">
       <img src="../img_main/mapy/sterowanie-bg.png" id="main_image" />
       <a onmousedown="wyslijTrue('all_OFF_l2')" style="cursor: pointer">
-        <img id="all_l2" class="wszystkieSwiatla" src="../img_main/icony/btn_of.png" />
+        <img
+          id="all_l2"
+          class="wszystkieSwiatla"
+          src="../img_main/icony/btn_of.png"
+        />
 
         <!-- Przycisk do wszystkich świateł -->
       </a>
@@ -37,16 +41,16 @@
       <div class="blokZarowki" id="blokZarowki2_1">
         <a onmousedown="wyslijTrue('l2_1_1')" style="cursor: pointer">
           <img
-          id="wyj_l2_1_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+            id="wyj_l2_1_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
           />
         </a>
         <a onmousedown="wyslijTrue('l2_1_2')" style="cursor: pointer">
           <img
-          id="wyj_l2_1_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+            id="wyj_l2_1_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
           />
         </a>
       </div>
@@ -92,7 +96,7 @@
       <div class="temperatura" id="t2_3">Błąd odczytu</div>
       <div class="nazwaBiura" id="nazwa2_3"></div>
 
-      <div class="blokZarowki" id="blokZarowki2_4">      
+      <div class="blokZarowki" id="blokZarowki2_4">
         <a onmousedown="wyslijTrue('l2_4_1')" style="cursor: pointer">
           <img
             id="wyj_l2_4_1"
@@ -108,7 +112,7 @@
           />
         </a>
       </div>
-      <div class="blokRolety" id="blokRolety2_4">  
+      <div class="blokRolety" id="blokRolety2_4">
         <img
           id="b2_r4_1"
           class="strzalka"
@@ -141,7 +145,7 @@
           />
         </a>
       </div>
-      <div class="blokRolety" id="blokRolety2_5"> 
+      <div class="blokRolety" id="blokRolety2_5">
         <img
           id="b2_r5_1"
           class="strzalka"
@@ -157,7 +161,7 @@
       </div>
       <div class="temperatura" id="t2_5">Błąd odczytu</div>
       <div class="nazwaBiura" id="nazwa2_5"></div>
-      
+
       <div class="blokZarowki" id="blokZarowki2_6">
         <a onmousedown="wyslijTrue('l2_6_1')" style="cursor: pointer">
           <img
@@ -174,7 +178,7 @@
           />
         </a>
       </div>
-      <div class="blokRolety" id="blokRolety2_6"> 
+      <div class="blokRolety" id="blokRolety2_6">
         <img
           id="b2_r6_1"
           class="strzalka"
@@ -194,37 +198,56 @@
       <div class="blokZarowki" id="blokZarowki2_7">
         <a onmousedown="wyslijTrue('l2_7_1')" style="cursor: pointer">
           <img
-          id="wyj_l2_7_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+            id="wyj_l2_7_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
           />
         </a>
         <a onmousedown="wyslijTrue('l2_7_2')" style="cursor: pointer">
           <img
-          id="wyj_l2_7_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+            id="wyj_l2_7_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
           />
         </a>
       </div>
-      <div class="blokRolety" id="blokRolety2_7"> 
+      <div class="blokRolety" id="blokRolety2_7">
         <img
-        id="b2_r7_1"
-        class="strzalka"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b2_r7_1')"
+          id="b2_r7_1"
+          class="strzalka"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b2_r7_1')"
         />
         <img
-        id="b2_r7_2"
-        class="strzalka odwrot"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b2_r7_2')"
+          id="b2_r7_2"
+          class="strzalka odwrot"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b2_r7_2')"
         />
       </div>
       <div class="temperatura" id="t2_7">Błąd odczytu</div>
       <div class="nazwaBiura" id="nazwa2_7"></div>
     </div>
+    <script>
+      //Skrypt do ustawiania nazw z cookies
+      const nazwyDivy = document.querySelectorAll(".nazwaBiura");
 
+      nazwyDivy.forEach((div) => {
+        const id = div.id.replace("nazwa", "");
+        const cookie = getCookie("pietro2");
+        if (!cookie) {
+          console.log("Ciasteczko nie istnieje!");
+        }
+        const parsedCookie = JSON.parse(cookie);
+        // console.log("Parsed cookie:", parsedCookie);
+        //console.log("ID: ", id);
+        if (cookie) {
+          div.innerText = parsedCookie["r" + id];
+        } else {
+          div.innerText = "Brak nazwy";
+        }
+      });
+    </script>
     <script>
       const alertBox = document.getElementById("alertBox");
 
@@ -236,13 +259,14 @@
       }
 
       function showAlert(
-        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='" + no_internet + "' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong style='color: black'> spróbuj ponownie </strong> </a>"
+        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='" +
+          no_internet +
+          "' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong style='color: black'> spróbuj ponownie </strong> </a>"
       ) {
-        if(document.body.classList.contains("ciemny")){
+        if (document.body.classList.contains("ciemny")) {
           no_internet = "../img_main/icony/no-internet-dark.png";
-        }
-        else{
-          no_internet = "../img_main/icony/no-internet.png"
+        } else {
+          no_internet = "../img_main/icony/no-internet.png";
         }
         alertBox.style.display = "block";
         document.querySelector(".oaerror").innerHTML = message;
@@ -262,13 +286,15 @@
           "http://192.168.25.59:3000/stream/swiatla"
         );
         swiatlaStream.onmessage = (event) => {
-          clearTimeout(connectionTimeout);       
+          clearTimeout(connectionTimeout);
           const dane = JSON.parse(event.data);
           Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(id);
             if (el) {
               if (el.id[0] == "w") {
-                el.src = wartosc ? "../img_main/icony/bulb_on.png" : "../img_main/icony/bulb_of.png";
+                el.src = wartosc
+                  ? "../img_main/icony/bulb_on.png"
+                  : "../img_main/icony/bulb_of.png";
               }
             }
           });
@@ -280,7 +306,7 @@
           clearTimeout(connectionTimeout);
           const dane = JSON.parse(event.data);
           console.log(dane);
-          Object.entries(dane).forEach(([id, wartosc]) => { 
+          Object.entries(dane).forEach(([id, wartosc]) => {
             const el = document.getElementById(id);
             if (el) el.innerText = `${wartosc.toFixed(1)} °C`;
           });
@@ -297,7 +323,9 @@
               id.split("_")[1] + "_" + id.split("_")[2] + "_" + id.split("_")[3]
             );
             if (el) {
-              el.src = wartosc ? "../img_main/icony/arrow.png" : "../img_main/icony/arrow_of.png";
+              el.src = wartosc
+                ? "../img_main/icony/arrow.png"
+                : "../img_main/icony/arrow_of.png";
             }
           });
         };
@@ -368,8 +396,10 @@
     </script>
     <script src="../js/dark_mode.js"></script>
     <script>
-      main_image = document.getElementById("main_image")
-      if(document.body.classList.contains("ciemny")){main_image.src = "../img_main/mapy/sterowanie-bg-dark.png";}
+      main_image = document.getElementById("main_image");
+      if (document.body.classList.contains("ciemny")) {
+        main_image.src = "../img_main/mapy/sterowanie-bg-dark.png";
+      }
     </script>
   </body>
 </html>
