@@ -5,7 +5,7 @@
     <title>Statystyki</title>
     <link rel="icon" type="image/x-icon" href="wykresy/icon.png" />
     <link rel="stylesheet" href="../css_main/glowny.css" />
-    <link rel="stylesheet" href="./css/statystyki.css" />
+    <link rel="stylesheet" href="../css_main/statystyki.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="../sterowanie/axios.min.js"></script>
     <script src="../js/translations.js"></script>
@@ -53,16 +53,16 @@
           <div class="icons_div">
             <img
               title="Maksymalna temperatura w budynku (1 odczyt)"
-              src="img/temp_high.png"
+              src="../img_main/icony/temp_high.png"
             />
-            <img title="Średnia temperatura w budynku" src="img/chart.png" />
+            <img title="Średnia temperatura w budynku" src="../img_main/icony/chart.png" />
             <img
               title="Minimalna temperatura w budynku (1 odczyt)"
-              src="img/temp_low.png"
+              src="../img_main/icony/temp_low.png"
             />
             <img
               title="Średnia temperatura na zewnątrz"
-              src="img/outdoor.png"
+              src="../img_main/icony/outdoor.png"
             />
           </div>
           <div class="stats_div">
@@ -114,23 +114,23 @@
           <div class="icons_div">
             <img
               title="Najczęściej włączane światło"
-              src="img/light_on.png"
+              src="../img_main/icony/light_on.png"
               id="light_on"
             />
 
             <img
               title="Najczęściej wyłączone światło"
-              src="img/light_off.png"
+              src="../img_main/icony/light_off.png"
               id="light_off"
             />
             <img
               title="Godzina o której świeci się najwięcej świateł"
-              src="img/clock.png"
+              src="../img_main/icony/clock.png"
               id="clock"
             />
             <img
               title="Czas, w którym światło było włączone"
-              src="img/hourglass.png"
+              src="../img_main/icony/hourglass.png"
             />
           </div>
           <div class="stats_div">
@@ -160,7 +160,7 @@
             style="margin: auto; width: 50%"
             id="all_l1"
             class="wszystkieSwiatla"
-            src="../sterowanie/btn_on.png"
+            src="../img_main/icony/btn_on.png"
           />
 
           <!-- Przycisk do wszystkich świateł -->
@@ -291,7 +291,7 @@
             style="height: 50%"
             id="all_l1"
             class="wszystkieSwiatla"
-            src="../sterowanie/btn_of.png"
+            src="../img_main/icony/btn_of.png"
           />
 
           <!-- Przycisk do wszystkich świateł -->
@@ -472,8 +472,8 @@
       clock = document.getElementById("clock");
 
       if(document.body.classList.contains("ciemny")){
-          light_off.src = "img/light_off-dark.png";
-          clock.src = "img/clock-dark.png";
+          light_off.src = "../img_main/icony/light_off-dark.png";
+          clock.src = "../img_main/icony/clock-dark.png";
       }
     </script>
   </body>

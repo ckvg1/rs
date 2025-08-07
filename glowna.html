@@ -16,7 +16,7 @@
       <div id="logo_settings">
         <img
           onclick="window.location.reload()"
-          src="logo.svg"
+          src="img_main/logo.svg"
           alt="Logo"
           class="logo"
           style="cursor: pointer"
@@ -24,7 +24,7 @@
         <img
           onmouseover="hover(settings_icon)"
           onmouseleave="unhover(settings_icon)"
-          src="./img_main/settings.png"
+          src="./img_main/icony/settings.png"
           alt="Settings"
           id="settings_icon"
           class="jasny"
@@ -34,16 +34,16 @@
       <script>
         function hover(element) {
           if (element.classList == "jasny") {
-            element.setAttribute("src", "./img_main/settings-move.gif");
+            element.setAttribute("src", "./img_main/icony/settings-move.gif");
           } else {
-            element.setAttribute("src", "./img_main/settings-move-dark.gif");
+            element.setAttribute("src", "./img_main/icony/settings-move-dark.gif");
           }
         }
         function unhover(element) {
           if (element.classList == "jasny") {
-            element.setAttribute("src", "./img_main/settings.png");
+            element.setAttribute("src", "./img_main/icony/settings.png");
           } else {
-            element.setAttribute("src", "./img_main/settings-dark.png");
+            element.setAttribute("src", "./img_main/icony/settings-dark.png");
           }
         }
       </script>
@@ -132,7 +132,7 @@
           "
         >
           <img
-            src="img_main/dark-mode.png"
+            src="./img_main/icony/dark-mode.png"
             id="dark-mode"
             onclick="darkMode(), window.location.reload()"
             class="jasny"
@@ -141,28 +141,28 @@
             id="poland_flag"
             onclick="zmienJezyk('pl')"
             class="flagi"
-            src="./img_main/poland.png"
+            src="./img_main/icony/poland.png"
             alt="Polish Flag"
           />
           <img
             id="germany_flag"
             onclick="zmienJezyk('de')"
             class="flagi"
-            src="./img_main/germany.png"
+            src="./img_main/icony/germany.png"
             alt="German Flag"
           />
           <img
             id="uk_flag"
             onclick="zmienJezyk('uk')"
             class="flagi"
-            src="./img_main/uk.png"
+            src="./img_main/icony/uk.png"
             alt="United Kingdom Flag"
           />
           <img
             id="silesia_flag"
             onclick="zmienJezyk('si')"
             class="flagi"
-            src="./img_main/silesia.png"
+            src="./img_main/icony/silesia.png"
             alt="Silesia Flag"
           />
           <span

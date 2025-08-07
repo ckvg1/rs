@@ -10,7 +10,7 @@
 
     <link rel="icon" type="image/x-icon" href="icon.png" />
     <link rel="stylesheet" href="../css_main/glowny.css" />
-    <link rel="stylesheet" href="css/swiatla.css" />
+    <link rel="stylesheet" href="../css_main/swiatla.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
     <script src="../js/translations.js"></script>
   </head>
@@ -42,7 +42,7 @@
  -->
     <div id="alertBox" class="oaerror danger" style="display: none"></div>
     <div id="myDiv" class="heatmap">
-      <img id="mapa-swiatla" src="../wykresy/img/swiatla-bg.png">
+      <img id="mapa-swiatla" src="../img_main/mapy/swiatla-bg.png">
     </div>
     <div id="myDiv2"></div>
     <div id="myPlot"></div>
@@ -360,5 +360,11 @@
       }
     </script>
     <script src="../js/dark_mode.js"></script>
+    <script>
+      mapa_swiatla = document.getElementById("mapa-swiatla")
+      if(document.body.classList.contains("ciemny")){
+          mapa_swiatla.src = "../img_main/mapy/swiatla-bg-dark.png";
+      }
+    </script>
   </body>
 </html>
