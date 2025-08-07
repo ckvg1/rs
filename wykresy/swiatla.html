@@ -42,7 +42,7 @@
  -->
     <div id="alertBox" class="oaerror danger" style="display: none"></div>
     <div id="myDiv" class="heatmap">
-      <img id="mapa-swiatla" src="../img_main/mapy/swiatla-bg.png">
+      <img id="mapa-swiatla" src="../img_main/mapy/swiatla-bg.png" />
     </div>
     <div id="myDiv2"></div>
     <div id="myPlot"></div>
@@ -68,7 +68,7 @@
         "7_1",
         "7_2",
       ];
-      const bazoweBiura = ["1", "2", "3", "4", "5", "6"];
+      const bazoweBiura = ["1", "2", "3", "4", "5", "6", "7"];
 
       function generujNazwyCzujnikow(pietro) {
         return bazoweCzujniki.map((id) => `l${pietro}_${id}`);
@@ -78,8 +78,8 @@
       }
       function ustaw_pietro() {
         pietro = document.getElementById("pietroSelect").value;
-        console.log("Ustawiono piętro: ", pietro);
-        console.log("Czujniki: ", generujNazwyCzujnikow(pietro));
+        //console.log("Ustawiono piętro: ", pietro);
+        //console.log("Czujniki: ", generujNazwyCzujnikow(pietro));
       }
 
       const zakresDat = document.getElementById("zakresDat");
@@ -300,7 +300,7 @@
               console.error("Brak ciasteczka dla piętra: " + pietro);
               return;
             }
-            console.log(cookie);
+            //console.log(cookie);
             //console.log("Cookie JSON PARSE: ", JSON.stringify(JSON.parse(cookie).l1_1));
 
             const sensorNames = czujniki.map((key) => parsedCookie[key] || key);
@@ -361,9 +361,9 @@
     </script>
     <script src="../js/dark_mode.js"></script>
     <script>
-      mapa_swiatla = document.getElementById("mapa-swiatla")
-      if(document.body.classList.contains("ciemny")){
-          mapa_swiatla.src = "../img_main/mapy/swiatla-bg-dark.png";
+      mapa_swiatla = document.getElementById("mapa-swiatla");
+      if (document.body.classList.contains("ciemny")) {
+        mapa_swiatla.src = "../img_main/mapy/swiatla-bg-dark.png";
       }
     </script>
   </body>
