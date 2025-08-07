@@ -1,14 +1,35 @@
 <?php
 header('Content-Type: text/csv; charset=utf-8');
+//Skrypt do generowania raportu w formacie CSV
+
+// Sprawdzenie, czy użytkownik podał parametr "tabela"
+if (!isset($_GET["tabela"])) {
+    die("Brak parametru 'tabela'");
+}
+
+// Dozwolone tabele do pobrania danych
+// Można dodać więcej tabel, jeśli zajdzie taka potrzeba
 $dozwoloneTabele = ["temperatura", "light"];
 $tabela = isset($_GET["tabela"]) && in_array($_GET["tabela"], $dozwoloneTabele)
           ? $_GET["tabela"] 
           : "temperatura";
-
+// Pobranie piętra z parametru GET, domyślnie 1
 $pietro = isset($_GET["pietro"]) ? intval($_GET["pietro"]) : 1;
 
-// dynamiczna kolumna czasu
+// Sprawdzenie, czy piętro jest poprawne
+if ($pietro < 1 || $pietro > 4) {
+    die("Nieprawidłowe piętro");
+}
+
+//W tabelach kolumna czasu nazwya sie inaczej, wiec sprawdzamu zmienna $tabela i ustawiamy odpowiednią kolumnę
+// Dla tabeli "light" kolumna czasu to "data", dla "temperatura" to "czas_dodania"
+
 $czasDodaniaKlauzula = $tabela === "light" ? "data" : "czas_dodania";
+// Ustawienie nazwy pliku CSV na podstawie piętra i tabeli
+// Miesiąc jest dodawany do nazwy pliku, aby uniknąć konfliktów nazw plików
+// Jeśli piętro to 4, to pobieramy wszystkie dane z wszystkich pięter
+// W przeciwnym razie, pobieramy dane tylko z wybranego piętra
+// Nazwa pliku będzie miała format: "pietro_tabela_miesiac.csv"
 $month = date('m');
 $filename = $pietro . $tabela . $month . ".csv";
 if($pietro === 4) {
@@ -17,18 +38,20 @@ if($pietro === 4) {
 
 header("Content-Disposition: attachment; filename=\"$filename\"");
 
+// Otwarcie połączenia do bazy danych
 $conn = new mysqli("localhost", "root", "", "plc_database");
+
+// Sprawdzenie połączenia
 if ($conn->connect_error) {
     die("Błąd połączenia: " . $conn->connect_error);
 }
 
-
-
+// Zapytanie SQL wybiera wszystkie kolumny z tabeli, gdzie czas_dodania jest większy niż 30 dni temu
 $sql = "SELECT * FROM $tabela 
         WHERE $czasDodaniaKlauzula > NOW() - INTERVAL 30 DAY 
         ORDER BY $czasDodaniaKlauzula DESC";
 
-
+// Modyfikacja zapytania SQL w zależności od piętra
 switch ($pietro) {
     case 1:
         if ($tabela === "temperatura") {
@@ -57,6 +80,9 @@ switch ($pietro) {
         die("Nieprawidłowe piętro");
 }
 
+// Wykonanie zapytania SQL
+// Używamy mysqli_query, aby wykonać zapytanie i pobrać wyniki
+// Sprawdzamy, czy zapytanie zostało wykonane poprawnie
 $result = $conn->query($sql);
 if (!$result) {
     die("Błąd zapytania SQL: " . $conn->error);

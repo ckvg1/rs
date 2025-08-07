@@ -7,12 +7,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sterowanie</title>
     <link rel="stylesheet" href="../css_main/glowny.css" />
-    <link rel="stylesheet" href="sterowanie.css" />
+    <link rel="stylesheet" href="../css_main/sterowanie.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
-    <link rel="icon" type="image/x-icon" href="icon.png" />
+    <link rel="icon" type="image/x-icon" href="../img_main/icon.pngg" />
   </head>
   <body>
     <h1 style="font-size: 18pt">Sterowanie urządzeniami - parter</h1>
     <script src="../js/dark_mode.js"></script>
+    <script>
+      main_image = document.getElementById("main_image")
+      no_internet = document.getElementById("no-internet")
+      if(document.body.classList.contains("ciemny")){main_image.src = "swiatla-bg-dark2.png";no_internet.src = "no-internet-dark.png";}
+    </script>
   </body>
 </html>
