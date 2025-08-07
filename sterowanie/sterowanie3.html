@@ -155,11 +155,19 @@
       }
 
       function showAlert(
-        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='no-internet.png' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
+        
+        message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='" + no_internet + "' id='no-internet' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
       ) {
+        if(document.body.classList.contains("ciemny")){
+          no_internet = "no-internet-dark.png";
+        }
+        else{
+          no_internet = "no-internet.png"
+        }
         alertBox.style.display = "block";
         document.querySelector(".oaerror").innerHTML = message;
         translatePage(getCookie("lang") || "pl");
+
       }
       function hideAlert() {
         alertBox.style.display = "none";
@@ -274,5 +282,11 @@
       }
     </script>
     <script src="../js/dark_mode.js"></script>
+    <script>
+      main_image = document.getElementById("main_image")
+      if(document.body.classList.contains("ciemny")){
+        main_image.src = "swiatla-bg-dark2.png";
+      }
+    </script>
   </body>
 </html>
