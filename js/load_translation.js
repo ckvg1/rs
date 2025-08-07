@@ -1,4 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Ten skrypt jest uruchamiany po załadowaniu DOM
+  // i słuy do automatycznego tprzetłumaczenia strony po załadowaniu
   const lang = document.cookie
     .split("; ")
     .find((row) => row.startsWith("lang="))
@@ -14,7 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (flagaNiemiec)
       flagaNiemiec.style.border = lang === "de" ? "2px solid red" : "none";
     if (flagaWielkiejBrytani)
-      flagaWielkiejBrytani.style.border = lang === "uk" ? "2px solid red" : "none";
+      flagaWielkiejBrytani.style.border =
+        lang === "uk" ? "2px solid red" : "none";
     if (flagaSlaska)
       flagaSlaska.style.border = lang === "si" ? "2px solid red" : "none";
   } else {
