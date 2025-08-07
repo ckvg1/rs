@@ -55,7 +55,10 @@
               title="Maksymalna temperatura w budynku (1 odczyt)"
               src="../img_main/icony/temp_high.png"
             />
-            <img title="Średnia temperatura w budynku" src="../img_main/icony/chart.png" />
+            <img
+              title="Średnia temperatura w budynku"
+              src="../img_main/icony/chart.png"
+            />
             <img
               title="Minimalna temperatura w budynku (1 odczyt)"
               src="../img_main/icony/temp_low.png"
@@ -326,7 +329,7 @@
         fetchSwiatloData();
       }
       function fetchHarmonogramData() {
-        axios.get("http://localhost:3000/harmonogram").then((response) => {
+        axios.get("http://192.168.25.59:3000/harmonogram").then((response) => {
           const harmonogram = response.data;
           const godzinaInput = document.getElementById(
             "harmonogramGodzinaInput"
@@ -463,9 +466,9 @@
       light_off = document.getElementById("light_off");
       clock = document.getElementById("clock");
 
-      if(document.body.classList.contains("ciemny")){
-          light_off.src = "../img_main/icony/light_off-dark.png";
-          clock.src = "../img_main/icony/clock-dark.png";
+      if (document.body.classList.contains("ciemny")) {
+        light_off.src = "../img_main/icony/light_off-dark.png";
+        clock.src = "../img_main/icony/clock-dark.png";
       }
     </script>
   </body>

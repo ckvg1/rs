@@ -346,7 +346,7 @@ function connectedWrite(err) {
 
   // PUT: ustawianie harmonogramu
   // PUT: aktualizacja/dodanie wpisów w harmonogramie
-  app.put("/harmonogram", (req, res) => {
+  app.put("/harmonogram/add", (req, res) => {
     const noweWartosci = req.body; // np. { "all_OFF_l2": "17:30", "all_OFF_l3": "18:00" }
 
     fs.readFile("harmonogram.json", "utf8", (err, data) => {

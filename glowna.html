@@ -890,7 +890,20 @@
                 }
               }
             });
+            wczytajHarmonogram();
           });
+          async function wczytajHarmonogram() {
+            const harmonogram = await axios.get(
+              "http://192.168.25.59:3000/harmonogram"
+            );
+            Object.entries(harmonogram["data"]).forEach(([key, value]) => {
+              const el = document.getElementById(`${key}_time`);
+              if (el) {
+                el.value = value;
+              } else {
+              }
+            });
+          }
         </script>
       </div>
     </div>
