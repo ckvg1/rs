@@ -129,5 +129,6 @@ select:focus {
 }
 
 .oaerror.ciemny strong {
+.oaerror.ciemny strong.ciemny{
   color: #ffffff;
 }
