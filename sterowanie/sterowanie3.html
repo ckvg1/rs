@@ -251,6 +251,8 @@
       });
     </script>
     <script>
+      import config from "../config.js";
+
       function delay(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
@@ -288,7 +290,7 @@
           showAlert();
         }, 10000);
         const swiatlaStream = new EventSource(
-          "http://192.168.25.59:3000/stream/swiatla"
+          `${config.apiBaseUrl}/stream/swiatla`
         );
         swiatlaStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -305,7 +307,7 @@
           });
         };
         const temperaturaStream = new EventSource(
-          "http://192.168.25.59:3000/stream/temperatura"
+          `${config.apiBaseUrl}/stream/temperatura`
         );
         temperaturaStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -318,7 +320,7 @@
         };
 
         const roletyStream = new EventSource(
-          "http://192.168.25.59:3000/stream/rolety"
+          `${config.apiBaseUrl}/stream/rolety`
         );
         roletyStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -365,12 +367,12 @@
         try {
           isFetchingLight = true;
           // Najpierw wł.
-          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
+          await axios.put(`${config.apiBaseUrl}/swiatla/${swiatlo}`, {
             wartosc: true,
           });
 
           //Potem false
-          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
+          await axios.put(`${config.apiBaseUrl}/swiatla/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -385,10 +387,10 @@
         if (isFetchingBlinds) return;
         isFetchingBlinds = false;
         try {
-          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
+          await axios.put(`${config.apiBaseUrl}/rolety/${roleta}`, {
             wartosc: true,
           });
-          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
+          await axios.put(`${config.apiBaseUrl}/rolety/${roleta}`, {
             wartosc: false,
           });
         } catch (err) {

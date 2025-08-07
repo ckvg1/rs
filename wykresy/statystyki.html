@@ -169,6 +169,7 @@
           <!-- Przycisk do wszystkich świateł -->
         </a>
         <script>
+          import config from "../config.js";
           let isFetchingLight = false;
 
           async function wlaczWszstkieSwiatla() {
@@ -192,12 +193,12 @@
                 all_OFF_l2: `${godzina}`,
               };
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/add`,
+                `${config.apiBaseUrl}/harmonogram/add`,
                 harmonogram
               );
             } else {
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/add`,
+                `${config.apiBaseUrl}/harmonogram/add`,
 
                 harmonogram
               );
@@ -208,11 +209,11 @@
             isFetchingLight = true;
             try {
               // Najpierw wł.
-              await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
+              await axios.put(`${config.apiBaseUrl}/swiatla/${swiatlo}`, {
                 wartosc: true,
               });
               // Następnie wył.
-              await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
+              await axios.put(`${config.apiBaseUrl}/swiatla/${swiatlo}`, {
                 wartosc: false,
               });
             } catch (err) {
@@ -308,6 +309,7 @@
     </div>
 
     <script>
+      import config from "../config.js";
       const pietroTemperatura = document.querySelector(
         "#temperaturaPietroSelect"
       );
@@ -329,7 +331,7 @@
         fetchSwiatloData();
       }
       function fetchHarmonogramData() {
-        axios.get("http://192.168.25.59:3000/harmonogram").then((response) => {
+        axios.get("${config.apiBaseUrl}/harmonogram").then((response) => {
           const harmonogram = response.data;
           const godzinaInput = document.getElementById(
             "harmonogramGodzinaInput"

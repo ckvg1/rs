@@ -560,6 +560,7 @@
           Reset
         </button>
         <script>
+          import config from "./config.js";
           let pietro = 1;
           function zmienPietroUstawienia() {
             document.getElementById("pietro1_urzadzenia").style.display =
@@ -730,12 +731,12 @@
                 all_OFF_l2: `${godzina}`,
               };
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/add`,
+                `${config.apiBaseUrl}/harmonogram/add`,
                 harmonogram
               );
             } else {
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/add`,
+                `${config.apiBaseUrl}/harmonogram/add`,
 
                 harmonogram
               );
@@ -902,7 +903,7 @@
           });
           async function wczytajHarmonogram() {
             const harmonogram = await axios.get(
-              "http://192.168.25.59:3000/harmonogram"
+              `${config.apiBaseUrl}/harmonogram`
             );
             Object.entries(harmonogram["data"]).forEach(([key, value]) => {
               const el = document.getElementById(`${key}_time`);
