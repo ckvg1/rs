@@ -51,7 +51,7 @@
       function ustaw_pietro() {
         const select = document.getElementById("pietroSelect");
         pietro = select.value;
-        console.log("Wybrane piętro:", pietro);
+        //console.log("Wybrane piętro:", pietro);
       }
 
       const zakresDat = document.getElementById("zakresDat");
@@ -103,7 +103,7 @@
             //console.log("Parsed cookie:", parsedCookie);
             const nazwy = nazwyBiur.map((key) => parsedCookie[key] || key);
             //console.log("Nazwy biur:", nazwyBiur);
-            console.log("Nazwy biur pobrane z cookie:", nazwy);
+            //console.log("Nazwy biur pobrane z cookie:", nazwy);
             for (let i = 1; i <= 8; i++) {
               //lecimy do 7 bo tyle czujnikow
 
@@ -194,7 +194,7 @@
           const url = `odczytaj_dane.php?data_od=${toLocalISOString(
             new Date(data1)
           )}&data_do=${toLocalISOString(new Date(data2))}&pietro=${pietro}`;
-          console.log(url);
+          //console.log(url);
           fetchAndPlot(url);
         } else if (!dateInput1 && !dateInput2) {
           zakresDat.innerHTML = "Używam danych z: Ostatnie 24 godziny";

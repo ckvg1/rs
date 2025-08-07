@@ -72,9 +72,16 @@ if (mysqli_num_rows($result) > 0) {
     
     // Wyświetlenie wyniku
    // echo "Godzina z największą liczbą włączeń świateł: " . $row['godzina'] . ":00, Liczba włączeń: " . $row['ilosc_wlaczen'];
-} else {
-    echo "Brak danych.";
-}
+} else{
+    $response = [
+        'godzina' => "brak danych",
+        'ilosc_wlaczen' => "brak danych"
+    ];
+    echo json_encode($response);
+    mysqli_close($conn);
+    exit;
+}   
+    
 
 
 // Przygotowanie odpowiedzi w formacie JSON

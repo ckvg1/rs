@@ -24,6 +24,9 @@ const dictionary = {
     "Trwa łączenie z PLC.": "Verbindung zum PLC wird hergestellt.",
     "Sterowanie urządzeniami": "Steuerung von Geräten",
     "spróbuj ponownie": "Versuchen Sie es erneut",
+    "Nie udało się połączyć z serwerem.":
+      "Verbindung zum Server konnte nicht hergestellt werden.",
+
     Ustawienia: "Einstellungen",
     Temperatura: "Temperatur",
     Światło: "Licht",
@@ -66,6 +69,7 @@ const dictionary = {
     "Trwa łączenie z PLC.": "Connecting to PLC.",
     "Sterowanie urządzeniami": "Device control",
     "spróbuj ponownie": "try again",
+    "Nie udało się połączyć z serwerem.": "Connection to the server failed.",
     Ustawienia: "Settings",
     Temperatura: "Temperature",
     Światło: "Light",
@@ -108,6 +112,7 @@ const dictionary = {
     "Trwa łączenie z PLC.": "Trwŏ łōnczynie ze PLC",
     "Sterowanie urządzeniami": "Panel ze kneflōma",
     "spróbuj ponownie": "sprōbōj jeszcze rŏz",
+    "Nie udało się połączyć z serwerem.": "Ni ma połōnczyni ze serwerym.",
     Ustawienia: "Ustawiynia",
     Temperatura: "Tymperatura",
     Światło: "Światło",
@@ -193,7 +198,7 @@ function getCookie(cname) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOM załadowany, tłumaczenie strony");
+  //console.log("DOM załadowany, tłumaczenie strony");
   const lang = getCookie("lang") || "pl";
   translatePage(lang);
 });
