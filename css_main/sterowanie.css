@@ -34,7 +34,7 @@ a {
 }
 
 .blokRolety{
-  top: 90%;
+  top: 89%;
 }
 
 .temperatura, .nazwaBiura{
@@ -46,6 +46,7 @@ a {
 
 .strzalka {
   height: 28px;
+  padding: 0 5px;
   top: 90%;
   cursor: pointer;
 }
