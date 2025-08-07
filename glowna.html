@@ -584,7 +584,7 @@
 
           function zmienJezyk(lang) {
             language = lang;
-            console.log("Zmieniono język na:", lang);
+            // console.log("Zmieniono język na:", lang);
             if (lang == "pl") {
               document.getElementById("poland_flag").style.border =
                 "2px solid red";
@@ -668,31 +668,31 @@
             const modal = document.getElementById("settingsModal");
             if (pietro == 1) {
               const data1 = new FormData(form1);
-              console.log(
-                "Zapisano ustawienia dla Piętro 1:",
-                Object.fromEntries(data1)
-              );
+              //console.log(
+              //  "Zapisano ustawienia dla Piętro 1:",
+              //  Object.fromEntries(data1)
+              //);
               setCookie("pietro1", JSON.stringify(Object.fromEntries(data1)));
             } else if (pietro == 2) {
               const data2 = new FormData(form2);
-              console.log(
-                "Zapisano ustawienia dla Piętro 2:",
-                Object.fromEntries(data2)
-              );
+              //console.log(
+              //  "Zapisano ustawienia dla Piętro 2:",
+              //  Object.fromEntries(data2)
+              //);
               setCookie("pietro2", JSON.stringify(Object.fromEntries(data2)));
             } else if (pietro == 3) {
               const data3 = new FormData(form3);
-              console.log(
-                "Zapisano ustawienia dla Piętro 3:",
-                Object.fromEntries(data3)
-              );
+              //console.log(
+              //  "Zapisano ustawienia dla Piętro 3:",
+              //  Object.fromEntries(data3)
+              //);
               setCookie("pietro3", JSON.stringify(Object.fromEntries(data3)));
             }
 
             let harmonogram = {};
             for (let i = 0; i < allLights.length; i++) {
               const light = allLights[i];
-              console.log("Sprawdzam światło:", light);
+              // console.log("Sprawdzam światło:", light);
               const el = document.getElementById(`${light}_time`);
               if (el) {
                 const time = el.value;
@@ -702,11 +702,11 @@
               }
             }
 
-            console.log("Harmonogram:", harmonogram);
+            //console.log("Harmonogram:", harmonogram);
             if (Object.keys(harmonogram).length > 0) {
               await ustawHarmonogram(harmonogram);
             } else {
-              console.log("Brak harmonogramu do ustawienia.");
+              //console.log("Brak harmonogramu do ustawienia.");
             }
             modal.style.display = "none"; // zamknij modal po zapisaniu
             window.location.reload(); // odśwież stronę, aby zastosować zmiany
@@ -738,7 +738,7 @@
             d.setFullYear(d.getFullYear() + 1000); // dodaj 1000 lat
 
             const expires = "expires=" + d.toUTCString();
-            console.log("Ciasteczko wygasnie:", expires);
+            //console.log("Ciasteczko wygasnie:", expires);
             document.cookie =
               name +
               "=" +
