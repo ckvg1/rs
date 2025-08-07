@@ -10,7 +10,22 @@
 
     // Parametr GET
     $pietro = isset($_GET["pietro"]) ? intval($_GET["pietro"]) : 1;
-    $czas = isset($_GET["czas"]) ? intval($_GET["czas"]) : 2; // Domyślnie 1 to 24h
+    $czas = isset($_GET["czas"]) ? intval($_GET["czas"]) : 1; // Domyślnie 1 to 24h
+
+    // Sprawdzenie, czy piętro jest poprawne
+    if ($pietro < 1 || $pietro > 3) {
+        die("Nieprawidłowe piętro");
+    }
+
+    // Sprawdzenie, czy czas jest poprawny
+    if ($czas < 1 || $czas > 3) {
+        die("Nieprawidłowy czas");
+    }
+
+    // Ustawienie interwału w zależności od wybranego czasu
+    // 1 - 24h, 2 - 7 dni, 3 - 30 dni
+
+
     $interval;
     switch($czas) {
         case 1: // 24h
@@ -26,35 +41,8 @@
             die("Nieprawidłowy czas");
     }
     // Zapytanie SQL w zależności od piętra
-    switch($pietro){
-        case 1:
-            $sql_temp = "SELECT t1_1, t1_2, t1_3, t1_4, t1_5, t1_6, t1_7, 
-                        t_zewn, czas_dodania 
-                        FROM temperatura 
-                        WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
-                        ORDER BY czas_dodania DESC";
-            
-
-            break;
-        case 2:
-            $sql_temp = "SELECT t2_1, t2_2, t2_3, t2_4, t2_5, t2_6, t2_7, 
-                        t_zewn, czas_dodania 
-                        FROM temperatura 
-                        WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
-                        ORDER BY czas_dodania DESC";
-            
-            break;
-        case 3:
-            $sql_temp = "SELECT t3_1, t3_2, t3_3, t3_4, t3_5, t3_6, t3_7, 
-                        t_zewn, czas_dodania 
-                        FROM temperatura 
-                        WHERE czas_dodania > NOW() - INTERVAL $interval DAY 
-                        ORDER BY czas_dodania DESC";
-            
-            break;
-        default:
-            die("Nieprawidłowe piętro");
-    }
+    $sql_temp = "SELECT t{$pietro}_1, t{$pietro}_2, t{$pietro}_3, t{$pietro}_4, t{$pietro}_5, t{$pietro}_6, t{$pietro}_7, t_zewn, czas_dodania FROM temperatura WHERE czas_dodania > NOW() - INTERVAL $interval DAY ORDER BY czas_dodania DESC";
+    
 
     // Inicjalizacja tablic
     $czas = [];
@@ -120,7 +108,7 @@
     
     
 
-    // Grupowanie pomieszczeń w piętra (pomiesczczenia[][] dla temperatury, swiatla[][] dla światła)
+    // Grupowanie pomieszczeń w piętra (pomiesczczenia[][] dla temperatury
     $pomieszczenia = [
         [$t1_1, $t1_2, $t1_3, $t1_4, $t1_5, $t1_6, $t1_7],
         [$t2_1, $t2_2, $t2_3, $t2_4, $t2_5, $t2_6, $t2_7],
