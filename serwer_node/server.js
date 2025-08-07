@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const { Mutex } = require("async-mutex");
 const NodeCache = require("node-cache");
-
+const config = require("../config.js"); // Importujemy konfigurację z config.js
 const app = express();
 const port = 3000;
 app.use(cors());
@@ -85,10 +85,10 @@ const server = app.listen(port, "0.0.0.0", () => {
 // Inicjalizacja połączenia z PLC
 readConn.initiateConnection(
   {
-    port: 102,
-    host: "192.168.25.1",
-    rack: 0,
-    slot: 1,
+    port: config.plcPort,
+    host: config.plcIP,
+    rack: config.plcRack,
+    slot: connfig.plcSlot,
     debug: true,
     doNotOptimize: true, // Wyłączamy optymalizacje, żeby mieć pełną kontrolę nad odczytami/zapisami
   },
@@ -145,11 +145,11 @@ function connectedRead(err) {
   }
   writeConn.initiateConnection(
     {
-      port: 102,
-      host: "192.168.25.1",
-      rack: 0,
-      slot: 1,
-      debug: false,
+      port: config.plcPort,
+      host: config.plcIP,
+      rack: config.plcRack,
+      slot: connfig.plcSlot,
+      debug: true,
       doNotOptimize: true,
     },
     connectedWrite
