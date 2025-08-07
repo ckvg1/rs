@@ -349,38 +349,28 @@ function connectedWrite(err) {
   app.put("/harmonogram/add", (req, res) => {
     const noweWartosci = req.body; // np. { "all_OFF_l2": "17:30", "all_OFF_l3": "18:00" }
 
-    fs.readFile("harmonogram.json", "utf8", (err, data) => {
-      let harmonogram = {};
+    let harmonogram = {};
 
-      if (!err) {
-        try {
-          harmonogram = JSON.parse(data);
-        } catch (parseErr) {
-          console.error("Błąd parsowania pliku harmonogram.json:", parseErr);
-        }
-      }
-
-      // Nadpisz lub dodaj nowe wartości
-      Object.entries(noweWartosci).forEach(([key, value]) => {
-        harmonogram[key] = value;
-      });
-
-      fs.writeFile(
-        "harmonogram.json",
-        JSON.stringify(harmonogram, null, 2),
-        (err) => {
-          if (err) {
-            console.error("Błąd zapisu pliku harmonogram.json:", err);
-            return res
-              .status(500)
-              .json({ error: "Błąd zapisu pliku harmonogramu" });
-          }
-
-          console.log("Harmonogram zaktualizowany:", noweWartosci);
-          res.json({ status: "harmonogram ustawiony", harmonogram });
-        }
-      );
+    // Nadpisz lub dodaj nowe wartości
+    Object.entries(noweWartosci).forEach(([key, value]) => {
+      harmonogram[key] = value;
     });
+
+    fs.writeFile(
+      "harmonogram.json",
+      JSON.stringify(harmonogram, null, 2),
+      (err) => {
+        if (err) {
+          console.error("Błąd zapisu pliku harmonogram.json:", err);
+          return res
+            .status(500)
+            .json({ error: "Błąd zapisu pliku harmonogramu" });
+        }
+
+        console.log("Harmonogram zaktualizowany:", noweWartosci);
+        res.json({ status: "harmonogram ustawiony", harmonogram });
+      }
+    );
   });
 
   // GET: pełny harmonogram

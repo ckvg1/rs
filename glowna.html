@@ -691,11 +691,8 @@
               }
             }
 
-            console.log("Harmonogram:", harmonogram);
             if (Object.keys(harmonogram).length > 0) {
               await ustawHarmonogram(harmonogram);
-            } else {
-              console.log("Brak harmonogramu do ustawienia.");
             }
             modal.style.display = "none"; // zamknij modal po zapisaniu
             window.location.reload(); // odśwież stronę, aby zastosować zmiany
@@ -727,7 +724,6 @@
             d.setFullYear(d.getFullYear() + 1000); // dodaj 1000 lat
 
             const expires = "expires=" + d.toUTCString();
-            console.log("Ciasteczko wygasnie:", expires);
             document.cookie =
               name +
               "=" +
@@ -942,6 +938,7 @@
       const settingsIcon = document.getElementById("settings_icon");
       settingsIcon.addEventListener("click", () => {
         modal.style.display = "flex";
+        wczytajHarmonogram();
       });
       function closeModal() {
         modal.style.display = "none";
