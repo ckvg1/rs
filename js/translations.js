@@ -112,7 +112,7 @@ const dictionary = {
     "Trwa łączenie z PLC.": "Trwŏ łōnczynie ze PLC",
     "Sterowanie urządzeniami": "Panel ze kneflōma",
     "spróbuj ponownie": "sprōbōj jeszcze rŏz",
-    "Nie udało się połączyć z serwerem.": "Ni ma połōnczyni ze serwerym.",
+    "Nie udało się połączyć z serwerem.": "Niy ma połōnczynŏ ze serwerym.",
     Ustawienia: "Ustawiynia",
     Temperatura: "Tymperatura",
     Światło: "Światło",
