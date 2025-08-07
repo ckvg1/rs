@@ -1,6 +1,6 @@
 const local = localStorage.getItem("theme");
 if(local === "ciemny-motyw"){
-  document.querySelectorAll("body, header, .modal-content, .hamburger, .tab-button, .oaerror, section, .przycisk, input, select, .icons_div").forEach((el) => {
+  document.querySelectorAll("body, header, .modal-content, .hamburger, .tab-button, .oaerror, strong, section, .przycisk, input, select, .icons_div").forEach((el) => {
     el.classList.add("ciemny");
   });
 
