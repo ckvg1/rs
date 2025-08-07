@@ -37,7 +37,10 @@
           if (element.classList == "jasny") {
             element.setAttribute("src", "./img_main/icony/settings-move.gif");
           } else {
-            element.setAttribute("src", "./img_main/icony/settings-move-dark.gif");
+            element.setAttribute(
+              "src",
+              "./img_main/icony/settings-move-dark.gif"
+            );
           }
         }
         function unhover(element) {
@@ -706,7 +709,7 @@
               console.log("Brak harmonogramu do ustawienia.");
             }
             modal.style.display = "none"; // zamknij modal po zapisaniu
-            //window.location.reload(); // odśwież stronę, aby zastosować zmiany
+            window.location.reload(); // odśwież stronę, aby zastosować zmiany
           }
           async function ustawHarmonogram(harmonogram = null) {
             if (harmonogram === null) {
