@@ -32,22 +32,21 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-function hamburger(x) {
+function sleep(ms){
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+async function hamburger(x) {
   //console.log("Kliknięto hamburger menu");
   x.classList.toggle("change");
   tabsList = document.querySelector(".tabs-list");
   if (tabsList.style.right == "0px") {
     tabsList.style.right = "-300px";
+    await sleep(500)
+    tabsList.style.display= "none"
   } else {
+    tabsList.style.display= "block"
+    await sleep(1)
     tabsList.style.right = "0px";
   }
 }
 
-function znikanie() {
-  tabs_list = document.querySelector(".tabs_list");
-  burger = document.querySelector(".hamburger");
-  if (window.innerWidth <= 810) {
-    burger.classList.remove("change");
-    tabsList.style.right = "-300px";
-  }
-}

@@ -278,6 +278,9 @@ select:focus{
     margin: 6px 0;
     transition: 0.4s;
   }
+  .bar1.ciemny, .bar2.ciemny, .bar3.ciemny {
+    background-color: #ffffff;
+  }
   .change .bar1 {
     transform: translate(0, 11px) rotate(-45deg);
   }
