@@ -976,5 +976,21 @@
     </script>
     <script src="./js/tabs.js"></script>
     <script src="js/dark_mode.js"></script>
+    <script>
+      function logoF(){
+        logo = document.querySelector(".logo");
+        if (window.innerWidth <= 810) {
+          logo.src = "img_main/logo.png";
+        }
+        else if(document.body.classList.contains("ciemny")){
+          logo.src = "img_main/logo-dark.svg";
+        }
+        else {
+          logo.src = "img_main/logo.svg";
+        }
+      }
+      window.addEventListener('resize', logoF)
+      window.addEventListener('load', logoF)
+    </script>
   </body>
 </html>

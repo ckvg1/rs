@@ -7,7 +7,6 @@ if(local === "ciemny-motyw"){
 
   document.getElementById("settings_icon").classList.add("ciemny");
 
-  document.querySelector(".logo").src = "img_main/logo-dark.svg"
   document.getElementById("settings_icon").src = "./img_main/icony/settings-dark.png";
   document.getElementById("dark-mode").src = "img_main/icony/dark-mode-dark.png"
 }
