@@ -11,6 +11,7 @@
     <script src="./js/translations.js"></script>
     <script src="./js/load_translation.js"></script>
     <script src="sterowanie/axios.min.js"></script>
+    <script src="config.js"></script>
   </head>
   <body class="jasny">
     <header id="header">
@@ -732,12 +733,12 @@
                 all_OFF_l2: `${godzina}`,
               };
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/add`,
+                `${window.config.apiBaseUrl}/harmonogram/add`,
                 harmonogram
               );
             } else {
               await axios.put(
-                `http://192.168.25.59:3000/harmonogram/add`,
+                `${window.config.apiBaseUrl}/harmonogram/add`,
 
                 harmonogram
               );
@@ -904,7 +905,7 @@
           });
           async function wczytajHarmonogram() {
             const harmonogram = await axios.get(
-              `http://192.168.25.59:3000/harmonogram`
+              `${window.config.apiBaseUrl}/harmonogram`
             );
             Object.entries(harmonogram["data"]).forEach(([key, value]) => {
               const el = document.getElementById(`${key}_time`);
