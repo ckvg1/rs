@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 iframe {
@@ -248,7 +248,8 @@ select:focus{
     top: 70px;
     right: -300px;
     border: #007bff 1px solid;
-    background-color: #007bffde;
+    /* background-color: #007bffde; */
+    background-color: #fff;
     transition: 0.5s;
   }
   .tab-button {
@@ -277,6 +278,9 @@ select:focus{
     background-color: #333;
     margin: 6px 0;
     transition: 0.4s;
+  }
+  .bar1.ciemny, .bar2.ciemny, .bar3.ciemny {
+    background-color: #ffffff;
   }
   .change .bar1 {
     transform: translate(0, 11px) rotate(-45deg);
