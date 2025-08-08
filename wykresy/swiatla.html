@@ -157,6 +157,7 @@
         fetch(endpoint)
           .then((res) => res.json())
           .then((dane) => {
+            console.log(Object.values(dane));
             if (!sprawdzCzySaDane(Object.values(dane))) {
               alertBox.style.display = "block";
               document.querySelector(".oaerror").innerHTML =
