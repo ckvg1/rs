@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 const { Mutex } = require("async-mutex");
 const NodeCache = require("node-cache");
-const config = require("../config.js"); // Importujemy konfigurację z config.js
 const app = express();
 const port = 3000;
 app.use(cors());
