@@ -50,3 +50,10 @@ async function hamburger(x) {
   }
 }
 
+function znikanie() {
+  tabs_list = document.querySelector(".tabs_list");
+  burger = document.querySelector(".hamburger");
+  if (window.innerWidth <= 810) {
+    tabsList.style.right = "-300px";
+  }
+}
