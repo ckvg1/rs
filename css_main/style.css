@@ -247,7 +247,7 @@ select:focus {
   }
   .tabs-list {
     list-style: none;
-    display: block;
+    display: none;
     padding: 10px 0 0 10px;
     position: absolute;
     width: 200px;

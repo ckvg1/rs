@@ -65,7 +65,7 @@ async function znikanie() {
 
 function pojawianie(){
   tabsList = document.querySelector(".tabs-list");
-  if(window.innerWidth >= 810){
+  if(window.innerWidth > 810){
     tabsList.style.display= "flex"
   }
   else{
