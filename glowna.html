@@ -193,7 +193,7 @@
         <h2>Ustawienia</h2>
         <p>Zmieniaj nazwy czujników i pomieszczeń.</p>
         <select id="pietro_settings_select" onchange="zmienPietroUstawienia()">
-          <option disabled value="pietro1">Piętro 1</option>
+          <option value="pietro1">Piętro 1</option>
           <option value="pietro2">Piętro 2</option>
           <option selected="selected" value="pietro3">Piętro 3</option>
         </select>
@@ -201,62 +201,76 @@
           <form id="settingsForm1" class="settings_forms">
             <div id="tabelka1">
               <div class="swiatla_div" id="swiatla_div_1">
-                <label for="l1_1_1">Światło 1_1:</label>
-                <input type="text" id="l1_1_1" name="l1_1_1" value="1_1_1" />
-                <input type="time" id="l1_1_1_time" />
-                <br />
-                <label for="l1_1_2">Światło 1_2:</label>
-                <input type="text" id="l1_1_2" name="l1_1_2" value="1_1_2" />
-                <input type="time" id="l1_1_2_time" />
-                <br />
-                <label for="l1_2_1">Światło 2_1:</label>
-                <input type="text" id="l1_2_1" name="l1_2_1" value="1_2_1" />
-                <input type="time" id="l1_2_1_time" />
-                <br />
-                <label for="l1_2_2">Światło 2_2:</label>
-                <input type="text" id="l1_2_2" name="l1_2_2" value="1_2_2" />
-                <input type="time" id="l1_2_2_time" />
-                <br />
-                <label for="l1_3_1">Światło 3_1:</label>
-                <input type="text" id="l1_3_1" name="l1_3_1" value="1_3_1" />
-                <input type="time" id="l1_3_1_time" />
-                <br />
-                <label for="l1_3_2">Światło 3_2:</label>
-                <input type="text" id="l1_3_2" name="l1_3_2" value="1_3_2" />
-                <input type="time" id="l1_3_2_time" />
-                <br />
-                <label for="l1_4_1">Światło 4_1:</label>
-                <input type="text" id="l1_4_1" name="l1_4_1" value="1_4_1" />
-                <input type="time" id="l1_4_1time" />
-                <br />
-                <label for="l1_4_2">Światło 4_2:</label>
-                <input type="text" id="l1_4_2" name="l1_4_2" value="1_4_2" />
-                <input type="time" id="l1_4_2_time" />
-                <br />
-                <label for="l1_5_1">Światło 5_1:</label>
-                <input type="text" id="l1_5_1" name="l1_5_1" value="1_5_1" />
-                <input type="time" id="l1_5_1_time" />
-                <br />
-                <label for="l1_5_2">Światło 5_2:</label>
-                <input type="text" id="l1_5_2" name="l1_5_2" value="1_5_2" />
-                <input type="time" id="l1_5_2_time" />
-                <br />
-                <label for="l1_6_1">Światło 6_1:</label>
-                <input type="text" id="l1_6_1" name="l1_6_1" value="1_6_1" />
-                <input type="time" id="l1_6_1_time" />
-                <br />
-                <label for="l1_6_2">Światło 6_2:</label>
-                <input type="text" id="l1_6_2" name="l1_6_2" value="1_6_2" />
-                <input type="time" id="l1_6_2_time" />
-                <br />
-                <label for="l1_7_1">Światło 7_1:</label>
-                <input type="text" id="l1_7_1" name="l1_7_1" value="1_7_1" />
-                <input type="time" id="l1_7_1_time" />
-                <br />
-                <label for="l1_7_2">Światło 7_2:</label>
-                <input type="text" id="l1_7_2" name="l1_7_2" value="1_7_2" />
-                <input type="time" id="l1_7_2_time" />
-                <br />
+                <div class="settingsInput">
+                  <label for="l1_1_1">Światło 1_1:</label>
+                  <input type="text" id="l1_1_1" name="l1_1_1" value="1_1_1" />
+                  <input type="time" id="l1_1_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_1_2">Światło 1_2:</label>
+                  <input type="text" id="l1_1_2" name="l1_1_2" value="1_1_2" />
+                  <input type="time" id="l1_1_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_2_1">Światło 2_1:</label>
+                  <input type="text" id="l1_2_1" name="l1_2_1" value="1_2_1" />
+                  <input type="time" id="l1_2_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_2_2">Światło 2_2:</label>
+                  <input type="text" id="l1_2_2" name="l1_2_2" value="1_2_2" />
+                  <input type="time" id="l1_2_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_3_1">Światło 3_1:</label>
+                  <input type="text" id="l1_3_1" name="l1_3_1" value="1_3_1" />
+                  <input type="time" id="l1_3_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_3_2">Światło 3_2:</label>
+                  <input type="text" id="l1_3_2" name="l1_3_2" value="1_3_2" />
+                  <input type="time" id="l1_3_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_4_1">Światło 4_1:</label>
+                  <input type="text" id="l1_4_1" name="l1_4_1" value="1_4_1" />
+                  <input type="time" id="l1_4_1time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_4_2">Światło 4_2:</label>
+                  <input type="text" id="l1_4_2" name="l1_4_2" value="1_4_2" />
+                  <input type="time" id="l1_4_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_5_1">Światło 5_1:</label>
+                  <input type="text" id="l1_5_1" name="l1_5_1" value="1_5_1" />
+                  <input type="time" id="l1_5_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_5_2">Światło 5_2:</label>
+                  <input type="text" id="l1_5_2" name="l1_5_2" value="1_5_2" />
+                  <input type="time" id="l1_5_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_6_1">Światło 6_1:</label>
+                  <input type="text" id="l1_6_1" name="l1_6_1" value="1_6_1" />
+                  <input type="time" id="l1_6_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_6_2">Światło 6_2:</label>
+                  <input type="text" id="l1_6_2" name="l1_6_2" value="1_6_2" />
+                  <input type="time" id="l1_6_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_7_1">Światło 7_1:</label>
+                  <input type="text" id="l1_7_1" name="l1_7_1" value="1_7_1" />
+                  <input type="time" id="l1_7_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l1_7_2">Światło 7_2:</label>
+                  <input type="text" id="l1_7_2" name="l1_7_2" value="1_7_2" />
+                  <input type="time" id="l1_7_2_time" />
+                </div>
               </div>
               <div class="czujniki_div" id="czujniki_div_1">
                 <label for="t1_1">t1_1:</label>
@@ -323,62 +337,76 @@
           <form id="settingsForm2" class="settings_forms">
             <div id="tabelka2">
               <div class="swiatla_div" id="swiatla_div_2">
-                <label for="l2_1_1">Światło 1_1:</label>
-                <input type="text" id="l2_1_1" name="l2_1_1" value="2_1_1" />
-                <input type="time" id="l2_1_1_time" />
-                <br />
-                <label for="l2_1_2">Światło 1_2:</label>
-                <input type="text" id="l2_1_2" name="l2_1_2" value="2_1_2" />
-                <input type="time" id="l2_1_2_time" />
-                <br />
-                <label for="l2_2_1">Światło 2_1:</label>
-                <input type="text" id="l2_2_1" name="l2_2_1" value="2_2_1" />
-                <input type="time" id="l2_2_1_time" />
-                <br />
-                <label for="l2_2_2">Światło 2_2:</label>
-                <input type="text" id="l2_2_2" name="l2_2_2" value="2_2_2" />
-                <input type="time" id="l2_2_2_time" />
-                <br />
-                <label for="l2_3_1">Światło 3_1:</label>
-                <input type="text" id="l2_3_1" name="l2_3_1" value="2_3_1" />
-                <input type="time" id="l2_3_1_time" />
-                <br />
-                <label for="l2_3_2">Światło 3_2:</label>
-                <input type="text" id="l2_3_2" name="l2_3_2" value="2_3_2" />
-                <input type="time" id="l2_3_2_time" />
-                <br />
-                <label for="l2_4_1">Światło 4_1:</label>
-                <input type="text" id="l2_4_1" name="l2_4_1" value="2_4_1" />
-                <input type="time" id="l2_4_1_time" />
-                <br />
-                <label for="l2_4_2">Światło 4_2:</label>
-                <input type="text" id="l2_4_2" name="l2_4_2" value="2_4_2" />
-                <input type="time" id="l2_4_2_time" />
-                <br />
-                <label for="l2_5_1">Światło 5_1:</label>
-                <input type="text" id="l2_5_1" name="l2_5_1" value="2_5_1" />
-                <input type="time" id="l2_5_1_time" />
-                <br />
-                <label for="l2_5_2">Światło 5_2:</label>
-                <input type="text" id="l2_5_2" name="l2_5_2" value="2_5_2" />
-                <input type="time" id="l2_5_2_time" />
-                <br />
-                <label for="l2_6_1">Światło 6_1:</label>
-                <input type="text" id="l2_6_1" name="l2_6_1" value="2_6_1" />
-                <input type="time" id="l2_6_1_time" />
-                <br />
-                <label for="l2_6_2">Światło 6_2:</label>
-                <input type="text" id="l2_6_2" name="l2_6_2" value="2_6_2" />
-                <input type="time" id="l2_6_2_time" />
-                <br />
-                <label for="l2_7_1">Światło 7_1:</label>
-                <input type="text" id="l2_7_1" name="l2_7_1" value="2_7_1" />
-                <input type="time" id="l2_7_1_time" />
-                <br />
-                <label for="l2_7_2">Światło 7_2:</label>
-                <input type="text" id="l2_7_2" name="l2_7_2" value="2_7_2" />
-                <input type="time" id="l2_7_2_time" />
-                <br />
+                <div class="settingsInput">
+                  <label for="l2_1_1">Światło 1_1:</label>
+                  <input type="text" id="l2_1_1" name="l2_1_1" value="2_1_1" />
+                  <input type="time" id="l2_1_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_1_2">Światło 1_2:</label>
+                  <input type="text" id="l2_1_2" name="l2_1_2" value="2_1_2" />
+                  <input type="time" id="l2_1_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_2_1">Światło 2_1:</label>
+                  <input type="text" id="l2_2_1" name="l2_2_1" value="2_2_1" />
+                  <input type="time" id="l2_2_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_2_2">Światło 2_2:</label>
+                  <input type="text" id="l2_2_2" name="l2_2_2" value="2_2_2" />
+                  <input type="time" id="l2_2_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_3_1">Światło 3_1:</label>
+                  <input type="text" id="l2_3_1" name="l2_3_1" value="2_3_1" />
+                  <input type="time" id="l2_3_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_3_2">Światło 3_2:</label>
+                  <input type="text" id="l2_3_2" name="l2_3_2" value="2_3_2" />
+                  <input type="time" id="l2_3_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_4_1">Światło 4_1:</label>
+                  <input type="text" id="l2_4_1" name="l2_4_1" value="2_4_1" />
+                  <input type="time" id="l2_4_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_4_2">Światło 4_2:</label>
+                  <input type="text" id="l2_4_2" name="l2_4_2" value="2_4_2" />
+                  <input type="time" id="l2_4_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_5_1">Światło 5_1:</label>
+                  <input type="text" id="l2_5_1" name="l2_5_1" value="2_5_1" />
+                  <input type="time" id="l2_5_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_5_2">Światło 5_2:</label>
+                  <input type="text" id="l2_5_2" name="l2_5_2" value="2_5_2" />
+                  <input type="time" id="l2_5_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_6_1">Światło 6_1:</label>
+                  <input type="text" id="l2_6_1" name="l2_6_1" value="2_6_1" />
+                  <input type="time" id="l2_6_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_6_2">Światło 6_2:</label>
+                  <input type="text" id="l2_6_2" name="l2_6_2" value="2_6_2" />
+                  <input type="time" id="l2_6_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_7_1">Światło 7_1:</label>
+                  <input type="text" id="l2_7_1" name="l2_7_1" value="2_7_1" />
+                  <input type="time" id="l2_7_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l2_7_2">Światło 7_2:</label>
+                  <input type="text" id="l2_7_2" name="l2_7_2" value="2_7_2" />
+                  <input type="time" id="l2_7_2_time" />
+                </div>
               </div>
               <div class="czujniki_div" id="czujniki_div_2">
                 <label for="t2_1">t2_1:</label>
@@ -443,62 +471,82 @@
           <form id="settingsForm3" class="settings_forms">
             <div id="tabelka3">
               <div class="swiatla_div" id="swiatla_div_3">
-                <label for="l3_1_1">Światło 1_1:</label>
-                <input type="text" id="l3_1_1" name="l3_1_1" value="3_1_1" />
-                <input type="time" id="l3_1_1_time" />
-                <br />
-                <label for="l3_1_2">Światło 1_2:</label>
-                <input type="text" id="l3_1_2" name="l3_1_2" value="3_1_2" />
-                <input type="time" id="l3_1_2_time" />
-                <br />
-                <label for="l3_2_1">Światło 2_1:</label>
-                <input type="text" id="l3_2_1" name="l3_2_1" value="3_2_1" />
-                <input type="time" id="l3_2_1_time" />
-                <br />
-                <label for="l3_2_2">Światło 2_2:</label>
-                <input type="text" id="l3_2_2" name="l3_2_2" value="3_2_2" />
-                <input type="time" id="l3_2_2_time" />
-                <br />
-                <label for="l3_3_1">Światło 3_1:</label>
-                <input type="text" id="l3_3_1" name="l3_3_1" value="3_3_1" />
-                <input type="time" id="l3_3_1_time" />
-                <br />
-                <label for="l3_3_2">Światło 3_2:</label>
-                <input type="text" id="l3_3_2" name="l3_3_2" value="3_3_2" />
-                <input type="time" id="l3_3_2_time" />
-                <br />
-                <label for="l3_4_1">Światło 4_1:</label>
-                <input type="text" id="l3_4_1" name="l3_4_1" value="3_4_1" />
-                <input type="time" id="l3_4_1_time" />
-                <br />
-                <label for="l3_4_2">Światło 4_2:</label>
-                <input type="text" id="l3_4_2" name="l3_4_2" value="3_4_2" />
-                <input type="time" id="l3_4_2_time" />
-                <br />
-                <label for="l3_5_1">Światło 5_1:</label>
-                <input type="text" id="l3_5_1" name="l3_5_1" value="3_5_1" />
-                <input type="time" id="l3_5_1_time" />
-                <br />
-                <label for="l3_5_2">Światło 5_2:</label>
-                <input type="text" id="l3_5_2" name="l3_5_2" value="3_5_2" />
-                <input type="time" id="l3_5_2_time" />
-                <br />
-                <label for="l3_6_1">Światło 6_1:</label>
-                <input type="text" id="l3_6_1" name="l3_6_1" value="3_6_1" />
-                <input type="time" id="l3_6_1_time" />
-                <br />
-                <label for="l3_6_2">Światło 6_2:</label>
-                <input type="text" id="l3_6_2" name="l3_6_2" value="3_6_2" />
-                <input type="time" id="l3_6_2_time" />
-                <br />
-                <label for="l3_7_1">Światło 7_1:</label>
-                <input type="text" id="l3_7_1" name="l3_7_1" value="3_7_1" />
-                <input type="time" id="l3_7_1_time" />
-                <br />
-                <label for="l3_7_2">Światło 7_2:</label>
-                <input type="text" id="l3_7_2" name="l3_7_2" value="3_7_2" />
-                <input type="time" id="l3_7_2_time" />
-                <br />
+                <div class="settingsInput">
+                  <label for="l3_1_1">Światło 1_1:</label>
+                  <input type="text" id="l3_1_1" name="l3_1_1" value="3_1_1" />
+                  <input type="time" id="l3_1_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_1_2">Światło 1_2:</label>
+                  <input type="text" id="l3_1_2" name="l3_1_2" value="3_1_2" />
+                  <input type="time" id="l3_1_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_2_1">Światło 2_1:</label>
+                  <input
+                    style="width: 20%"
+                    type="text"
+                    id="l3_2_1"
+                    name="l3_2_1"
+                    value="3_2_1"
+                  />
+                  <input style="width: 20%" type="time" id="l3_2_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_2_2">Światło 2_2:</label>
+                  <input type="text" id="l3_2_2" name="l3_2_2" value="3_2_2" />
+                  <input type="time" id="l3_2_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_3_1">Światło 3_1:</label>
+                  <input type="text" id="l3_3_1" name="l3_3_1" value="3_3_1" />
+                  <input type="time" id="l3_3_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_3_2">Światło 3_2:</label>
+                  <input type="text" id="l3_3_2" name="l3_3_2" value="3_3_2" />
+                  <input type="time" id="l3_3_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_4_1">Światło 4_1:</label>
+                  <input type="text" id="l3_4_1" name="l3_4_1" value="3_4_1" />
+                  <input type="time" id="l3_4_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_4_2">Światło 4_2:</label>
+                  <input type="text" id="l3_4_2" name="l3_4_2" value="3_4_2" />
+                  <input type="time" id="l3_4_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_5_1">Światło 5_1:</label>
+                  <input type="text" id="l3_5_1" name="l3_5_1" value="3_5_1" />
+                  <input type="time" id="l3_5_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_5_2">Światło 5_2:</label>
+                  <input type="text" id="l3_5_2" name="l3_5_2" value="3_5_2" />
+                  <input type="time" id="l3_5_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_6_1">Światło 6_1:</label>
+                  <input type="text" id="l3_6_1" name="l3_6_1" value="3_6_1" />
+                  <input type="time" id="l3_6_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_6_2">Światło 6_2:</label>
+                  <input type="text" id="l3_6_2" name="l3_6_2" value="3_6_2" />
+                  <input type="time" id="l3_6_2_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_7_1">Światło 7_1:</label>
+                  <input type="text" id="l3_7_1" name="l3_7_1" value="3_7_1" />
+                  <input type="time" id="l3_7_1_time" />
+                </div>
+                <div class="settingsInput">
+                  <label for="l3_7_2">Światło 7_2:</label>
+                  <input type="text" id="l3_7_2" name="l3_7_2" value="3_7_2" />
+                  <input type="time" id="l3_7_2_time" />
+                </div>
               </div>
               <div class="czujniki_div" id="czujniki_div_3">
                 <label for="t3_1">t3_1:</label>
@@ -561,7 +609,7 @@
         <button
           id="reset"
           title="Naciśnij dwukrotnie aby zresetowac nazwy"
-          ondblclick="resetujNazwy()"
+          onclick="resetujNazwy()"
         >
           Reset
         </button>
