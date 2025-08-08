@@ -55,7 +55,23 @@ async function znikanie() {
   burger = document.querySelector(".hamburger");
   if (window.innerWidth <= 810) {
     tabsList.style.right = "-300px";
+    burger.classList.toggle("change");
     await sleep(500)
     tabsList.style.display= "none"
   }
+  else{
+    tabsList.style.display= "block"
+  }
 }
+
+function pojawianie(){
+  tabs_list = document.querySelector(".tabs_list");
+  if(window.innerWidth >= 810){
+    tabsList.style.display= "flex"
+  }
+  else{
+    tabsList.style.display= "block"
+  }
+}
+
+window.addEventListener('resize', pojawianie)
