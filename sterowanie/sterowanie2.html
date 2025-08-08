@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="../css_main/glowny.css" />
     <link rel="stylesheet" href="../css_main/sterowanie.css" />
     <link rel="stylesheet" href="../css_main/czcionka.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="../img_main/icon.png" />
+    <script src="../config.js"></script>
     <script src="../js/translations.js"></script>
   </head>
   <body>
@@ -283,7 +285,7 @@
           showAlert();
         }, 10000);
         const swiatlaStream = new EventSource(
-          `http://192.168.25.59:3000/stream/swiatla`
+          `${window.config.apiBaseUrl}/stream/swiatla`
         );
         swiatlaStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -300,7 +302,7 @@
           });
         };
         const temperaturaStream = new EventSource(
-          `http://192.168.25.59:3000/stream/temperatura`
+          `${window.config.apiBaseUrl}/stream/temperatura`
         );
         temperaturaStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -313,7 +315,7 @@
         };
 
         const roletyStream = new EventSource(
-          `http://192.168.25.59:3000/stream/rolety`
+          `${window.config.apiBaseUrl}/stream/rolety`
         );
         roletyStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -360,12 +362,12 @@
         isFetchingLight = true;
         try {
           // Najpierw wł.
-          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
+          await axios.put(`${window.config.apiBaseUrl}/swiatla/${swiatlo}`, {
             wartosc: true,
           });
           // Następnie wył.
 
-          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
+          await axios.put(`${window.config.apiBaseUrl}/swiatla/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -380,10 +382,10 @@
         if (isFetchingBlinds) return;
         isFetchingBlinds = true;
         try {
-          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
+          await axios.put(`${window.config.apiBaseUrl}/rolety/${roleta}`, {
             wartosc: true,
           });
-          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
+          await axios.put(`${window.config.apiBaseUrl}/rolety/${roleta}`, {
             wartosc: false,
           });
         } catch (err) {
