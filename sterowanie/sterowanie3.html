@@ -43,16 +43,16 @@
       <div class="blokZarowki" id="blokZarowki3_1">
         <a onmousedown="wyslijTrue('l3_1_1')" style="cursor: pointer">
           <img
-          id="wyj_l3_1_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+            id="wyj_l3_1_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
           />
         </a>
         <a onmousedown="wyslijTrue('l3_1_2')" style="cursor: pointer">
           <img
-          id="wyj_l3_1_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+            id="wyj_l3_1_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
           />
         </a>
       </div>
@@ -98,7 +98,7 @@
       <div class="temperatura" id="t3_3">Błąd odczytu</div>
       <div class="nazwaBiura" id="nazwa3_3"></div>
 
-      <div class="blokZarowki" id="blokZarowki3_4">      
+      <div class="blokZarowki" id="blokZarowki3_4">
         <a onmousedown="wyslijTrue('l3_4_1')" style="cursor: pointer">
           <img
             id="wyj_l3_4_1"
@@ -114,7 +114,7 @@
           />
         </a>
       </div>
-      <div class="blokRolety" id="blokRolety3_4">  
+      <div class="blokRolety" id="blokRolety3_4">
         <img
           id="b3_r4_1"
           class="strzalka"
@@ -147,7 +147,7 @@
           />
         </a>
       </div>
-      <div class="blokRolety" id="blokRolety3_5"> 
+      <div class="blokRolety" id="blokRolety3_5">
         <img
           id="b3_r5_1"
           class="strzalka"
@@ -163,7 +163,7 @@
       </div>
       <div class="temperatura" id="t3_5">Błąd odczytu</div>
       <div class="nazwaBiura" id="nazwa3_5"></div>
-      
+
       <div class="blokZarowki" id="blokZarowki3_6">
         <a onmousedown="wyslijTrue('l3_6_1')" style="cursor: pointer">
           <img
@@ -180,7 +180,7 @@
           />
         </a>
       </div>
-      <div class="blokRolety" id="blokRolety3_6"> 
+      <div class="blokRolety" id="blokRolety3_6">
         <img
           id="b3_r6_1"
           class="strzalka"
@@ -200,39 +200,39 @@
       <div class="blokZarowki" id="blokZarowki3_7">
         <a onmousedown="wyslijTrue('l3_7_1')" style="cursor: pointer">
           <img
-          id="wyj_l3_7_1"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+            id="wyj_l3_7_1"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
           />
         </a>
         <a onmousedown="wyslijTrue('l3_7_2')" style="cursor: pointer">
           <img
-          id="wyj_l3_7_2"
-          class="zarowka"
-          src="../img_main/icony/bulb_on.png "
+            id="wyj_l3_7_2"
+            class="zarowka"
+            src="../img_main/icony/bulb_on.png "
           />
         </a>
       </div>
-      <div class="blokRolety" id="blokRolety3_7"> 
+      <div class="blokRolety" id="blokRolety3_7">
         <img
-        id="b3_r7_1"
-        class="strzalka"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b3_r7_1')"
+          id="b3_r7_1"
+          class="strzalka"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b3_r7_1')"
         />
         <img
-        id="b3_r7_2"
-        class="strzalka odwrot"
-        src="../img_main/icony/arrow.png"
-        onmousedown="roletaWlacz('b3_r7_2')"
+          id="b3_r7_2"
+          class="strzalka odwrot"
+          src="../img_main/icony/arrow.png"
+          onmousedown="roletaWlacz('b3_r7_2')"
         />
       </div>
       <div class="temperatura" id="t3_7">Błąd odczytu</div>
       <div class="nazwaBiura" id="nazwa3_7"></div>
     </div>
 
-    <script>
-      import config from "../config.js";
+    <script >
+    
 
       function delay(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
@@ -245,11 +245,11 @@
       function reconnectStreams() {
         location.reload(); // odświeżenie strony w celu ponownego nawiązania połączenia z serwerem
       }
-
+      let no_internet = "../img_main/icony/no-internet.png";
       function showAlert(
         message = "<strong>Uwaga</strong> - Nie udało się połączyć z serwerem. <img src='" +
           no_internet +
-          "' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
+          "' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='window.location.reload()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
       ) {
         if (document.body.classList.contains("ciemny")) {
           no_internet = "../img_main/icony/no-internet-dark.png";
@@ -271,7 +271,7 @@
           showAlert();
         }, 10000);
         const swiatlaStream = new EventSource(
-          `${config.apiBaseUrl}/stream/swiatla`
+          `http://192.168.25.59:3000/stream/swiatla`
         );
         swiatlaStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -288,7 +288,7 @@
           });
         };
         const temperaturaStream = new EventSource(
-          `${config.apiBaseUrl}/stream/temperatura`
+          `http://192.168.25.59:3000/stream/temperatura`
         );
         temperaturaStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -301,7 +301,7 @@
         };
 
         const roletyStream = new EventSource(
-          `${config.apiBaseUrl}/stream/rolety`
+          `http://192.168.25.59:3000/stream/rolety`
         );
         roletyStream.onmessage = (event) => {
           clearTimeout(connectionTimeout);
@@ -348,12 +348,12 @@
         try {
           isFetchingLight = true;
           // Najpierw wł.
-          await axios.put(`${config.apiBaseUrl}/swiatla/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
             wartosc: true,
           });
 
           //Potem false
-          await axios.put(`${config.apiBaseUrl}/swiatla/${swiatlo}`, {
+          await axios.put(`http://192.168.25.59:3000/swiatla/${swiatlo}`, {
             wartosc: false,
           });
         } catch (err) {
@@ -368,10 +368,10 @@
         if (isFetchingBlinds) return;
         isFetchingBlinds = false;
         try {
-          await axios.put(`${config.apiBaseUrl}/rolety/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
             wartosc: true,
           });
-          await axios.put(`${config.apiBaseUrl}/rolety/${roleta}`, {
+          await axios.put(`http://192.168.25.59:3000/rolety/${roleta}`, {
             wartosc: false,
           });
         } catch (err) {

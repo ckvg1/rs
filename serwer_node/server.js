@@ -85,10 +85,10 @@ const server = app.listen(port, "0.0.0.0", () => {
 // Inicjalizacja połączenia z PLC
 readConn.initiateConnection(
   {
-    port: config.plcPort,
-    host: config.plcIP,
-    rack: config.plcRack,
-    slot: connfig.plcSlot,
+    port: 102,
+    host: "192.168.25.1",
+    rack: 0,
+    slot: 1,
     debug: true,
     doNotOptimize: true, // Wyłączamy optymalizacje, żeby mieć pełną kontrolę nad odczytami/zapisami
   },
@@ -145,12 +145,12 @@ function connectedRead(err) {
   }
   writeConn.initiateConnection(
     {
-      port: config.plcPort,
-      host: config.plcIP,
-      rack: config.plcRack,
-      slot: connfig.plcSlot,
+      port: 102,
+      host: "192.168.25.1",
+      rack: 0,
+      slot: 1,
       debug: true,
-      doNotOptimize: true,
+      doNotOptimize: true, // Wyłączamy optymalizacje, żeby mieć pełną kontrolę nad odczytami/zapisami
     },
     connectedWrite
   );
