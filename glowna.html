@@ -730,12 +730,12 @@
                 all_OFF_l2: `${godzina}`,
               };
               await axios.put(
-                `${config.apiBaseUrl}/harmonogram/add`,
+                `http://192.168.25.59:3000/harmonogram/add`,
                 harmonogram
               );
             } else {
               await axios.put(
-                `${config.apiBaseUrl}/harmonogram/add`,
+                `http://192.168.25.59:3000/harmonogram/add`,
 
                 harmonogram
               );
@@ -902,7 +902,7 @@
           });
           async function wczytajHarmonogram() {
             const harmonogram = await axios.get(
-              `${config.apiBaseUrl}/harmonogram`
+              `http://192.168.25.59:3000/harmonogram`
             );
             Object.entries(harmonogram["data"]).forEach(([key, value]) => {
               const el = document.getElementById(`${key}_time`);
