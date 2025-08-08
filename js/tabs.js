@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 });
-function sleep(ms){
-  return new Promise(resolve => setTimeout(resolve, ms))
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 async function hamburger(x) {
   //console.log("Kliknięto hamburger menu");
@@ -41,11 +41,11 @@ async function hamburger(x) {
   tabsList = document.querySelector(".tabs-list");
   if (tabsList.style.right == "0px") {
     tabsList.style.right = "-300px";
-    await sleep(500)
-    tabsList.style.display= "none"
+    await sleep(500);
+    tabsList.style.display = "none";
   } else {
-    tabsList.style.display= "block"
-    await sleep(1)
+    tabsList.style.display = "block";
+    await sleep(1);
     tabsList.style.right = "0px";
   }
 }
@@ -56,22 +56,20 @@ async function znikanie() {
   if (window.innerWidth <= 810) {
     tabsList.style.right = "-300px";
     burger.classList.toggle("change");
-    await sleep(500)
-    tabsList.style.display= "none"
-  }
-  else{
-    tabsList.style.display= "block"
+    await sleep(500);
+    tabs_list.style.display = "none";
+  } else {
+    tabs_list.style.display = "block";
   }
 }
 
-function pojawianie(){
+function pojawianie() {
   tabs_list = document.querySelector(".tabs_list");
-  if(window.innerWidth >= 810){
-    tabsList.style.display= "flex"
-  }
-  else{
-    tabsList.style.display= "block"
+  if (window.innerWidth >= 810) {
+    tabs_list.style.display = "flex";
+  } else {
+    tabs_list.style.display = "block";
   }
 }
 
-window.addEventListener('resize', pojawianie)
+window.addEventListener("resize", pojawianie);
