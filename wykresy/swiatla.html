@@ -7,6 +7,7 @@
     <script src="js/heatmap.js"></script>
     <!-- -->
     <script src="js/plotly.min.js" charset="utf-8"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <link rel="icon" type="image/x-icon" href="../img_main/icon.png" />
     <link rel="stylesheet" href="../css_main/glowny.css" />
@@ -247,7 +248,7 @@
             ];
             let j = 0,
               max = 0;
-            
+
             for (let i = 0; i < czujniki.length; i += 2) {
               const point = {
                 x: cords[j][0],
