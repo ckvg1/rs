@@ -51,7 +51,7 @@ async function hamburger(x) {
 }
 
 async function znikanie() {
-  tabs_list = document.querySelector(".tabs_list");
+  tabsList = document.querySelector(".tabs-list");
   burger = document.querySelector(".hamburger");
   if (window.innerWidth <= 810) {
     tabsList.style.right = "-300px";
@@ -65,7 +65,7 @@ async function znikanie() {
 }
 
 function pojawianie(){
-  tabs_list = document.querySelector(".tabs_list");
+  tabsList = document.querySelector(".tabs-list");
   if(window.innerWidth >= 810){
     tabsList.style.display= "flex"
   }
