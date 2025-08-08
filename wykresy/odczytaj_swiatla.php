@@ -2,6 +2,21 @@
 $conn = mysqli_connect("localhost","root","","plc_database");
 $sql = "SELECT * FROM `light` WHERE data > now() - INTERVAL 1 day ";
 
+$l0_1_1 = []; 
+$l0_1_2 = [];
+$l0_2_1 = [];
+$l0_2_2 = [];
+$l0_3_1 = [];
+$l0_3_2 = [];
+$l0_4_1 = [];
+$l0_4_2 = [];
+$l0_5_1 = [];
+$l0_5_2 = [];
+$l0_6_1 = [];
+$l0_6_2 = [];
+$l0_7_1 = [];
+$l0_7_2 = [];
+
 $l1_1_1 = []; 
 $l1_1_2 = [];
 $l1_2_1 = [];
@@ -67,6 +82,21 @@ if(isset($_GET["pietro"])) {
 $result = mysqli_query($conn, $sql);
 
 while ($row=mysqli_fetch_assoc($result)) {
+    $l0_1_1[] = $row['l0_1_1']; 
+    $l0_1_2[] = $row['l0_1_2'];
+    $l0_2_1[] = $row['l0_2_1'];
+    $l0_2_2[] = $row['l0_2_2'];
+    $l0_3_1[] = $row['l0_3_1'];
+    $l0_3_2[] = $row['l0_3_2'];
+    $l0_4_1[] = $row['l0_4_1'];
+    $l0_4_2[] = $row['l0_4_2'];
+    $l0_5_1[] = $row['l0_5_1'];
+    $l0_5_2[] = $row['l0_5_2'];
+    $l0_6_1[] = $row['l0_6_1'];
+    $l0_6_2[] = $row['l0_6_2'];
+    $l0_7_1[] = $row['l0_7_1'];
+    $l0_7_2[] = $row['l0_7_2'];
+
     $l1_1_1[] = $row['l1_1_1']; 
     $l1_1_2[] = $row['l1_1_2'];
     $l1_2_1[] = $row['l1_2_1'];
@@ -115,10 +145,27 @@ while ($row=mysqli_fetch_assoc($result)) {
 }
 if(!isset($_GET['wszystko']) || $wyswietl_wszystkie_dane != 'true') {
 
-    // Wysyła dane procentowe dla pary czujników
-    // Dla czujnika 1_1 zwróci to samo co dla czujnika 1_2
+
 
     $response = [];
+   if($pietro == 0) {
+        $response = [
+        'l0_1_1'=>policzProcentDlaParyCzujnikow($l0_1_1, $l0_1_2),
+        'l0_1_2'=>policzProcentDlaParyCzujnikow($l0_1_1, $l0_1_2),
+        'l0_2_1'=>policzProcentDlaParyCzujnikow($l0_2_1, $l0_2_2),
+        'l0_2_2'=>policzProcentDlaParyCzujnikow($l0_2_1, $l0_2_2),
+        'l0_3_1'=>policzProcentDlaParyCzujnikow($l0_3_1, $l0_3_2),
+        'l0_3_2'=>policzProcentDlaParyCzujnikow($l0_3_1, $l0_3_2),
+        'l0_4_1'=>policzProcentDlaParyCzujnikow($l0_4_1, $l0_4_2),
+        'l0_4_2'=>policzProcentDlaParyCzujnikow($l0_4_1, $l0_4_2),
+        'l0_5_1'=>policzProcentDlaParyCzujnikow($l0_5_1, $l0_5_2),
+        'l0_5_2'=>policzProcentDlaParyCzujnikow($l0_5_1, $l0_5_2),
+        'l0_6_1'=>policzProcentDlaParyCzujnikow($l0_6_1, $l0_6_2),   
+        'l0_6_2'=>policzProcentDlaParyCzujnikow($l0_6_1, $l0_6_2),
+        'l0_7_1'=>policzProcentDlaParyCzujnikow($l0_7_1, $l0_7_2),
+        'l0_7_2'=>policzProcentDlaParyCzujnikow($l0_7_1, $l0_7_2)
+        ];
+    }
 
     if($pietro == 1) {
         $response = [
@@ -179,8 +226,25 @@ if(!isset($_GET['wszystko']) || $wyswietl_wszystkie_dane != 'true') {
 
 } else {
     $response = [];
-
-    if ($pietro == 1) {
+    if($pietro == 0) {
+        $response = [
+            'l0_1_1' => $l0_1_1,
+            'l0_1_2' => $l0_1_2,
+            'l0_2_1' => $l0_2_1,
+            'l0_2_2' => $l0_2_2,
+            'l0_3_1' => $l0_3_1,
+            'l0_3_2' => $l0_3_2,
+            'l0_4_1' => $l0_4_1,
+            'l0_4_2' => $l0_4_2,
+            'l0_5_1' => $l0_5_1,
+            'l0_5_2' => $l0_5_2,
+            'l0_6_1' => $l0_6_1,
+            'l0_6_2' => $l0_6_2,
+            'l0_7_1' => $l0_7_1,
+            'l0_7_2' => $l0_7_2
+        ];
+    }
+    elseif ($pietro == 1) {
         $response = [
             'l1_1_1' => $l1_1_1,
             'l1_1_2' => $l1_1_2,

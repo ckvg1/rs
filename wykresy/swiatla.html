@@ -5,14 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Światła</title>
     <script src="js/heatmap.js"></script>
-    <!-- -->
     <script src="js/plotly.min.js" charset="utf-8"></script>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0"
-      content="user-scalable=no"
-    />
-
     <link rel="icon" type="image/x-icon" href="../img_main/icon.png" />
     <link rel="stylesheet" href="../css_main/glowny.css" />
     <link rel="stylesheet" href="../css_main/swiatla.css" />
@@ -20,31 +13,20 @@
     <script src="../js/translations.js"></script>
   </head>
   <body class="jasny">
-    <!-- <header><img src="../logo.svg" /></header> ! -->
     <h1 id="dataInfoText">Data wykonania pomiaru (od-do):</h1>
     <h4 id="zakresDat">Używam danych z: Ostatnie 24 godziny</h4>
     <div id="formularz">
-      <input
-        type="datetime-local"
-        id="data1"
-        placeholder="Wybierz datę pomiaru"
-      />
+      <input type="datetime-local" id="data1" />
       -
-      <input
-        type="datetime-local"
-        id="data2"
-        placeholder="Wybierz datę pomiaru"
-      />
+      <input type="datetime-local" id="data2" />
       <select onchange="ustaw_pietro()" id="pietroSelect">
-        <option disabled value="1">Piętro 1</option>
+        <option value="1">Piętro 1</option>
         <option value="2">Piętro 2</option>
         <option value="3" selected>Piętro 3</option>
       </select>
       <button class="przycisk" onclick="filtruj()">Filtruj</button>
     </div>
-    <!-- Heatmap and Plotly Divs 
-  myDiv is for the heatmap, myDiv2 is for additional content if needed (for mobile screen resolutions), and myPlot is for the Plotly graphs. 
- -->
+
     <div id="alertBox" class="oaerror danger" style="display: none"></div>
     <div id="myDiv" class="heatmap">
       <img id="mapa-swiatla" src="../img_main/mapy/swiatla-bg.png" />
@@ -54,7 +36,6 @@
 
     <script>
       "use strict";
-
       let pietro = 3;
 
       const bazoweCzujniki = [
@@ -81,10 +62,9 @@
       function generujNazwyBiur(pietro) {
         return bazoweBiura.map((id) => `r${pietro}_${id}`);
       }
+
       function ustaw_pietro() {
         pietro = document.getElementById("pietroSelect").value;
-        //console.log("Ustawiono piętro: ", pietro);
-        //console.log("Czujniki: ", generujNazwyCzujnikow(pietro));
       }
 
       const zakresDat = document.getElementById("zakresDat");
@@ -94,8 +74,10 @@
         generujHeatmape(`odczytaj_swiatla.php?pietro=${pietro}`);
         generujWykresKolowy(`odczytaj_swiatla.php?pietro=${pietro}`);
       });
+
       let cookie = getCookie("pietro" + pietro);
       let parsedCookie = JSON.parse(cookie);
+
       function filtruj() {
         const data1 = document.getElementById("data1").value
           ? new Date(document.getElementById("data1").value).toISOString()
@@ -144,76 +126,65 @@
           date.getHours()
         ).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
       }
-      // Jezeli sa jakies dane to zwraca true, w przeciwnym razie false
-      // Uzywane do sprawdzenia czy wykres kolowy ma byc wyswietlany
+
       function sprawdzCzySaDane(dane) {
-        for (let i = 0; i < dane.length - 1; i++) {
-          if (dane[i] !== 0) return true;
-        }
-        return false;
+        return dane.some((wartosc) => wartosc != 0 && wartosc != null);
       }
+
       const alertBox = document.getElementById("alertBox");
+
       function generujWykresKolowy(endpoint) {
         fetch(endpoint)
           .then((res) => res.json())
           .then((dane) => {
+            console.log(Object.values(dane));
             if (!sprawdzCzySaDane(Object.values(dane))) {
               alertBox.style.display = "block";
               document.querySelector(".oaerror").innerHTML =
                 "<strong>Uwaga</strong> - Brak danych do wyświetlenia wykresu. Proszę podać daty pomiaru.";
               translatePage(getCookie("lang") || "pl");
+              document.getElementById("myDiv2").innerHTML = "";
               return;
             } else {
               alertBox.style.display = "none";
             }
-            let biura = generujNazwyBiur(pietro);
 
+            let biura = generujNazwyBiur(pietro);
             document.getElementById("myDiv2").innerHTML = "";
             let values = [];
 
             for (let i = 1; i <= 7; i++) {
               values.push(dane[`l${pietro}_${i}_1`]);
             }
+
             const labelsNames = biura.map((key) => parsedCookie[key] || key);
-            //const sensorNames = czujniki.map(key => parsedCookie[key] || key);
 
             const data = [
               {
                 values: values,
                 labels: labelsNames,
                 type: "pie",
-                hole: 0.3, // efekt donut
+                hole: 0.3,
                 name: "Procent udziału we włączonym świetle",
                 textinfo: "label+percent",
-
                 textposition: "inside",
-                marker: {
-                  line: {
-                    color: "#ffffff",
-                    width: 2,
-                  },
-                },
+                marker: { line: { color: "#ffffff", width: 2 } },
                 hoverinfo: "label+percent",
               },
             ];
 
             const layout = {
-              paper_bgcolor: "rgb(211, 226, 236,)", // tło całego wykresu
-              plot_bgcolor: "rgb(211, 226, 236,)", // tło obszaru wykresu
-
+              paper_bgcolor: "#f4f7f9",
+              plot_bgcolor: "rgb(211, 226, 236)",
               title: {
                 text: "Procent udziału we włączonym świetle",
-                font: {
-                  size: 18,
-                },
+                font: { size: 18 },
               },
               height: 450,
               width: 550,
               margin: { t: 30, b: 30, l: 30, r: 30 },
-              uniformtext: {
-                minsize: 12,
-                mode: "hide",
-              },
+              uniformtext: { minsize: 12, mode: "hide" },
+              showlegend: false,
             };
 
             Plotly.newPlot("myDiv2", data, layout, { responsive: true });
@@ -281,6 +252,7 @@
           date.getSeconds()
         )}`;
       }
+
       function getCookie(name) {
         let cname = name + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
@@ -293,6 +265,7 @@
         }
         return "";
       }
+
       function generujWykres(endpoint) {
         const czujniki = generujNazwyCzujnikow(pietro);
         fetch(endpoint)
@@ -305,11 +278,8 @@
               console.error("Brak ciasteczka dla piętra: " + pietro);
               return;
             }
-            //console.log(cookie);
-            //console.log("Cookie JSON PARSE: ", JSON.stringify(JSON.parse(cookie).l1_1));
 
             const sensorNames = czujniki.map((key) => parsedCookie[key] || key);
-
             const sensorColors = [
               "Black",
               "Black",
@@ -332,7 +302,6 @@
               const plotDiv = document.createElement("div");
               plotDiv.id = "plotSensor" + (i + 1);
               plotDiv.className = "plotSensor";
-              // plotDiv.style.width = "48%";
               plotDiv.style.margin = "1%";
               plotDiv.style.height = "400px";
               plotDiv.style.float = "left";
@@ -349,8 +318,8 @@
               };
 
               const layout = {
-                paper_bgcolor: "rgb(252 252 252)", // tło całego wykresu rgb(211 226 236)
-                plot_bgcolor: "rgb(252 252 252)", // tło obszaru wykresu
+                paper_bgcolor: "rgb(252 252 252)",
+                plot_bgcolor: "rgb(252 252 252)",
                 title: {
                   text: sensorNames[i],
                   font: { size: 24, color: "#333" },

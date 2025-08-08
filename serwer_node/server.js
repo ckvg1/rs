@@ -28,6 +28,20 @@ const T2 = require("./variables/floor2/T2");
 const B2_in = require("./variables/floor2/B2_in");
 const B2_out = require("./variables/floor2/B2_out");
 
+// 1 pietro
+// const L1_in = require("./variables/floor1/L1_in");
+// const L1_out = require("./variables/floor1/L1_out");
+// const T1 = require("./variables/floor1/T1");
+// const B1_in = require("./variables/floor1/B1_in");
+// const B1_out = require("./variables/floor1/B1_out");
+
+// parter
+// const L0_in = require("./variables/floor0/L0_in");
+// const L0_out = require("./variables/floor0/L0_out");
+// const T0 = require("./variables/floor0/T0");
+// const B0_in = require("./variables/floor0/B0_in");
+// const B0_out = require("./variables/floor0/B0_out");
+
 const variables = {
   ...L3_in,
   ...L3_out,
@@ -39,6 +53,17 @@ const variables = {
   ...T2,
   ...B2_in,
   ...B2_out,
+  // odkomentuj, jak bedziesz robil 1 pietro i parter
+  // ...L1_in,
+  // ...L1_out,
+  // ...T1,
+  // ...B1_in,
+  // ...B1_out,
+  // ...L0_in,
+  // ...L0_out,
+  // ...T0,
+  // ...B0_in,
+  // ...B0_out,
 };
 
 const T3_keys = Object.keys(T3);
@@ -50,6 +75,17 @@ const L2_out_keys = Object.keys(L2_out);
 const L2_in_keys = Object.keys(L2_in);
 const B2_out_keys = Object.keys(B2_out);
 
+// odkomentuj, jak bedziesz robil 1 pietro i parter
+
+//const T1_keys = Object.keys(T1);
+//const L1_out_keys = Object.keys(L1_out);
+//const L1_in_keys = Object.keys(L1_in);
+//const B1_out_keys = Object.keys(B1_out);
+//const T0_keys = Object.keys(T0);
+//const L0_out_keys = Object.keys(L0_out);
+//const L0_in_keys = Object.keys(L0_in);
+//const B0_out_keys = Object.keys(B0_out);
+
 const temperature_timeout = 10000; // Odczyt temperatury co 10000 ms (10 sekund)
 const lights_timeout = 200; // Odczyt świateł co 200ms (0.2 sekundy)
 const blinds_timeout = 300; // Odczyt rolet co 500ms (0.5 sekundy)
@@ -59,7 +95,7 @@ Ustawiamy TTL (time to live) dla danych w cache
 TTL to czas, przez jaki dane będą przechowywane w cache przed ich usunięciem
 Wartości te są ustawione na podstawie czasu, jaki potrzebujemy do odczytu danych z PLC i ich aktualizacji w cache
 Można je dostosować w zależności od potrzeb aplikacji i częstotliwości zmian danych
-Wartości te są w milisekundach (ms)
+Wartości te są w sekundach
 */
 const temperature_ttl = 11; // TTL dla temperatury
 const lights_ttl = 0.4; // TTL dla świateł
@@ -70,18 +106,25 @@ Klucze do wyjść, potrzebne zeby zapisywać wartosci do cache.
 Wszystkie klucze są (i powinny!) byc unikalne, więc używamy Set do usunięcia przypadkowych duplikatów. (co nie powinno mieć miejsca, ale lepiej dmuchać na zimne ;))
 Zmienne są zdefiniowane w plikach variables/floorX/*.js
 */
-const debug_light = [...new Set([...L2_in_keys, ...L3_in_keys])];
 
 const LIGHT_KEYS = [...new Set([...L2_out_keys, ...L3_out_keys])];
 const TEMPERATURE_KEYS = [...new Set([...T3_keys, ...T2_keys])];
 const BLINDS_KEYS = [...new Set([...B3_out_keys, ...B2_out_keys])];
+
+/* 
+Do rozbudowy: usunąc to co wyżej i wstawic: 
+
+const LIGHT_KEYS = [...new Set([...L0_out_keys, ...L1_out_keys, ...L2_out_keys, ...L3_out_keys])]; 
+const TEMPERATURE_KEYS = [...new Set([...T0_keys, ...T1_keys, ...T2_keys, ...T3_keys])];
+const BLINDS_KEYS = [...new Set([...B0_out_keys, ...B1_out_keys, ...B2_out_keys, ...B3_out_keys])];
+*/
 
 // Inicjalizcja serwera Express
 const server = app.listen(port, "0.0.0.0", () => {
   console.log(`Serwer nasłuchuje na porcie ${port}`);
 });
 
-// Inicjalizacja połączenia z PLC
+// Inicjalizacja połączenia z PLC (odczyt)
 readConn.initiateConnection(
   {
     port: 102,
@@ -91,17 +134,18 @@ readConn.initiateConnection(
     debug: true,
     doNotOptimize: true, // Wyłączamy optymalizacje, żeby mieć pełną kontrolę nad odczytami/zapisami
   },
-  connectedRead
+  connectedRead //po połączeniu z PLC, wywołujemy funkcję connectedRead
 );
 
 /* 
-  Funckja odpowiedzialna za odczyt danych po starcie serwera.
+  Funkcja odpowiedzialna za odczyt danych po starcie serwera.
   Odczytuje światła i temperatury i zapisuje je do cache.
+
   Używamy mutexa, żeby zapewnić, że tylko jeden odczyt będzie wykonywany w danym momencie.
   Dzięki temu unikamy konfliktów przy odczycie/zapisie do PLC.
 
   Funkcja jest wywoływana tylko raz po starcie serwera, żeby wstępnie załadować dane do cache.
-  Następnie cyklicznie odczytuje dane co 200ms dla świateł i co 10s dla temperatury.
+
  */
 function readAfterStartup() {
   readMutex.runExclusive(async () => {
@@ -142,6 +186,7 @@ function connectedRead(err) {
     console.error("Błąd połączenia z PLC:", err);
     return;
   }
+  // Połączenie readConn udało się, więc możemy rozpocząć odczyty i nawiązać połączenie writeConn
   writeConn.initiateConnection(
     {
       port: 102,
@@ -151,9 +196,9 @@ function connectedRead(err) {
       debug: true,
       doNotOptimize: true, // Wyłączamy optymalizacje, żeby mieć pełną kontrolę nad odczytami/zapisami
     },
-    connectedWrite
+    connectedWrite // po połączeniu z PLC, wywołujemy funkcję connectedWrite
   );
-  readAfterStartup();
+  readAfterStartup(); // Pierwszy odczyt danych po starcie serwera (potem juz co okreslony czas)
 
   // Ustawienie callbacka do tłumaczenia tagów na zmienne
   // https://github.com/plcpeople/nodeS7/tree/master?tab=readme-ov-file#nodes7settranslationcbtranslator
@@ -217,7 +262,7 @@ function connectedWrite(err) {
     res.send("Serwer działa");
   });
 
-  //debug
+  //debug (do usuniecia, ale na razie przydatne)
   app.get("/debug/cache", (req, res) => {
     res.json(
       cache.keys().reduce((out, k) => {
@@ -226,29 +271,20 @@ function connectedWrite(err) {
       }, {})
     );
   });
-  app.get("/debug/swiatla/wejscia", (req, res) => {
-    readMutex.runExclusive(async () => {
-      readConn.removeItems(); // usuwamy stare klucze
-      readConn.addItems(debug_light); //dodajemy nowe klucze (rolety)
-      await new Promise((resolve) => {
-        readConn.readAllItems((err, val) => {
-          res.json(val);
-          resolve();
-        });
-      });
-    });
-  });
 
   // PUT: sterowanie światłem
   app.put("/swiatla/:swiatlo", async (req, res) => {
-    const { swiatlo } = req.params;
-    const { wartosc } = req.body;
+    const { swiatlo } = req.params; // np. "l3_1_1" (zdefiniowane w HTML, parametr funkcji wyslijTrue(swiatlo))
+    const { wartosc } = req.body; // true lub false
 
     await writeMutex.runExclusive(
+      // używamy mutexa, żeby zapewnić, że tylko jeden zapis będzie wykonywany w danym momencie
       () =>
         new Promise((resolve) => {
+          // przypisujemy do zmiennej result wynik funkcji writeItems
+          // writeItems zwraca 0, jeśli zapis się udał, lub inną wartość, jeśli zapis się nie powiódł
           const result = writeConn.writeItems(
-            `wej_${swiatlo}`,
+            `wej_${swiatlo}`, // dodajemy wej_ przed swiatlo, żeby dopasować do zmiennych w pliku variables/floorX/LX_in.js
             wartosc,
             (err) => {
               if (err) {
@@ -257,18 +293,20 @@ function connectedWrite(err) {
               } else {
                 res.json({ status: "zapisano", wartosc });
                 var godzina = new Date().toISOString();
-                console.info(swiatlo, wartosc, godzina, req.ip);
+                console.info(swiatlo, wartosc, godzina, req.ip); // logujemy operacje jaką wykonaliśmy
               }
               resolve(); // mutex zostanie zwolniony dopiero po zakończeniu callbacka
             }
           );
 
+          // Jezeli result nie jest 0, to znaczy, że zapis został odrzucony (np. inny zapis już trwa)
+          // W takim przypadku zwracamy błąd 409 (Conflict) i nie wykonujemy dalszych operacji
           if (result != 0) {
             console.error("writeItems odrzucone: zapis już trwa");
             res
               .status(409)
               .json({ error: "Zapis w trakcie, spróbuj ponownie" });
-            resolve(); // zwalniamy mutex nawet jeśli writeItems nie zadziałał
+            resolve(); // zwalniamy mutex nawet jeśli writeItems nie zadziałał (zeby kolejne zapisy mialy szanse sie wykonac)
           }
         })
     );
@@ -276,9 +314,10 @@ function connectedWrite(err) {
 
   // PUT: sterowanie roletami
   app.put("/rolety/:roleta", async (req, res) => {
-    const { roleta } = req.params;
-    const { wartosc } = req.body;
+    const { roleta } = req.params; // np. "b2_r4_1" (zdefiniowane w HTML, parametr funkcji roletaWlacz(roleta))
+    const { wartosc } = req.body; // true lub false
 
+    // Funkcja działa tak samo jak w przypadku świateł, ale oddzielamy ją (i cały endpoint), żeby było jasne, że chodzi o rolety
     await writeMutex.runExclusive(async () => {
       await new Promise((resolve) => {
         let result = writeConn.writeItems(`wej_${roleta}`, wartosc, (err) => {
@@ -298,6 +337,10 @@ function connectedWrite(err) {
     });
   });
 
+  // SSE: strumienie danych (Server-Sent Events)
+  // Używamy ich do wysyłania aktualnych danych z cache
+  // Komunikacja serwer -> klient
+
   // SSE: strumień świateł
   app.get("/stream/swiatla", (req, res) => {
     res.setHeader("Content-Type", "text/event-stream");
@@ -305,10 +348,10 @@ function connectedWrite(err) {
     res.setHeader("Connection", "keep-alive");
 
     const sendLights = () => {
-      const data = cache.get("swiatlaData"); // Pobieramy wyjścia świateł ze cache
+      const data = cache.get("swiatlaData"); // Pobieramy wyjścia świateł z cache
       if (data) res.write(`data: ${JSON.stringify(data)}\n\n`);
     };
-
+    s;
     const interval = setInterval(sendLights, lights_timeout);
     req.on("close", () => clearInterval(interval)); //po zamknięciu połączenia, zatrzymujemy wysyłanie danych
   });

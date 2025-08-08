@@ -198,213 +198,22 @@
           src="../img_main/icony/arrow.png"
           onmousedown="roletaWlacz('b1_r6_2')"
         />
-      </div>
-      <div class="temperatura" id="t1_6">Błąd odczytu</div>
-      <div class="nazwaBiura" id="nazwa1_6"></div>
-
-      <div class="blokZarowki" id="blokZarowki1_7">
-        <a onmousedown="wyslijTrue('l1_7_1')" style="cursor: pointer">
-          <img
-            id="wyj_l1_7_1"
-            class="zarowka"
-            src="../img_main/icony/bulb_on.png "
-          />
-        </a>
-        <a onmousedown="wyslijTrue('l1_7_2')" style="cursor: pointer">
-          <img
-            id="wyj_l1_7_2"
-            class="zarowka"
-            src="../img_main/icony/bulb_on.png "
-          />
-        </a>
-      </div>
-      <div class="blokRolety" id="blokRolety1_7">
-        <img
-          id="b1_r7_1"
-          class="strzalka"
-          src="../img_main/icony/arrow.png"
-          onmousedown="roletaWlacz('b1_r7_1')"
-        />
-        <img
-          id="b1_r7_2"
-          class="strzalka odwrot"
-          src="../img_main/icony/arrow.png"
-          onmousedown="roletaWlacz('b1_r7_2')"
-        />
-      </div>
-      <div class="temperatura" id="t1_7">Błąd odczytu</div>
-      <div class="nazwaBiura" id="nazwa1_7"></div>
-
+      </a>
+      <div class="temperatura" id="t1_7">20 *C</div>
+      <img
+        id="b1_r7_1"
+        class="strzalka"
+        src="../img_main/icony/arrow.png"
+        onmousedown="roletaWlacz('b1_r7_1')"
+      />
+      <img
+        id="b1_r7_2"
+        class="strzalka odwrot"
+        src="../img_main/icony/arrow.png"
+        onmousedown="roletaWlacz('b1_r7_2')"
+      />
     </div>
-    <script>
-      //Skrypt do ustawiania nazw z cookies
-      const nazwyDivy = document.querySelectorAll(".nazwaBiura");
 
-      nazwyDivy.forEach((div) => {
-        const id = div.id.replace("nazwa", "");
-        const cookie = getCookie("pietro3");
-        if (!cookie) {
-          console.log("Ciasteczko nie istnieje!");
-        }
-        const parsedCookie = JSON.parse(cookie);
-        // console.log("Parsed cookie:", parsedCookie);
-        //console.log("ID: ", id);
-        if (cookie) {
-          div.innerText = parsedCookie["r" + id];
-        } else {
-          div.innerText = "Brak nazwy";
-        }
-      });
-    </script>
-    <script>
-      function delay(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-      const alertBox = document.getElementById("alertBox");
-
-      let isFetchingLight = false;
-      let isFetchingBlinds = false;
-
-      function reconnectStreams() {
-        location.reload(); // odświeżenie strony w celu ponownego nawiązania połączenia z serwerem
-      }
-      let no_internet = "../img_main/icony/no-internet.png";
-      function showAlert(
-        message = "<strong>Uwaga</strong> - Nie udało się połączyć z serwerem. <img src='" +
-          no_internet +
-          "' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='window.location.reload()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
-      ) {
-        if (document.body.classList.contains("ciemny")) {
-          no_internet = "../img_main/icony/no-internet-dark.png";
-        } else {
-          no_internet = "../img_main/icony/no-internet.png";
-        }
-        alertBox.style.display = "block";
-        document.querySelector(".oaerror").innerHTML = message;
-        translatePage(getCookie("lang") || "pl");
-      }
-      function hideAlert() {
-        alertBox.style.display = "none";
-      }
-      addEventListener("DOMContentLoaded", () => {
-        showAlert(
-          " Trwa łączenie z PLC. <img src='../img_main/icony/loading.gif' style='width: 30px; height: 30px; vertical-align: middle; margin-left: 10px' />"
-        );
-        const connectionTimeout = setTimeout(() => {
-          showAlert();
-        }, 10000);
-        const swiatlaStream = new EventSource(
-          `${window.config.apiBaseUrl}/stream/swiatla`
-        );
-        swiatlaStream.onmessage = (event) => {
-          clearTimeout(connectionTimeout);
-          const dane = JSON.parse(event.data);
-          Object.entries(dane).forEach(([id, wartosc]) => {
-            const el = document.getElementById(id);
-            if (el) {
-              if (el.id[0] == "w") {
-                el.src = wartosc
-                  ? "../img_main/icony/bulb_on.png"
-                  : "../img_main/icony/bulb_of.png";
-              }
-            }
-          });
-        };
-        const temperaturaStream = new EventSource(
-          `${window.config.apiBaseUrl}/stream/temperatura`
-        );
-        temperaturaStream.onmessage = (event) => {
-          clearTimeout(connectionTimeout);
-          const dane = JSON.parse(event.data);
-
-          Object.entries(dane).forEach(([id, wartosc]) => {
-            const el = document.getElementById(id);
-            if (el) el.innerText = `${wartosc.toFixed(1)} °C`;
-          });
-        };
-
-        const roletyStream = new EventSource(
-          `${window.config.apiBaseUrl}/stream/rolety`
-        );
-        roletyStream.onmessage = (event) => {
-          clearTimeout(connectionTimeout);
-          const dane = JSON.parse(event.data);
-          Object.entries(dane).forEach(([id, wartosc]) => {
-            const el = document.getElementById(
-              id.split("_")[1] + "_" + id.split("_")[2] + "_" + id.split("_")[3]
-            );
-            if (el) {
-              el.src = wartosc
-                ? "../img_main/icony/arrow.png"
-                : "../img_main/icony/arrow_of.png";
-            }
-          });
-        };
-        roletyStream.onerror = (err) => {
-          showAlert();
-          console.error("Błąd połączenia z serwerem rolety:", err);
-        };
-        temperaturaStream.onerror = (err) => {
-          showAlert();
-          console.error("Błąd połączenia z serwerem temperatury:", err);
-        };
-        swiatlaStream.onerror = (err) => {
-          showAlert();
-          console.error("Błąd połączenia z serwerem świateł:", err);
-        };
-        roletyStream.onopen = () => {
-          hideAlert();
-          console.log("Połączono z serwerem rolety");
-        };
-        temperaturaStream.onopen = () => {
-          hideAlert();
-          console.log("Połączono z serwerem temperatury");
-        };
-        swiatlaStream.onopen = () => {
-          hideAlert();
-          console.log("Połączono z serwerem świateł");
-        };
-      });
-
-      async function wyslijTrue(swiatlo) {
-        if (isFetchingLight) return;
-        try {
-          isFetchingLight = true;
-          // Najpierw wł.
-          await axios.put(`${window.config.apiBaseUrl}/swiatla/${swiatlo}`, {
-            wartosc: true,
-          });
-
-          //Potem false
-          await axios.put(`${window.config.apiBaseUrl}/swiatla/${swiatlo}`, {
-            wartosc: false,
-          });
-        } catch (err) {
-          alertBox.style.display = "block";
-          showAlert();
-        } finally {
-          isFetchingLight = false;
-        }
-      }
-
-      async function roletaWlacz(roleta) {
-        if (isFetchingBlinds) return;
-        isFetchingBlinds = false;
-        try {
-          await axios.put(`${window.config.apiBaseUrl}/rolety/${roleta}`, {
-            wartosc: true,
-          });
-          await axios.put(`${window.config.apiBaseUrl}/rolety/${roleta}`, {
-            wartosc: false,
-          });
-        } catch (err) {
-          showAlert();
-          console.error("Błąd wysyłania sygnału do rolet:", err);
-        } finally {
-          isFetchingBlinds = false;
-        }
-      }
-    </script>
     <script src="../js/dark_mode.js"></script>
     <script>
       main_image = document.getElementById("main_image");
@@ -412,5 +221,6 @@
         main_image.src = "../img_main/mapy/sterowanie-bg-dark.png";
       }
     </script>
+    <script src="sterowanie.js"></script>
   </body>
 </html>
