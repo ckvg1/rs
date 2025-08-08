@@ -190,7 +190,7 @@
         <select id="pietro_settings_select" onchange="zmienPietroUstawienia()">
           <option disabled value="pietro1">Piętro 1</option>
           <option value="pietro2">Piętro 2</option>
-          <option value="pietro3">Piętro 3</option>
+          <option selected="selected" value="pietro3">Piętro 3</option>
         </select>
         <div id="pietro1_urzadzenia">
           <form id="settingsForm1" class="settings_forms">
@@ -561,7 +561,8 @@
           Reset
         </button>
         <script>
-          let pietro = 1;
+          let pietro = 3;
+
           function zmienPietroUstawienia() {
             document.getElementById("pietro1_urzadzenia").style.display =
               "none";
@@ -570,7 +571,7 @@
             document.getElementById("pietro3_urzadzenia").style.display =
               "none";
 
-            const wybranePietroElement = document.getElementById(
+            let wybranePietroElement = document.getElementById(
               "pietro_settings_select"
             ).value;
 
@@ -588,7 +589,7 @@
               pietro = 3;
             }
           }
-
+          zmienPietroUstawienia();
           let language = "pl"; // domyślny język
 
           function zmienJezyk(lang) {
