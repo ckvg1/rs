@@ -27,7 +27,7 @@
       <img src="../img_main/mapy/sterowanie-bg.png" id="main_image" />
       <a onmousedown="wyslijTrue('all_OFF_l2')" style="cursor: pointer">
         <img
-          id="all_l2"
+          id="all_l2_1"
           class="wszystkieSwiatla"
           src="../img_main/icony/btn_of.png"
         />
@@ -36,8 +36,7 @@
       </a>
       <a onmousedown="wyslijTrue('all_ON_l2')" style="cursor: pointer">
         <img
-          style="margin-left: 5%"
-          id="all_l2"
+          id="all_l2_2"
           class="wszystkieSwiatla"
           src="../img_main/icony/btn_on.png"
         />
@@ -267,7 +266,7 @@
       function showAlert(
         message = "<strong>Uwaga</strong> - Błąd połączenia z PLC. <img src='" +
           no_internet +
-          "' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong style='color: black'> spróbuj ponownie </strong> </a>"
+          "' style='width: 20px; height: 20px; vertical-align: middle;' /> <a onclick='reconnectStreams()' style='cursor: pointer; margin-left: 20px'> <strong> spróbuj ponownie </strong> </a>"
       ) {
         if (document.body.classList.contains("ciemny")) {
           no_internet = "../img_main/icony/no-internet-dark.png";
