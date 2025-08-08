@@ -230,10 +230,27 @@
       <div class="temperatura" id="t3_7">Błąd odczytu</div>
       <div class="nazwaBiura" id="nazwa3_7"></div>
     </div>
+    <script>
+      //Skrypt do ustawiania nazw z cookies
+      const nazwyDivy = document.querySelectorAll(".nazwaBiura");
 
-    <script >
-    
-
+      nazwyDivy.forEach((div) => {
+        const id = div.id.replace("nazwa", "");
+        const cookie = getCookie("pietro3");
+        if (!cookie) {
+          console.log("Ciasteczko nie istnieje!");
+        }
+        const parsedCookie = JSON.parse(cookie);
+        // console.log("Parsed cookie:", parsedCookie);
+        //console.log("ID: ", id);
+        if (cookie) {
+          div.innerText = parsedCookie["r" + id];
+        } else {
+          div.innerText = "Brak nazwy";
+        }
+      });
+    </script>
+    <script>
       function delay(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
